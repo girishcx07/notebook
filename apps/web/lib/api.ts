@@ -1,12 +1,10 @@
+import type { AppType } from "@notebook/api";
 import { hc } from "hono/client";
-import type { AppType } from "@notebook/api/client";
 
 // Initialize the RPC client with type safety
-const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8787";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8787";
 // Type assertion needed due to Hono's RPC client type inference limitations in Next.js
-const rpcClient = hc<AppType>(apiUrl) as any;
-
-// Example usage functions with full type safety
+const rpcClient = hc<AppType>(BASE_URL);
 
 /**
  * Create a new post

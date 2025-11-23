@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@notebook/ui/components/card";
 import Link from "next/link";
-import { CreatePostForm } from "./_components/create-post-form.js";
+import { CreatePostForm } from "./_components/create-post-form";
 
 async function PostsList() {
   const posts = await getAllPosts();

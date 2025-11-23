@@ -16,9 +16,10 @@ import { EditPostDialog } from "../_components/edit-post-dialog";
 export default async function PostDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const post = await getPostById(parseInt(params.id));
+  const { id } = await params;
+  const post = await getPostById(parseInt(id));
 
   if (!post) {
     notFound();
