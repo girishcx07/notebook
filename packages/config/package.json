@@ -1,0 +1,14 @@
+{
+  "name": "@notebook/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./vitest": "./vitest.config.ts",
+    "./tsup": "./tsup.config.ts"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "vitest": "^2.1.8"
+  }
+}

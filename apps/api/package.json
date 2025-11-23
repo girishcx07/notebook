@@ -1,0 +1,35 @@
+{
+  "name": "@notebook/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./client": {
+      "import": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "build": "tsup",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "hono": "^4.10.6",
+    "@hono/zod-validator": "^0.4.1",
+    "@notebook/db": "workspace:*",
+    "@notebook/schemas": "workspace:*",
+    "drizzle-orm": "^0.36.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240529.0",
+    "@notebook/typescript-config": "workspace:*",
+    "wrangler": "^4.4.0",
+    "typescript": "^5.7.3",
+    "tsup": "^8.3.5",
+    "vitest": "^2.1.8"
+  }
+}
