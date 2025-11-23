@@ -15,7 +15,7 @@ async function PostsList() {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post: any) => (
+      {posts.map((post) => (
         <Link key={post.id} href={`/posts/${post.id}`}>
           <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
             <CardHeader>
