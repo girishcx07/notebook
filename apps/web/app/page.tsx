@@ -15,6 +15,7 @@ import localFont from "next/font/local";
 import { Icons } from "./_components/icons";
 import SubjectTabSection from "./_components/subject-tab-section";
 import StudyCommandCenterSection from "./_components/study-command-center-section";
+import { buttonVariants } from "@notebook/ui/components/button";
 
 const fontScary = localFont({
   src: "../assets/Scary.ttf",
@@ -106,7 +107,7 @@ export default function Page() {
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="text-5xl sm:text-6xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-50">
             There&apos;s a{" "}
-            <span className="px-2 bg-blue-600 text-white rounded-md">
+            <span className="px-2 bg-primary/10 text-primary rounded-md">
               smarter
             </span>{" "}
             way
@@ -143,7 +144,7 @@ const HeroVariantA = () => {
         >
           Smart
           <span className="inline-block mx-2 align-middle">
-            <Brain className="inline h-12 w-12 md:h-16 md:w-16 text-blue-600" />
+            <Brain className="inline h-12 w-12 md:h-16 md:w-16 text-primary" />
           </span>
           Notebook
         </h1>
@@ -183,13 +184,19 @@ const HeroVariantA = () => {
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
           <a
             href="#video-demo"
-            className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition"
+            className={buttonVariants({
+              variant: "default",
+              size: "lg",
+            })}
           >
             Start your notebook
           </a>
           <a
             href="#video-demo"
-            className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white/70 px-5 py-2 text-sm font-medium text-blue-700 hover:bg-blue-50 transition dark:bg-slate-900 dark:border-slate-700 dark:text-slate-50 dark:hover:bg-slate-800"
+            className={buttonVariants({
+              variant: "outline",
+              size: "lg",
+            })}
           >
             Watch 3-min demo
           </a>

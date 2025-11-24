@@ -5,7 +5,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BookOpen, Flame, TrendingUp, CalendarDays } from "lucide-react";
+import { BookOpen, Flame, CalendarDays } from "lucide-react";
 
 export default function StudyCommandCenterSection() {
   return (
