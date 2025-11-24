@@ -10,17 +10,24 @@ import {
   Sparkles,
   Sigma,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Demo = () => {
   return (
-    <div className="relative h-[380px] w-full overflow-hidden rounded-2xl border bg-gradient-to-br from-background via-background/95 to-background/90 shadow-xl">
+    <motion.div
+      className="relative h-[650px] w-full overflow-hidden rounded-2xl border bg-gradient-to-br from-background via-background/95 to-background/90 shadow-xl dark:from-slate-950 dark:via-slate-950/95 dark:to-slate-950"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      whileHover={{ scale: 1.01, rotate: -0.3 }}
+    >
       <Glow />
       <div className="relative z-10 flex h-full flex-col justify-between p-6 md:p-8">
         <Header />
         <MainBoard />
         <BottomStrip />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -58,18 +65,31 @@ const MainBoard = () => {
       <div className="relative w-full max-w-md">
         {/* Back shadow card */}
         <div
-          className="absolute inset-x-8 -top-2 h-5 rounded-2xl bg-black/10 blur-xl"
+          className="absolute inset-x-8 -top-2 h-5 rounded-2xl bg-black/10 dark:bg-black/40 blur-xl"
           aria-hidden
         />
 
         {/* Back page */}
-        <NotebookPage
-          className="-rotate-4 translate-x-5 translate-y-4 opacity-60 scale-[0.97]"
-          muted
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 10, rotate: -4 }}
+          animate={{ opacity: 0.6, y: 0, rotate: -4 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+        >
+          <NotebookPage
+            className="-rotate-4 translate-x-5 translate-y-4 opacity-60 scale-[0.97]"
+            muted
+          />
+        </motion.div>
 
         {/* Main page */}
-        <NotebookPage className="relative z-10" />
+        <motion.div
+          className="relative z-10"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+        >
+          <NotebookPage />
+        </motion.div>
 
         {/* Front mini cards */}
         <MiniMathCard />
@@ -90,7 +110,7 @@ const NotebookPage = ({
   return (
     <div
       className={cn(
-        "relative rounded-2xl border bg-card/95 px-4 py-3 pb-4 shadow-[0_22px_40px_-24px_rgba(0,0,0,0.45)] backdrop-blur-xl",
+        "relative rounded-2xl border bg-card/95 px-4 py-3 pb-4 shadow-[0_22px_40px_-24px_rgba(0,0,0,0.45)] backdrop-blur-xl dark:bg-slate-900/95",
         muted && "border-dashed border-border/60 bg-muted/60",
         className
       )}
@@ -158,7 +178,16 @@ const NotebookPage = ({
 
 const MiniMathCard = () => {
   return (
-    <div className="absolute right-0 -top-6 z-30 w-40 rounded-xl border border-blue-300/60 bg-blue-50/90 dark:bg-blue-950/40 p-2 shadow-xl rotate-[-2deg]">
+    <motion.div
+      className="absolute right-0 -top-6 z-30 w-40 rounded-xl border border-blue-300/60 bg-blue-50/90 dark:bg-blue-950/40 p-2 shadow-xl rotate-[-2deg]"
+      animate={{ y: [0, -6, 0] }}
+      transition={{
+        duration: 6,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay: 0.2,
+      }}
+    >
       <div className="flex items-center gap-2 text-[10px] font-medium text-blue-900 dark:text-blue-100">
         <Sigma className="h-3.5 w-3.5" />
         <span>Quick formula</span>
@@ -169,13 +198,22 @@ const MiniMathCard = () => {
       <p className="mt-1 text-[9px] text-blue-800/80 dark:text-blue-100/70">
         Wave speed = frequency × wavelength
       </p>
-    </div>
+    </motion.div>
   );
 };
 
 const MiniTodoCard = () => {
   return (
-    <div className="absolute -left-2 bottom-4 z-30 w-40 rounded-xl border border-emerald-300/60 bg-emerald-50/90 dark:bg-emerald-950/40 p-2 shadow-xl rotate-[3deg]">
+    <motion.div
+      className="absolute -left-2 bottom-4 z-30 w-40 rounded-xl border border-emerald-300/60 bg-emerald-50/90 dark:bg-emerald-950/40 p-2 shadow-xl rotate-[3deg]"
+      animate={{ y: [0, -4, 0] }}
+      transition={{
+        duration: 7,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay: 0.6,
+      }}
+    >
       <div className="flex items-center gap-2 text-[10px] font-medium text-emerald-900 dark:text-emerald-100">
         <CheckSquare2 className="h-3.5 w-3.5" />
         <span>Tonight</span>
@@ -185,15 +223,24 @@ const MiniTodoCard = () => {
         <li>• Summarise key formulas</li>
         <li>• Mark doubts for mentor</li>
       </ul>
-    </div>
+    </motion.div>
   );
 };
 
 const MiniImageCard = () => {
   return (
-    <div className="absolute right-4 bottom-0 z-20 w-28 h-20 rounded-xl border border-purple-300/70 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/70 dark:to-indigo-900/70 shadow-lg overflow-hidden flex items-center justify-center rotate-[1deg]">
+    <motion.div
+      className="absolute right-4 bottom-0 z-20 w-28 h-20 rounded-xl border border-purple-300/70 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/70 dark:to-indigo-900/70 shadow-lg overflow-hidden flex items-center justify-center rotate-[1deg]"
+      animate={{ y: [0, -3, 0] }}
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay: 1,
+      }}
+    >
       <ImageIcon className="h-6 w-6 text-purple-500/80 dark:text-purple-200" />
-    </div>
+    </motion.div>
   );
 };
 
