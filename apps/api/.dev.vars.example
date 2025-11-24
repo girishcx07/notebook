@@ -1,3 +1,0 @@
-# Wrangler environment variables for local development
-# Copy this file to .dev.vars and fill in your actual values
-DATABASE_URL=postgresql://user:password@host:5432/database
