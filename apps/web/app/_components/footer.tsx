@@ -29,7 +29,7 @@ const Footer = () => {
             </a>
           </p>
           <p className="text-sm leading-5 text-gray-400">
-            © {new Date().getFullYear()} ProfanityAPI
+            © {new Date().getFullYear()} Smart Notebook
           </p>
           <div className="flex items-center space-x-3">
             <a

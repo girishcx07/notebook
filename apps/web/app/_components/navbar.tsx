@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { Heart, Brain, LogIn } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "@notebook/ui/components/button";
 
@@ -11,30 +11,38 @@ const Navbar = () => {
             href="/"
             className="relative sm:absolute inset-y-0 left-0 flex items-center font-semibold"
           >
-            <img src="/swear-emoji.png" className="h-6 w-6 mr-1.5" />
-            ProfanityAPI
+            <Brain className="h-6 w-6 mr-1.5 text-blue-600" />
+            Smart Notebook
           </Link>
 
           {/* placeholder */}
-          <div className="hidden sm:block invisible">ProfanityAPI</div>
+          <div className="hidden sm:block invisible">Smart Notebook</div>
 
           <div className="hidden sm:flex items-center gap-6">
-            <Link className="hover:underline" href="#video-demo">
-              Video Demo
+            <Link className="hover:underline" href="#features">
+              Features
             </Link>
-            <Link className="hover:underline" href="#api">
-              API
+            <Link className="hover:underline" href="#pricing">
+              Pricing
             </Link>
           </div>
 
-          <Link
-            href="https://github.com/joschan21/profanity.dev"
-            target="_blank"
-            referrerPolicy="no-referrer"
-            className={buttonVariants({ variant: "secondary" })}
-          >
-            Star on GitHub <Heart className="h-4 w-4 ml-1.5 fill-primary" />
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/login"
+              className={buttonVariants({ variant: "default", size: "sm" })}
+            >
+              Login <LogIn className="h-4 w-4 ml-1.5" />
+            </Link>
+            <Link
+              href="https://github.com/joschan21/profanity.dev"
+              target="_blank"
+              referrerPolicy="no-referrer"
+              className={buttonVariants({ variant: "secondary", size: "sm" })}
+            >
+              Star on GitHub <Heart className="h-4 w-4 ml-1.5 fill-primary" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
