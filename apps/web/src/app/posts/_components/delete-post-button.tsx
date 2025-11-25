@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@notebook/ui/components/button';
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@notebook/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -11,9 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@notebook/ui/components/dialog';
-import { deletePost } from '@/lib/api';
-import { Trash2 } from 'lucide-react';
+} from "@notebook/ui/components/dialog";
+import { deletePost } from "@/src/lib/api";
+import { Trash2 } from "lucide-react";
 
 interface DeletePostButtonProps {
   postId: number;
@@ -23,19 +23,19 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleDelete = async () => {
-    setError('');
+    setError("");
 
     startTransition(async () => {
       try {
         await deletePost(postId);
         setOpen(false);
-        router.push('/posts'); // Navigate back to posts list
+        router.push("/posts"); // Navigate back to posts list
         router.refresh(); // Revalidate server data
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to delete post');
+        setError(err instanceof Error ? err.message : "Failed to delete post");
       }
     });
   };
@@ -52,12 +52,11 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
         <DialogHeader>
           <DialogTitle>Delete Post</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this post? This action cannot be undone.
+            Are you sure you want to delete this post? This action cannot be
+            undone.
           </DialogDescription>
         </DialogHeader>
-        {error && (
-          <p className="text-sm text-destructive">{error}</p>
-        )}
+        {error && <p className="text-sm text-destructive">{error}</p>}
         <DialogFooter>
           <Button
             type="button"
@@ -73,7 +72,7 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
             onClick={handleDelete}
             disabled={isPending}
           >
-            {isPending ? 'Deleting...' : 'Delete Post'}
+            {isPending ? "Deleting..." : "Delete Post"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,5 +1,5 @@
 import { Recursive } from "next/font/google";
-import { Providers } from "@/components/providers";
+import { Providers } from "@/src/components/providers";
 
 import type { Metadata, Viewport } from "next";
 

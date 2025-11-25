@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getPostById } from "@/lib/api";
+import { getPostById } from "@/src/lib/api";
 import {
   Card,
   CardContent,

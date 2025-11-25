@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@notebook/ui/components/button';
-import { Input } from '@notebook/ui/components/input';
-import { Textarea } from '@notebook/ui/components/textarea';
-import { Label } from '@notebook/ui/components/label';
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@notebook/ui/components/button";
+import { Input } from "@notebook/ui/components/input";
+import { Textarea } from "@notebook/ui/components/textarea";
+import { Label } from "@notebook/ui/components/label";
 import {
   Dialog,
   DialogContent,
@@ -14,9 +14,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@notebook/ui/components/dialog';
-import { updatePost } from '@/lib/api';
-import { Pencil } from 'lucide-react';
+} from "@notebook/ui/components/dialog";
+import { updatePost } from "@/src/lib/api";
+import { Pencil } from "lucide-react";
 
 interface EditPostDialogProps {
   post: {
@@ -32,14 +32,14 @@ export function EditPostDialog({ post }: EditPostDialogProps) {
   const [isPending, startTransition] = useTransition();
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!title.trim() && !content.trim()) {
-      setError('At least one field must be provided');
+      setError("At least one field must be provided");
       return;
     }
 
@@ -58,7 +58,7 @@ export function EditPostDialog({ post }: EditPostDialogProps) {
         setOpen(false);
         router.refresh(); // Revalidate server data
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to update post');
+        setError(err instanceof Error ? err.message : "Failed to update post");
       }
     });
   };
@@ -101,9 +101,7 @@ export function EditPostDialog({ post }: EditPostDialogProps) {
                 disabled={isPending}
               />
             </div>
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <DialogFooter>
             <Button
@@ -115,7 +113,7 @@ export function EditPostDialog({ post }: EditPostDialogProps) {
               Cancel
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending ? 'Saving...' : 'Save Changes'}
+              {isPending ? "Saving..." : "Save Changes"}
             </Button>
           </DialogFooter>
         </form>

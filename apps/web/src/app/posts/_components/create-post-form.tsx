@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@notebook/ui/components/button';
-import { Input } from '@notebook/ui/components/input';
-import { Textarea } from '@notebook/ui/components/textarea';
-import { Label } from '@notebook/ui/components/label';
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@notebook/ui/components/button";
+import { Input } from "@notebook/ui/components/input";
+import { Textarea } from "@notebook/ui/components/textarea";
+import { Label } from "@notebook/ui/components/label";
 import {
   Dialog,
   DialogContent,
@@ -14,24 +14,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@notebook/ui/components/dialog';
-import { createPost } from '@/lib/api';
-import { Plus } from 'lucide-react';
+} from "@notebook/ui/components/dialog";
+import { createPost } from "@/src/lib/api";
+import { Plus } from "lucide-react";
 
 export function CreatePostForm() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [error, setError] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!title.trim() || !content.trim()) {
-      setError('Title and content are required');
+      setError("Title and content are required");
       return;
     }
 
@@ -39,11 +39,11 @@ export function CreatePostForm() {
       try {
         await createPost(title, content);
         setOpen(false);
-        setTitle('');
-        setContent('');
+        setTitle("");
+        setContent("");
         router.refresh(); // Revalidate server data
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to create post');
+        setError(err instanceof Error ? err.message : "Failed to create post");
       }
     });
   };
@@ -86,9 +86,7 @@ export function CreatePostForm() {
                 disabled={isPending}
               />
             </div>
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <DialogFooter>
             <Button
@@ -100,7 +98,7 @@ export function CreatePostForm() {
               Cancel
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending ? 'Creating...' : 'Create Post'}
+              {isPending ? "Creating..." : "Create Post"}
             </Button>
           </DialogFooter>
         </form>

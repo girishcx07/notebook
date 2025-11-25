@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getAllPosts } from "@/lib/api";
+import { getAllPosts } from "@/src/lib/api";
 import {
   Card,
   CardContent,
