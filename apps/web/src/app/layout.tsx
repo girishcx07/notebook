@@ -6,6 +6,7 @@ import type { Metadata, Viewport } from "next";
 import "@notebook/ui/globals.css";
 import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
+import { Toaster } from "@notebook/ui/components/sonner";
 
 const recursive = Recursive({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body className={recursive.className}>
         <Navbar />
         <Providers>{children}</Providers>
+        <Toaster />
         <Footer />
       </body>
     </html>

@@ -11,6 +11,8 @@ import { Button } from "@notebook/ui/components/button";
 import { Input } from "@notebook/ui/components/input";
 import { Separator } from "@notebook/ui/components/separator";
 import { Icons } from "./icons";
+import { LoginForm } from "./login-form";
+import { RegisterForm } from "./register-form";
 
 export function AuthModal({
   open,
@@ -45,17 +47,17 @@ export function AuthModal({
 
         <div className="px-6 pb-6">
           {/* OAuth buttons */}
-          <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
-              className="w-full flex items-center gap-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700"
+              className="flex items-center gap-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 grow"
             >
               <Icons.google className="h-5 w-5" />
               Continue with Google
             </Button>
             <Button
               variant="outline"
-              className="w-full flex items-center gap-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700"
+              className="flex items-center gap-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 grow"
             >
               <Icons.github className="h-5 w-5" />
               Continue with GitHub
@@ -70,60 +72,10 @@ export function AuthModal({
           </div>
 
           {/* LOGIN FORM */}
-          {mode === "login" && (
-            <div className="flex flex-col gap-4">
-              <Input
-                type="email"
-                placeholder="Email"
-                className="bg-white dark:bg-slate-800"
-              />
-              <Input
-                type="password"
-                placeholder="Password"
-                className="bg-white dark:bg-slate-800"
-              />
-
-              <Button className="w-full">Sign in</Button>
-            </div>
-          )}
+          {mode === "login" && <LoginForm />}
 
           {/* REGISTER FORM */}
-          {mode === "register" && (
-            <div className="flex flex-col gap-4">
-              <Input
-                type="text"
-                placeholder="Full name"
-                className="bg-white dark:bg-slate-800"
-              />
-              <Input
-                type="email"
-                placeholder="Email address"
-                className="bg-white dark:bg-slate-800"
-              />
-              <Input
-                type="tel"
-                placeholder="Phone number (optional)"
-                className="bg-white dark:bg-slate-800"
-              />
-              <Input
-                type="text"
-                placeholder="Student ID / Roll No. (optional)"
-                className="bg-white dark:bg-slate-800"
-              />
-              <Input
-                type="password"
-                placeholder="Password"
-                className="bg-white dark:bg-slate-800"
-              />
-              <Input
-                type="password"
-                placeholder="Confirm password"
-                className="bg-white dark:bg-slate-800"
-              />
-
-              <Button className="w-full">Create account</Button>
-            </div>
-          )}
+          {mode === "register" && <RegisterForm />}
 
           {/* Switch mode */}
           <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-4">
