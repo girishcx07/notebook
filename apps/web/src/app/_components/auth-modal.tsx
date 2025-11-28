@@ -72,10 +72,14 @@ export function AuthModal({
           </div>
 
           {/* LOGIN FORM */}
-          {mode === "login" && <LoginForm />}
+          {mode === "login" && (
+            <LoginForm onSuccess={() => onOpenChange(false)} />
+          )}
 
           {/* REGISTER FORM */}
-          {mode === "register" && <RegisterForm />}
+          {mode === "register" && (
+            <RegisterForm onSuccess={() => onOpenChange(false)} />
+          )}
 
           {/* Switch mode */}
           <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-4">

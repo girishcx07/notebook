@@ -30,36 +30,25 @@ import {
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
 
-const formSchema = z.object({
-  email: z.string().email().min(6, {
-    message: "Invalid email",
-  }),
-  password: z
-    .string()
-    .min(6)
-    .regex(
-      // password should follow one capital letter, one small letter, one number, one special character
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      {
-        message: "Invalid password",
-      }
-    ),
-});
+import { loginSchema } from "@notebook/schemas";
 
-export function LoginForm() {
+interface LoginFormProps {
+  onSuccess?: () => void;
+}
+
+export function LoginForm({ onSuccess }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    authClient.signIn
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    await authClient.signIn
       .email({
         email: values.email,
         password: values.password,
@@ -70,7 +59,11 @@ export function LoginForm() {
         if (error) {
           toast.error(error?.message || "Something went wrong");
         }
-        console.log(data);
+
+        if (data?.user) {
+          toast.success("User logged in successfully");
+          onSuccess?.();
+        }
       })
       .catch((error) => {
         toast.error(error?.message || "Something went wrong");
@@ -97,6 +90,7 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Password</FormLabel>
               <InputGroup>
                 <FormControl>
                   <InputGroupInput
@@ -127,8 +121,12 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Submit
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Logging in..." : "Login"}
         </Button>
       </form>
     </Form>

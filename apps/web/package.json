@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@notebook/schemas": "workspace:*",
     "@notebook/api": "workspace:*",
     "@notebook/db": "workspace:*",
     "@notebook/ui": "workspace:*",

@@ -34,65 +34,79 @@ import { useState } from "react";
 
 // import UploadProfile from "./upload-profile"; // TODO: Add upload profile
 
-const formSchema = z
-  .object({
-    email: z.string().email().min(6, {
-      message: "Invalid email",
-    }),
-    password: z.string().min(6, {
-      message: "Password must be at least 6 characters",
-    }),
-    confirmPassword: z.string().min(6, {
-      message: "Password must be at least 6 characters",
-    }),
-    name: z.string().min(3, {
-      message: "Name must be at least 3 characters long",
-    }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+import { registerSchema } from "@notebook/schemas";
 
-export function RegisterForm() {
+interface RegisterFormProps {
+  onSuccess?: () => void;
+}
+
+export function RegisterForm({ onSuccess }: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
       password: "",
-      name: "",
       confirmPassword: "",
+      firstName: "",
+      lastName: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof registerSchema>) {
     console.log(values);
-    const { data, error } = await authClient.signUp.email({
-      email: values.email,
-      password: values.password,
-      name: values.name,
-
-      // callbackURL: "/dashboard",
-    });
-
-    if (error) {
-      toast.error(error?.message || "Something went wrong");
-    }
-    console.log(data, error);
+    await authClient.signUp
+      .email(
+        {
+          email: values.email,
+          password: values.password,
+          name: `${values.firstName} ${values.lastName}`,
+        },
+        {
+          onSuccess: () => {
+            toast.success("User registered successfully");
+            onSuccess?.();
+          },
+        }
+      )
+      .then(({ data, error }) => {
+        if (error) {
+          toast.error(error?.message || "Something went wrong");
+        }
+        if (data?.user) {
+          toast.success("User registered successfully");
+          onSuccess?.();
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.message || "Something went wrong");
+      });
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <FormField
           control={form.control}
-          name="name"
+          name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input placeholder="John" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Doe" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -117,12 +131,13 @@ export function RegisterForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Password</FormLabel>
               <InputGroup>
                 <FormControl>
                   <InputGroupInput
                     {...field}
                     placeholder="Enter password"
-                    type={showPassword ? "text" : "password"}
+                    type="password"
                   />
                 </FormControl>
                 <InputGroupAddon align="inline-end">
@@ -152,12 +167,13 @@ export function RegisterForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
               <InputGroup>
                 <FormControl>
                   <InputGroupInput
                     {...field}
                     placeholder="Enter password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                   />
                 </FormControl>
                 <InputGroupAddon align="inline-end">
@@ -182,8 +198,12 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Submit
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </Form>

@@ -72,6 +72,9 @@ importers:
       '@notebook/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@notebook/schemas':
+        specifier: workspace:*
+        version: link:../../packages/schemas
       '@notebook/ui':
         specifier: workspace:*
         version: link:../../packages/ui
