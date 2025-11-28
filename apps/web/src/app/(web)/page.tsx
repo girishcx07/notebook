@@ -1,24 +1,17 @@
 // app/page.tsx
 
-import Demo from "./_components/demo";
-import YoutubePlayer from "./_components/youtube-player";
+import Demo from "../_components/demo";
+import YoutubePlayer from "../_components/youtube-player";
 import { cn } from "@notebook/ui/lib/utils";
-import {
-  Check,
-  Star,
-  Brain,
-  Clock,
-  TrendingDown,
-  BookOpen,
-} from "lucide-react";
+import { Check, Star, Brain, Clock, TrendingDown } from "lucide-react";
 import localFont from "next/font/local";
-import { Icons } from "./_components/icons";
-import SubjectTabSection from "./_components/subject-tab-section";
-import StudyCommandCenterSection from "./_components/study-command-center-section";
+import { Icons } from "../_components/icons";
+import SubjectTabSection from "../_components/subject-tab-section";
+import StudyCommandCenterSection from "../_components/study-command-center-section";
 import { buttonVariants } from "@notebook/ui/components/button";
 
 const fontScary = localFont({
-  src: "../assets/Scary.ttf",
+  src: "../../assets/Scary.ttf",
 });
 
 export default function Page() {
