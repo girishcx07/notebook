@@ -16,6 +16,19 @@ import {
 import { Input } from "@notebook/ui/components/input";
 import { authClient } from "@/src/lib/auth-client";
 import { toast } from "sonner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@notebook/ui/components/tooltip";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@notebook/ui/components/input-group";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email().min(6, {
@@ -34,6 +47,8 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -82,10 +97,32 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="••••••••" {...field} />
-              </FormControl>
+              <InputGroup>
+                <FormControl>
+                  <InputGroupInput
+                    {...field}
+                    placeholder="Enter password"
+                    type={showPassword ? "text" : "password"}
+                  />
+                </FormControl>
+                <InputGroupAddon align="inline-end">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <InputGroupButton
+                        variant="ghost"
+                        aria-label="Info"
+                        size="icon-xs"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                      </InputGroupButton>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Password must be at least 8 characters</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </InputGroupAddon>
+              </InputGroup>
               <FormMessage />
             </FormItem>
           )}

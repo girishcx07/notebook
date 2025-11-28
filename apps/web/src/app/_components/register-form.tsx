@@ -1,10 +1,20 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { authClient } from "@/src/lib/auth-client";
+
+import { EyeIcon, EyeOffIcon, InfoIcon } from "lucide-react";
 
 import { Button } from "@notebook/ui/components/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@notebook/ui/components/tooltip";
 import {
   Form,
   FormControl,
@@ -13,10 +23,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@notebook/ui/components/form";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@notebook/ui/components/input-group";
 import { Input } from "@notebook/ui/components/input";
-import { authClient } from "@/src/lib/auth-client";
-import UploadProfile from "./upload-profile";
-import { toast } from "sonner";
+import { useState } from "react";
+
+// import UploadProfile from "./upload-profile"; // TODO: Add upload profile
 
 const formSchema = z
   .object({
@@ -39,6 +55,8 @@ const formSchema = z
   });
 
 export function RegisterForm() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -93,28 +111,73 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="••••••••" {...field} />
-              </FormControl>
+              <InputGroup>
+                <FormControl>
+                  <InputGroupInput
+                    {...field}
+                    placeholder="Enter password"
+                    type={showPassword ? "text" : "password"}
+                  />
+                </FormControl>
+                <InputGroupAddon align="inline-end">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <InputGroupButton
+                        variant="ghost"
+                        aria-label="Info"
+                        size="icon-xs"
+                      >
+                        <InfoIcon />
+                      </InputGroupButton>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Password must be at least 8 characters</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </InputGroupAddon>
+              </InputGroup>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <Input placeholder="••••••••" {...field} />
-              </FormControl>
+              <InputGroup>
+                <FormControl>
+                  <InputGroupInput
+                    {...field}
+                    placeholder="Enter password"
+                    type="password"
+                  />
+                </FormControl>
+                <InputGroupAddon align="inline-end">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <InputGroupButton
+                        variant="ghost"
+                        aria-label="Info"
+                        size="icon-xs"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                      </InputGroupButton>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Password must be at least 8 characters</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </InputGroupAddon>
+              </InputGroup>
               <FormMessage />
             </FormItem>
           )}

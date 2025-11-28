@@ -13,16 +13,14 @@ import {
 } from "lucide-react";
 import { Button, buttonVariants } from "@notebook/ui/components/button";
 import { AuthModal } from "./auth-modal";
-
-// Example auth state (replace with your real session hook)
-const useUser = () => {
-  return { isLoggedIn: false }; // change later
-};
+import { authClient } from "@/src/lib/auth-client";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [mobile, setMobile] = useState(false);
-  const { isLoggedIn } = useUser();
+  const { data: session } = authClient.useSession();
+
+  const isLoggedIn = !!session && session.user;
 
   return (
     <>
@@ -85,6 +83,7 @@ export default function Navbar() {
                     size="sm"
                     variant="secondary"
                     className="text-red-600 hover:text-red-700"
+                    onClick={() => authClient.signOut()}
                   >
                     Logout
                     <LogOut className="h-4 w-4 ml-1" />
