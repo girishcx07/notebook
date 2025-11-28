@@ -5,13 +5,16 @@ import type { Metadata, Viewport } from "next";
 
 import "@notebook/ui/globals.css";
 import { Toaster } from "@notebook/ui/components/sonner";
+import { seo } from "../lib/seo";
 
 const recursive = Recursive({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Notebook - Open-Source App for Students",
-  description:
-    "An open-source app for students to create, organize, and publish notes.",
+  ...seo({
+    title: "Notebook - Open-Source App for Students",
+    description:
+      "An open-source app for students to create, organize, and publish notes.",
+  }),
 };
 
 export const viewport: Viewport = {
