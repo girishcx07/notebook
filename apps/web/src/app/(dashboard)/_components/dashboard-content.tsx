@@ -1,13 +1,24 @@
 import * as React from "react";
 
-export function DashboardContent({ children }: { children: React.ReactNode }) {
+import { cn } from "@notebook/ui/lib/utils";
+
+interface DashboardContentProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+export function DashboardContent({
+  className,
+  children,
+}: DashboardContentProps) {
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="@container/main flex flex-1 flex-col gap-2">
-        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          {children}
-        </div>
-      </div>
+    <div
+      className={cn(
+        "@container/main flex flex-1 flex-col gap-4 py-4 md:gap-6 md:py-6",
+        className
+      )}
+    >
+      {children}
     </div>
   );
 }

@@ -97,3 +97,92 @@ export async function deletePost(id: number) {
 
 // Export the client for advanced usage
 export const client = rpcClient;
+
+/**
+ * Create a new note
+ */
+export async function createNote(title: string, content: string) {
+  const res = await rpcClient.notes.$post({
+    json: {
+      title,
+      content,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create note");
+  }
+
+  return await res.json();
+}
+
+/**
+ * Get a note by ID
+ */
+export async function getNoteById(id: number) {
+  const res = await rpcClient.notes[":id"].$get({
+    param: { id: id.toString() },
+  });
+
+  if (!res.ok) {
+    if (res.status === 404) {
+      return null;
+    }
+    throw new Error("Failed to fetch note");
+  }
+
+  return await res.json();
+}
+
+/**
+ * Get all notes
+ */
+export async function getAllNotes() {
+  const res = await rpcClient.notes.$get();
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch notes");
+  }
+
+  return await res.json();
+}
+
+/**
+ * Update a note
+ */
+export async function updateNote(
+  id: number,
+  data: { title?: string; content?: string }
+) {
+  const res = await rpcClient.notes[":id"].$patch({
+    param: { id: id.toString() },
+    json: data,
+  });
+
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error("Note not found");
+    }
+    throw new Error("Failed to update note");
+  }
+
+  return await res.json();
+}
+
+/**
+ * Delete a note
+ */
+export async function deleteNote(id: number) {
+  const res = await rpcClient.notes[":id"].$delete({
+    param: { id: id.toString() },
+  });
+
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error("Note not found");
+    }
+    throw new Error("Failed to delete note");
+  }
+
+  return await res.json();
+}

@@ -10,6 +10,7 @@ import {
   type Icon,
 } from "@tabler/icons-react";
 import { ChevronRight } from "lucide-react";
+import { useNotes } from "@/src/hooks/use-notes";
 
 import {
   DropdownMenu,
@@ -117,33 +118,35 @@ function NavNotesItem({ item }: { item: NavItem }) {
   );
 }
 
-export function NavNotes({
-  items,
-}: {
-  items: {
-    title?: string;
-    name?: string;
-    url: string;
-    icon?: Icon;
-    pinned?: boolean;
-    lastUpdated?: string;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+export function NavNotes() {
+  const { data: notes, isLoading } = useNotes();
+
+  if (isLoading) {
+    return (
+      <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+        <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
+        <SidebarMenu>
+          <div className="text-muted-foreground px-2 py-2 text-sm">
+            Loading...
+          </div>
+        </SidebarMenu>
+      </SidebarGroup>
+    );
+  }
+
   // Normalize items (handle title vs name)
-  const normalizedItems: NavItem[] = items.map((item) => ({
-    ...item,
-    title: item.title || item.name || "Untitled",
-    items: item.items || [],
+  const normalizedItems: NavItem[] = (notes || []).map((note: any) => ({
+    title: note.title || "Untitled",
+    url: `/dashboard/notes/${note.id}`,
+    items: [],
+    lastUpdated: note.updatedAt,
   }));
 
-  // Sort: Pinned first
+  // Sort: Recently updated first (mock logic for now as we don't have pinned)
   const sortedItems = [...normalizedItems].sort((a, b) => {
-    if (a.pinned === b.pinned) return 0;
-    return a.pinned ? -1 : 1;
+    return (
+      new Date(b.lastUpdated!).getTime() - new Date(a.lastUpdated!).getTime()
+    );
   });
 
   return (
@@ -156,7 +159,7 @@ export function NavNotes({
           </div>
         ) : (
           sortedItems.map((item) => (
-            <NavNotesItem key={item.title} item={item} />
+            <NavNotesItem key={item.title + item.url} item={item} />
           ))
         )}
       </SidebarMenu>
