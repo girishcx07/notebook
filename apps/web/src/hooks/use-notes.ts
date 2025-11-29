@@ -22,12 +22,15 @@ export function useNote(id: number) {
   });
 }
 
-export function useCreateNote() {
+export async function useCreateNote() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ title, content }: { title: string; content: string }) =>
-      createNote(title, content),
+      createNote({
+        title,
+        content,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
     },

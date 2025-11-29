@@ -6,7 +6,7 @@ import notesRoutes from "./routes/notes";
 const app = new Hono()
   .use("/*", cors())
   .route("/posts", postsRoutes)
-  .route("/notes", notesRoutes)
+  .route("/note", notesRoutes)
   .get("/", (c) => {
     return c.json({ message: "Hono RPC Server", status: "ok" });
   });

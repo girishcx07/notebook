@@ -1,5 +1,7 @@
 import type { AppType } from "@notebook/api";
+import { CreateNote } from "@notebook/schemas";
 import { hc } from "hono/client";
+import { authClient } from "./auth-client";
 
 // Initialize the RPC client with type safety
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8787";
@@ -101,11 +103,21 @@ export const client = rpcClient;
 /**
  * Create a new note
  */
-export async function createNote(title: string, content: string) {
-  const res = await rpcClient.notes.$post({
+export async function createNote(payload: Omit<CreateNote, "userId">) {
+  const { data: session } = await authClient.getSession();
+
+  if (!session?.user) {
+    throw new Error("User not found");
+  }
+
+  console.log(payload);
+
+  const res = await rpcClient.note.$post({
     json: {
-      title,
-      content,
+      content: payload.content,
+      title: payload.title,
+      userId: session.user.id,
+      workspaceId: payload.workspaceId,
     },
   });
 
@@ -120,7 +132,7 @@ export async function createNote(title: string, content: string) {
  * Get a note by ID
  */
 export async function getNoteById(id: number) {
-  const res = await rpcClient.notes[":id"].$get({
+  const res = await rpcClient.note[":id"].$get({
     param: { id: id.toString() },
   });
 
@@ -138,7 +150,7 @@ export async function getNoteById(id: number) {
  * Get all notes
  */
 export async function getAllNotes() {
-  const res = await rpcClient.notes.$get();
+  const res = await rpcClient.note.$get();
 
   if (!res.ok) {
     throw new Error("Failed to fetch notes");
@@ -154,7 +166,7 @@ export async function updateNote(
   id: number,
   data: { title?: string; content?: string }
 ) {
-  const res = await rpcClient.notes[":id"].$patch({
+  const res = await rpcClient.note[":id"].$patch({
     param: { id: id.toString() },
     json: data,
   });
@@ -173,7 +185,7 @@ export async function updateNote(
  * Delete a note
  */
 export async function deleteNote(id: number) {
-  const res = await rpcClient.notes[":id"].$delete({
+  const res = await rpcClient.note[":id"].$delete({
     param: { id: id.toString() },
   });
 
