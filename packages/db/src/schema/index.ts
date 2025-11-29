@@ -1,3 +1,4 @@
 export * from "./posts";
 export * from "./user";
-export * from "./notes";
+export * from "./note";
+export * from "./workspace";

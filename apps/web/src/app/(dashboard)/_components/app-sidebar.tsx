@@ -27,7 +27,6 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   ...NAV_DATA,
-  recentNotes: [],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

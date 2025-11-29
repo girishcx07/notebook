@@ -26,6 +26,7 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSkeleton,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
@@ -109,8 +110,12 @@ function NavNotesItem({ item }: { item: NavItem }) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive">
+            <IconPin className="text-muted-foreground" />
+            <span>Pin</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem variant="destructive">
             <IconTrash className="text-muted-foreground" />
-            <span>Delete</span>
+            <span>Move to Trash</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -122,12 +127,16 @@ export function NavNotes() {
   const { data: notes, isLoading } = useNotes();
 
   if (isLoading) {
+    return <NavNotesSkeleton />;
+  }
+
+  if (!notes || notes.length === 0) {
     return (
       <SidebarGroup className="group-data-[collapsible=icon]:hidden">
         <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
         <SidebarMenu>
           <div className="text-muted-foreground px-2 py-2 text-sm">
-            Loading...
+            No recent notes
           </div>
         </SidebarMenu>
       </SidebarGroup>
@@ -166,3 +175,15 @@ export function NavNotes() {
     </SidebarGroup>
   );
 }
+
+const NavNotesSkeleton = () => {
+  const lists = Array.from({ length: 5 });
+  return (
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
+      {lists.map((_, index) => (
+        <SidebarMenuSkeleton key={index} />
+      ))}
+    </SidebarGroup>
+  );
+};

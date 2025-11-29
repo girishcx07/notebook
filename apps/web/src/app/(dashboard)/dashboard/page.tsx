@@ -8,9 +8,7 @@ const Page = () => {
   return (
     <DashboardContent>
       <SectionCards />
-      <div className="px-4 lg:px-6">
-        <ChartAreaInteractive />
-      </div>
+      <ChartAreaInteractive />
       <DataTable data={SIDEBAR_DATA} />
     </DashboardContent>
   );
