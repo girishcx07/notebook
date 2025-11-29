@@ -1,7 +1,7 @@
 import { Button } from "@notebook/ui/components/button";
 import { Separator } from "@notebook/ui/components/separator";
 import { SidebarTrigger } from "@notebook/ui/components/sidebar";
-import ThemeSwitcher from "../../_components/theme-switcher";
+import ThemeToggle from "@/src/components/theme-toggle";
 
 export function SiteHeader() {
   return (
@@ -24,7 +24,7 @@ export function SiteHeader() {
               GitHub
             </a>
           </Button>
-          <ThemeSwitcher />
+          <ThemeToggle />
         </div>
       </div>
     </header>

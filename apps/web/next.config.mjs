@@ -4,6 +4,7 @@ const nextConfig = {
   experimental: {
     // typedRoutes: true, // TODO: Enable this after Next.js 15.1.3
     typedEnv: true,
+    reactCompiler: true,
   },
 };
 

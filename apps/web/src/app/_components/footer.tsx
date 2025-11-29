@@ -8,8 +8,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-50">
-      <div className="p-6 bg-white mx-auto relative z-10 overflow-hidden border border-b-0 border-gray-200">
+    <footer className="bg-blue-50 dark:bg-gray-900">
+      <div className="p-6 bg-white dark:bg-gray-800 mx-auto relative z-10 overflow-hidden border border-b-0 border-gray-200 dark:border-gray-700">
         <div className="flex flex-col items-center gap-4 text-center">
           <Link href="/">
             {/* <LogoType className='h-7 text-gray-800' /> */}
@@ -28,7 +28,7 @@ const Footer = () => {
               poopup
             </a>
           </p>
-          <p className="text-sm leading-5 text-gray-400">
+          <p className="text-sm leading-5 text-gray-400 dark:text-gray-400">
             © {new Date().getFullYear()} Smart Notebook
           </p>
           <div className="flex items-center space-x-3">
@@ -36,29 +36,29 @@ const Footer = () => {
               href="https://x.com/@joshtriedcoding"
               target="_blank"
               rel="noreferrer"
-              className="group rounded-full border border-gray-200 p-2 transition-colors hover:bg-gray-100"
+              className="group rounded-full border border-gray-200 p-2 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
             >
               <span className="sr-only">Twitter</span>
-              <Twitter className="h-4 w-4 text-gray-600 transition-colors group-hover:text-black" />
+              <Twitter className="h-4 w-4 text-gray-600 transition-colors group-hover:text-black dark:text-gray-200" />
             </a>
             <a
               href="https://github.com/joschan21/profanity.dev/"
               target="_blank"
               rel="noreferrer"
-              className="group rounded-full border border-gray-200 p-2 transition-colors hover:bg-gray-100"
+              className="group rounded-full border border-gray-200 p-2 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
             >
               <span className="sr-only">Github</span>
-              <Github className="h-4 w-4 text-gray-600 transition-colors group-hover:text-black" />
+              <Github className="h-4 w-4 text-gray-600 transition-colors group-hover:text-black dark:text-gray-200" />
             </a>
 
             <a
               href="https://www.youtube.com/@joshtriedcoding"
               target="_blank"
               rel="noreferrer"
-              className="group rounded-full border border-gray-200 p-2 transition-colors hover:bg-gray-100"
+              className="group rounded-full border border-gray-200 p-2 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
             >
               <span className="sr-only">YouTube</span>
-              <Youtube className="h-4 w-4 text-gray-600 transition-colors group-hover:text-[#ff0000]" />
+              <Youtube className="h-4 w-4 text-gray-600 transition-colors group-hover:text-[#ff0000] dark:text-gray-200" />
             </a>
           </div>
         </div>

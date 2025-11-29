@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   IconCreditCard,
@@ -6,13 +6,13 @@ import {
   IconLogout,
   IconNotification,
   IconUserCircle,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@notebook/ui/components/avatar"
+} from "@notebook/ui/components/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,24 +21,42 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@notebook/ui/components/dropdown-menu"
+} from "@notebook/ui/components/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@notebook/ui/components/sidebar"
+} from "@notebook/ui/components/sidebar";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/src/lib/auth-client";
+import { useState } from "react";
 
 export function NavUser({
   user,
 }: {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }) {
-  const { isMobile } = useSidebar()
+  const router = useRouter();
+  const { isMobile } = useSidebar();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = () => {
+    setIsLoggingOut(true);
+    authClient.signOut({
+      fetchOptions: {
+        redirect: "manual",
+        onSuccess: () => {
+          router.push("/");
+          setIsLoggingOut(false);
+        },
+      },
+    });
+  };
 
   return (
     <SidebarMenu>
@@ -88,23 +106,23 @@ export function NavUser({
                 <IconUserCircle />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <IconCreditCard />
                 Billing
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem>
                 <IconNotification />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} disabled={isLoggingOut}>
               <IconLogout />
-              Log out
+              {isLoggingOut ? "Logging out..." : "Log out"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

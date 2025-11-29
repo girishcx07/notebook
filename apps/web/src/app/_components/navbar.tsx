@@ -2,18 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import {
-  Brain,
-  LogIn,
-  LogOut,
-  LayoutDashboard,
-  Sun,
-  Moon,
-  Heart,
-} from "lucide-react";
+import { Brain, LogIn, LogOut, LayoutDashboard, Heart } from "lucide-react";
 import { Button, buttonVariants } from "@notebook/ui/components/button";
 import { AuthModal } from "./auth-modal";
 import { authClient } from "@/src/lib/auth-client";
+import ThemeToggle from "../../components/theme-toggle";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -72,7 +65,7 @@ export default function Navbar() {
                     href="/dashboard"
                     className={buttonVariants({
                       size: "sm",
-                      variant: "secondary",
+                      variant: "default",
                     })}
                   >
                     Dashboard
@@ -186,19 +179,5 @@ export default function Navbar() {
 
       <AuthModal open={open} onOpenChange={setOpen} />
     </>
-  );
-}
-
-/* ------------------- THEME SWITCHER ------------------- */
-function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-
-  return (
-    <button
-      onClick={() => setDark(!dark)}
-      className="p-2 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
-    >
-      {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-    </button>
   );
 }
