@@ -36,6 +36,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { keys } from "@/src/constants/query-key";
+import { authClient } from "@/src/lib/auth-client";
 
 type NavItem = {
   title: string;
@@ -49,7 +50,7 @@ type NavItem = {
   }[];
 };
 
-function NavNotesItem({ item }: { item: NavItem }) {
+function NavRecentNotesItem({ item }: { item: NavItem }) {
   const { isMobile } = useSidebar();
   const [isOpen, setIsOpen] = useState(false);
   const hasChildren = item.items && item.items.length > 0;
@@ -127,20 +128,22 @@ function NavNotesItem({ item }: { item: NavItem }) {
   );
 }
 
-export const NavNotes = () => {
+export const NavRecentNotes = () => {
   return (
-    <Suspense fallback={<NavNotesSkeleton />}>
+    <Suspense fallback={<NavRecentNotesSkeleton />}>
       <ErrorBoundary fallback={<p>Error fetching notes</p>}>
-        <NavNotesSuspense />
+        <NavRecentNotesSuspense />
       </ErrorBoundary>
     </Suspense>
   );
 };
 
-export function NavNotesSuspense() {
+export function NavRecentNotesSuspense() {
+  const { data: session } = authClient.useSession();
+
   const { data: notes } = useSuspenseQuery({
     queryKey: keys.notes.recent,
-    queryFn: getRecentNotes,
+    queryFn: () => getRecentNotes(session?.user?.id || ""),
   });
 
   if (!notes || notes.length === 0) {
@@ -181,7 +184,7 @@ export function NavNotesSuspense() {
           </div>
         ) : (
           sortedItems.map((item) => (
-            <NavNotesItem key={item.title + item.url} item={item} />
+            <NavRecentNotesItem key={item.title + item.url} item={item} />
           ))
         )}
       </SidebarMenu>
@@ -189,7 +192,7 @@ export function NavNotesSuspense() {
   );
 }
 
-const NavNotesSkeleton = () => {
+const NavRecentNotesSkeleton = () => {
   const lists = Array.from({ length: 5 });
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">

@@ -8,7 +8,7 @@ import { NavMain } from "@/src/app/(dashboard)/dashboard/_components/nav-main";
 import { NavSecondary } from "@/src/app/(dashboard)/dashboard/_components/nav-secondary";
 import { NavUser } from "@/src/app/(dashboard)/dashboard/_components/nav-user";
 import { NAV_DATA } from "@/src/constants/sidebar";
-import { NavNotes } from "./nav-notes";
+import { NavRecentNotes } from "./nav-recent-notes";
 
 import {
   Sidebar,
@@ -49,7 +49,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavNotes />
+        <NavRecentNotes />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

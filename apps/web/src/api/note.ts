@@ -156,17 +156,11 @@ export async function getAllNotes() {
 /**
  * Get recent notes
  */
-export async function getRecentNotes() {
-  const { data: session } = await authClient.getSession();
-
-  if (!session?.user) {
-    throw new Error("User not found");
-  }
-
+export async function getRecentNotes(userId: string) {
   const res = await rpcClient.note.recent.$get({
     query: {
       limit: "10",
-      userId: session.user.id,
+      userId,
     },
   });
 
