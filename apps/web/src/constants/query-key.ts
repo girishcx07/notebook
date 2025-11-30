@@ -1,7 +1,7 @@
 export const keys = {
   notes: {
     all: ["notes"] as const,
-    recent: ["notes", "recent"] as const,
+    recent: (id: string) => ["recentNotes", id] as const,
     byId: (id: string) => ["notes", id] as const,
   },
   workspaces: {

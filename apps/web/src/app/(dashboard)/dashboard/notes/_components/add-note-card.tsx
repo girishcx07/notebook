@@ -38,11 +38,13 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { keys } from "@/src/constants/query-key";
 import { createNoteFormSchema } from "@notebook/schemas";
+import { useSession } from "@/src/components/session-provider";
 
 export function AddNoteCard() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
+  const session = useSession();
 
   const form = useForm<z.infer<typeof createNoteFormSchema>>({
     resolver: zodResolver(createNoteFormSchema),
@@ -68,7 +70,9 @@ export function AddNoteCard() {
 
       // Invalidate queries to refresh the list
       queryClient.invalidateQueries({ queryKey: keys.notes.all });
-      queryClient.invalidateQueries({ queryKey: keys.notes.recent });
+      queryClient.invalidateQueries({
+        queryKey: keys.notes.recent(session?.user.id!),
+      });
 
       // Navigate to the new note
       router.push(`/dashboard/notes/${newNote.id}`);

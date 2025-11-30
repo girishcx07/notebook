@@ -36,7 +36,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { keys } from "@/src/constants/query-key";
-import { authClient } from "@/src/lib/auth-client";
+import { useSession } from "@/src/components/session-provider";
 
 type NavItem = {
   title: string;
@@ -137,21 +137,20 @@ function NavRecentNotesItem({ item }: { item: NavItem }) {
 }
 
 export const NavRecentNotes = () => {
-  const { data: session, isPending } = authClient.useSession();
-
   return (
     <Suspense fallback={<NavRecentNotesSkeleton />}>
       <ErrorBoundary fallback={<NavFallbackRecentNotes />}>
-        <NavRecentNotesSuspense userId={session?.user.id ?? ""} />
+        <NavRecentNotesSuspense />
       </ErrorBoundary>
     </Suspense>
   );
 };
 
-export function NavRecentNotesSuspense({ userId }: { userId: string }) {
+export function NavRecentNotesSuspense() {
+  const session = useSession();
   const { data: notes } = useSuspenseQuery({
-    queryKey: [...keys.notes.recent, userId],
-    queryFn: () => getRecentNotes(userId),
+    queryKey: keys.notes.recent(session?.user.id!),
+    queryFn: () => getRecentNotes(session?.user.id!),
   });
 
   // Normalize items (handle title vs name)

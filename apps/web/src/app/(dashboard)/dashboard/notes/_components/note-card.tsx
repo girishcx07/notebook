@@ -13,7 +13,7 @@ export function NoteCard({ note }: { note: any }) {
       onClick={() => router.push(`/dashboard/notes/${note.id}`)}
       className="
       bg-card shadow-sm min-h-[220px]
-        border border-dashed rounded-xl p-6 cursor-pointer group transition-all
+        border border-dashed rounded-xl p-6 cursor-pointer group transition-colors
         hover:border-primary hover:bg-primary/5
       "
     >

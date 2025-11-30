@@ -19,6 +19,22 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 1 week
     updateAge: 60 * 60 * 24, // 1 day (every 1 day the session expiration is updated)
+    cookieCache: {
+      maxAge: 60 * 60 * 24 * 7, // 1 week,
+      refreshCache: {
+        updateAge: 60 * 60 * 24, // 1 day (every 1 day the session expiration is updated)
+      },
+      strategy: "compact",
+      version: "1.0.0",
+    },
+  },
+  advanced: {
+    defaultCookieAttributes: {
+      sameSite: "none", // this works for me
+      secure: true,
+    },
   },
   plugins: [nextCookies()], // make sure this is the last plugin in the array
 });
+
+export type Session = typeof auth.$Infer.Session;

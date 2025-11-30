@@ -21,7 +21,7 @@ const Page = async () => {
   }
 
   queryClient.prefetchQuery({
-    queryKey: keys.notes.recent,
+    queryKey: keys.notes.recent(session.user.id),
     queryFn: () => getRecentNotes(session.user.id),
   });
 
