@@ -20,6 +20,9 @@ export const note = pgTable(
     title: text("title").notNull(),
     content: text("content").notNull(),
     pinned: boolean("pinned").default(false).notNull(),
+    status: text("status", { enum: ["private", "public", "request_access"] })
+      .default("private")
+      .notNull(),
 
     workspaceId: text("workspace_id")
       // .notNull() NOTE: workspaceId is nullable for now. User can create separate notes without workspace

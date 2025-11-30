@@ -22,18 +22,29 @@ export const NotesList = () => {
   );
 };
 
+import { getWorkspaces } from "@/src/api/workspace";
+import { FolderCard } from "./folder-card";
+
 export function NotesListSuspense() {
   const { data: notes } = useSuspenseQuery({
     queryKey: keys.notes.all,
     queryFn: getAllNotes,
   });
 
+  const { data: workspaces } = useSuspenseQuery({
+    queryKey: keys.workspaces.all,
+    queryFn: getWorkspaces,
+  });
+
   const router = useRouter();
 
-  if (!notes || notes.length === 0) {
+  if (
+    (!notes || notes.length === 0) &&
+    (!workspaces || workspaces.length === 0)
+  ) {
     return (
       <div className="flex flex-col items-center justify-center h-64 border rounded-lg border-dashed">
-        <p className="text-muted-foreground mb-4">No notes found</p>
+        <p className="text-muted-foreground mb-4">No notes or folders found</p>
       </div>
     );
   }
@@ -46,6 +57,9 @@ export function NotesListSuspense() {
       className="grid gap-5 md:grid-cols-4 lg:grid-cols-5"
     >
       <AddNoteCard />
+      {workspaces?.map((workspace: any) => (
+        <FolderCard key={workspace.id} workspace={workspace} />
+      ))}
       {notes.map((note) => (
         <NoteCard key={note.id} note={note} />
       ))}

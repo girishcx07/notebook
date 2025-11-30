@@ -6,6 +6,7 @@ export const createNoteSchema = z.object({
   content: z.string().min(1, "Content is required"),
   userId: z.string().min(1, "User ID is required"),
   workspaceId: z.string().optional(),
+  status: z.enum(["private", "public", "request_access"]).default("private"),
 });
 
 // Schema for updating a note (partial)
@@ -18,6 +19,7 @@ export const updateNoteSchema = z
       .optional(),
     content: z.string().min(1, "Content is required").optional(),
     userId: z.string().min(1, "User ID is required").optional(),
+    status: z.enum(["private", "public", "request_access"]).optional(),
   })
   .refine((data) => data.title || data.content, {
     message: "At least one field must be provided",

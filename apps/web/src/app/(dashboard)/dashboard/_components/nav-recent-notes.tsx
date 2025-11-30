@@ -142,7 +142,7 @@ export function NavRecentNotesSuspense() {
   const { data: session } = authClient.useSession();
 
   const { data: notes } = useSuspenseQuery({
-    queryKey: keys.notes.recent,
+    queryKey: [...keys.notes.recent, session?.user?.id],
     queryFn: () => getRecentNotes(session?.user?.id || ""),
   });
 

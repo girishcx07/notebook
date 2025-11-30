@@ -112,6 +112,7 @@ export async function createNote(payload: Omit<CreateNote, "userId">) {
       title: payload.title,
       userId: session.user.id,
       workspaceId: payload.workspaceId,
+      status: payload.status,
     },
   });
 

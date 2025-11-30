@@ -2,8 +2,10 @@ export const keys = {
   notes: {
     all: ["notes"] as const,
     recent: ["notes", "recent"] as const,
-    list: () => ["notes", "list"] as const,
-    detail: (id: string) => ["notes", "detail", id] as const,
+    byId: (id: string) => ["notes", id] as const,
+  },
+  workspaces: {
+    all: ["workspaces"] as const,
   },
 
   students: {

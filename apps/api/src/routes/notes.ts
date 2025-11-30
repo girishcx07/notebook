@@ -23,6 +23,7 @@ const notesRoutes = new Hono()
         createdBy: data.userId,
         updatedBy: data.userId,
         workspaceId: data.workspaceId ?? null,
+        status: data.status,
       })
       .returning();
 

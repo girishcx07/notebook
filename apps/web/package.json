@@ -45,10 +45,16 @@
     "eslint": "^9.32.0",
     "typescript": "^5.9.2"
   },
+  "resolutions": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
   "pnpm": {
     "overrides": {
       "@types/react": "19.2.7",
-      "@types/react-dom": "19.2.3"
+      "@types/react-dom": "19.2.3",
+      "react-hook-form": "7.67.0",
+      "@hookform/resolvers": "5.2.2"
     }
   }
 }
