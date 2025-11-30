@@ -165,7 +165,7 @@ export async function getRecentNotes() {
 
   const res = await rpcClient.note.recent.$get({
     query: {
-      limit: 10,
+      limit: "10",
       userId: session.user.id,
     },
   });
