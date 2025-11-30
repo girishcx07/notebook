@@ -53,6 +53,11 @@ export const getRecentNotesSchema = z.object({
   limit: z.coerce.number().optional().default(10),
 });
 
+export const createNoteFormSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  status: z.enum(["private", "public", "request_access"]),
+});
+
 // TypeScript types inferred from Zod schemas
 export type CreateNote = z.infer<typeof createNoteSchema>;
 export type UpdateNote = z.infer<typeof updateNoteSchema>;

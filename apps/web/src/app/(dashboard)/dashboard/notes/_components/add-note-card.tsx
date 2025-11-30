@@ -37,19 +37,15 @@ import {
 } from "@notebook/ui/components/form";
 import { useQueryClient } from "@tanstack/react-query";
 import { keys } from "@/src/constants/query-key";
-
-const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  status: z.enum(["private", "public", "request_access"]),
-});
+import { createNoteFormSchema } from "@notebook/schemas";
 
 export function AddNoteCard() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof createNoteFormSchema>>({
+    resolver: zodResolver(createNoteFormSchema),
     defaultValues: {
       title: "",
       status: "private" as const,
@@ -58,7 +54,7 @@ export function AddNoteCard() {
 
   const { isSubmitting } = form.formState;
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof createNoteFormSchema>) {
     try {
       const newNote = await createNote({
         title: values.title,
@@ -131,7 +127,7 @@ export function AddNoteCard() {
                     <FormLabel>Visibility</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select visibility" />
                         </SelectTrigger>
                       </FormControl>

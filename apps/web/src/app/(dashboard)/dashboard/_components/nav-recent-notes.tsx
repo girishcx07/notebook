@@ -55,6 +55,14 @@ function NavRecentNotesItem({ item }: { item: NavItem }) {
   const [isOpen, setIsOpen] = useState(false);
   const hasChildren = item.items && item.items.length > 0;
 
+  const handleView = () => {};
+
+  const handleShare = () => {};
+
+  const handlePin = () => {};
+
+  const handleMoveToTrash = () => {};
+
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild tooltip={item.title}>
@@ -105,20 +113,20 @@ function NavRecentNotesItem({ item }: { item: NavItem }) {
           side={isMobile ? "bottom" : "right"}
           align={isMobile ? "end" : "start"}
         >
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleView}>
             <IconFolder className="text-muted-foreground" />
             <span>View</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleShare}>
             <IconShare3 className="text-muted-foreground" />
             <span>Share</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem onClick={handlePin}>
             <IconPin className="text-muted-foreground" />
             <span>Pin</span>
           </DropdownMenuItem>
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem onClick={handleMoveToTrash} variant="destructive">
             <IconTrash className="text-muted-foreground" />
             <span>Move to Trash</span>
           </DropdownMenuItem>
@@ -129,35 +137,22 @@ function NavRecentNotesItem({ item }: { item: NavItem }) {
 }
 
 export const NavRecentNotes = () => {
+  const { data: session, isPending } = authClient.useSession();
+
   return (
     <Suspense fallback={<NavRecentNotesSkeleton />}>
-      <ErrorBoundary fallback={<p>Error fetching notes</p>}>
-        <NavRecentNotesSuspense />
+      <ErrorBoundary fallback={<NavFallbackRecentNotes />}>
+        <NavRecentNotesSuspense userId={session?.user.id ?? ""} />
       </ErrorBoundary>
     </Suspense>
   );
 };
 
-export function NavRecentNotesSuspense() {
-  const { data: session } = authClient.useSession();
-
+export function NavRecentNotesSuspense({ userId }: { userId: string }) {
   const { data: notes } = useSuspenseQuery({
-    queryKey: [...keys.notes.recent, session?.user?.id],
-    queryFn: () => getRecentNotes(session?.user?.id || ""),
+    queryKey: [...keys.notes.recent, userId],
+    queryFn: () => getRecentNotes(userId),
   });
-
-  if (!notes || notes.length === 0) {
-    return (
-      <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-        <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
-        <SidebarMenu>
-          <div className="text-muted-foreground px-2 py-2 text-sm">
-            No recent notes
-          </div>
-        </SidebarMenu>
-      </SidebarGroup>
-    );
-  }
 
   // Normalize items (handle title vs name)
   const normalizedItems: NavItem[] = (notes || []).map((note: any) => ({
@@ -174,19 +169,17 @@ export function NavRecentNotesSuspense() {
     );
   });
 
+  if (!sortedItems || sortedItems.length === 0) {
+    return <NavFallbackRecentNotes />;
+  }
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
       <SidebarMenu>
-        {sortedItems.length === 0 ? (
-          <div className="text-muted-foreground px-2 py-2 text-sm">
-            No recent notes
-          </div>
-        ) : (
-          sortedItems.map((item) => (
-            <NavRecentNotesItem key={item.title + item.url} item={item} />
-          ))
-        )}
+        {sortedItems.map((item) => (
+          <NavRecentNotesItem key={item.title + item.url} item={item} />
+        ))}
       </SidebarMenu>
     </SidebarGroup>
   );
@@ -200,6 +193,19 @@ const NavRecentNotesSkeleton = () => {
       {lists.map((_, index) => (
         <SidebarMenuSkeleton key={index} />
       ))}
+    </SidebarGroup>
+  );
+};
+
+const NavFallbackRecentNotes = () => {
+  return (
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
+      <SidebarMenu>
+        <div className="text-muted-foreground px-2 py-2 text-sm">
+          No recent notes
+        </div>
+      </SidebarMenu>
     </SidebarGroup>
   );
 };
