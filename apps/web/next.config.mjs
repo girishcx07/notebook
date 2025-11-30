@@ -3,6 +3,7 @@ const nextConfig = {
   transpilePackages: ["@notebook/ui"],
   experimental: {
     typedEnv: true,
+    mcpServer: true,
   },
   typedRoutes: true,
   reactCompiler: true,
