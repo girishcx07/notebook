@@ -5,6 +5,7 @@ import {
   createNoteSchema,
   getNoteByIdSchema,
   getNoteByUserIdSchema,
+  getRecentNotesSchema,
   searchNoteSchema,
   updateNoteSchema,
 } from "@notebook/schemas";
@@ -46,12 +47,14 @@ const notesRoutes = new Hono()
     }
   )
 
-  .get("/recent", async (c) => {
+  .get("/recent", zValidator("query", getRecentNotesSchema), async (c) => {
+    const { userId, limit } = c.req.valid("query");
     const recentNotes = await db
       .select()
       .from(note)
+      .where(eq(note.createdBy, userId))
       .orderBy(desc(note.pinned), desc(note.updatedAt))
-      .limit(10);
+      .limit(limit);
 
     return c.json(recentNotes);
   })

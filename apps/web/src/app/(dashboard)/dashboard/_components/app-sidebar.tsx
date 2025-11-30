@@ -4,9 +4,9 @@ import * as React from "react";
 
 import { BrainIcon } from "lucide-react";
 
-import { NavMain } from "@/src/app/(dashboard)/_components/nav-main";
-import { NavSecondary } from "@/src/app/(dashboard)/_components/nav-secondary";
-import { NavUser } from "@/src/app/(dashboard)/_components/nav-user";
+import { NavMain } from "@/src/app/(dashboard)/dashboard/_components/nav-main";
+import { NavSecondary } from "@/src/app/(dashboard)/dashboard/_components/nav-secondary";
+import { NavUser } from "@/src/app/(dashboard)/dashboard/_components/nav-user";
 import { NAV_DATA } from "@/src/constants/sidebar";
 import { NavNotes } from "./nav-notes";
 

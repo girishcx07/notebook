@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import {
   IconDots,
   IconFolder,
@@ -10,7 +10,6 @@ import {
   type Icon,
 } from "@tabler/icons-react";
 import { ChevronRight } from "lucide-react";
-import { useNotes } from "@/src/hooks/use-notes";
 
 import {
   DropdownMenu,
@@ -32,6 +31,11 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@notebook/ui/components/sidebar";
+import { getRecentNotes } from "@/src/api/note";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { keys } from "@/src/constants/query-key";
 
 type NavItem = {
   title: string;
@@ -47,7 +51,7 @@ type NavItem = {
 
 function NavNotesItem({ item }: { item: NavItem }) {
   const { isMobile } = useSidebar();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const hasChildren = item.items && item.items.length > 0;
 
   return (
@@ -123,12 +127,21 @@ function NavNotesItem({ item }: { item: NavItem }) {
   );
 }
 
-export function NavNotes() {
-  const { data: notes, isLoading } = useNotes();
+export const NavNotes = () => {
+  return (
+    <Suspense fallback={<NavNotesSkeleton />}>
+      <ErrorBoundary fallback={<p>Error fetching notes</p>}>
+        <NavNotesSuspense />
+      </ErrorBoundary>
+    </Suspense>
+  );
+};
 
-  if (isLoading) {
-    return <NavNotesSkeleton />;
-  }
+export function NavNotesSuspense() {
+  const { data: notes } = useSuspenseQuery({
+    queryKey: keys.notes.recent,
+    queryFn: getRecentNotes,
+  });
 
   if (!notes || notes.length === 0) {
     return (

@@ -1,4 +1,4 @@
-import { DashboardContent } from "@/src/app/(dashboard)/_components/dashboard-content";
+import { DashboardContent } from "@/src/app/(dashboard)/dashboard/_components/dashboard-content";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

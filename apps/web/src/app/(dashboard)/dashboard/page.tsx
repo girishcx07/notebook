@@ -1,16 +1,28 @@
+import { getAllNotes } from "@/src/api/note";
+import { ChartAreaInteractive } from "@/src/app/(dashboard)/dashboard/_components/chart-area-interactive";
+import { DashboardContent } from "@/src/app/(dashboard)/dashboard/_components/dashboard-content";
+import { SectionCards } from "@/src/app/(dashboard)/dashboard/_components/section-cards";
+import { keys } from "@/src/constants/query-key";
 import { SIDEBAR_DATA } from "@/src/constants/sidebar";
-import { ChartAreaInteractive } from "@/src/app/(dashboard)/_components/chart-area-interactive";
+import { queryClient } from "@/src/lib/query-client";
 import { DataTable } from "@notebook/ui/components/data-table";
-import { SectionCards } from "@/src/app/(dashboard)/_components/section-cards";
-import { DashboardContent } from "@/src/app/(dashboard)/_components/dashboard-content";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 const Page = () => {
+  queryClient.prefetchQuery({
+    queryKey: keys.notes.recent,
+    queryFn: () => getAllNotes(),
+  });
+
+  const dehydratedState = dehydrate(queryClient);
   return (
-    <DashboardContent>
-      <SectionCards />
-      <ChartAreaInteractive />
-      <DataTable data={SIDEBAR_DATA} />
-    </DashboardContent>
+    <HydrationBoundary state={dehydratedState}>
+      <DashboardContent>
+        <SectionCards />
+        <ChartAreaInteractive />
+        <DataTable data={SIDEBAR_DATA} />
+      </DashboardContent>
+    </HydrationBoundary>
   );
 };
 

@@ -1,8 +1,8 @@
 import { seo } from "@/src/lib/seo";
 import { Metadata, Viewport } from "next";
 
-import { AppSidebar } from "@/src/app/(dashboard)/_components/app-sidebar";
-import { SiteHeader } from "@/src/app/(dashboard)/_components/site-header";
+import { AppSidebar } from "@/src/app/(dashboard)/dashboard/_components/app-sidebar";
+import { SiteHeader } from "@/src/app/(dashboard)/dashboard/_components/site-header";
 import { SidebarInset, SidebarProvider } from "@notebook/ui/components/sidebar";
 
 export const metadata: Metadata = {

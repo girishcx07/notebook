@@ -45,6 +45,12 @@ export const searchNoteSchema = z.object({
   query: z.string(),
 });
 
+// Schema for getting recent notes
+export const getRecentNotesSchema = z.object({
+  userId: z.string(),
+  limit: z.coerce.number().optional().default(10),
+});
+
 // TypeScript types inferred from Zod schemas
 export type CreateNote = z.infer<typeof createNoteSchema>;
 export type UpdateNote = z.infer<typeof updateNoteSchema>;
