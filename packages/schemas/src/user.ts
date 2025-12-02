@@ -40,6 +40,7 @@ export const registerSchema = z
 export const loginSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
+  rememberMe: z.boolean().optional(),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;

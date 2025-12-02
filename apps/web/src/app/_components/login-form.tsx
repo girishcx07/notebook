@@ -27,7 +27,11 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@notebook/ui/components/input-group";
+import { Label } from "@notebook/ui/components/label";
+import { Checkbox } from "@notebook/ui/components/checkbox";
+
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+
 import { useState } from "react";
 
 import { loginSchema } from "@notebook/schemas";
@@ -44,6 +48,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     defaultValues: {
       email: "",
       password: "",
+      rememberMe: false,
     },
   });
 
@@ -52,8 +57,8 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       .email({
         email: values.email,
         password: values.password,
-
-        rememberMe: false,
+        // only for demo purpose
+        rememberMe: values.rememberMe,
       })
       .then(({ data, error }) => {
         if (error) {
@@ -75,11 +80,15 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <FormField
           control={form.control}
           name="email"
-          render={({ field }) => (
+          render={({ field, formState: { isSubmitting } }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="john.doe@example.com" {...field} />
+                <Input
+                  disabled={isSubmitting}
+                  placeholder="john.doe@example.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,13 +97,14 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+          render={({ field, formState: { isSubmitting } }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <FormControl>
                   <InputGroupInput
                     {...field}
+                    disabled={isSubmitting}
                     placeholder="Enter password"
                     type={showPassword ? "text" : "password"}
                   />
@@ -118,6 +128,26 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
                 </InputGroupAddon>
               </InputGroup>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="rememberMe"
+          render={({
+            field: { onChange, value, ...args },
+            formState: { isSubmitting },
+          }) => (
+            <FormItem className="flex items-center gap-2">
+              <FormControl>
+                <Checkbox
+                  disabled={isSubmitting}
+                  {...args}
+                  onCheckedChange={onChange}
+                  checked={value}
+                />
+              </FormControl>
+              <FormLabel>Remember me</FormLabel>
             </FormItem>
           )}
         />

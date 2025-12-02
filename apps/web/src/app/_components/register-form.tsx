@@ -89,11 +89,11 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         <FormField
           control={form.control}
           name="firstName"
-          render={({ field }) => (
+          render={({ field, formState: { isSubmitting } }) => (
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input placeholder="John" {...field} />
+                <Input disabled={isSubmitting} placeholder="John" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -102,11 +102,11 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         <FormField
           control={form.control}
           name="lastName"
-          render={({ field }) => (
+          render={({ field, formState: { isSubmitting } }) => (
             <FormItem>
               <FormLabel>Last Name</FormLabel>
               <FormControl>
-                <Input placeholder="Doe" {...field} />
+                <Input disabled={isSubmitting} placeholder="Doe" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,11 +115,15 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         <FormField
           control={form.control}
           name="email"
-          render={({ field }) => (
+          render={({ field, formState: { isSubmitting } }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="john.doe@example.com" {...field} />
+                <Input
+                  disabled={isSubmitting}
+                  placeholder="john.doe@example.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,12 +133,13 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+          render={({ field, formState: { isSubmitting } }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <FormControl>
                   <InputGroupInput
+                    disabled={isSubmitting}
                     {...field}
                     placeholder="Enter password"
                     type="password"
@@ -165,13 +170,14 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         <FormField
           control={form.control}
           name="confirmPassword"
-          render={({ field }) => (
+          render={({ field, formState: { isSubmitting } }) => (
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
               <InputGroup>
                 <FormControl>
                   <InputGroupInput
                     {...field}
+                    disabled={isSubmitting}
                     placeholder="Enter password"
                     type={showPassword ? "text" : "password"}
                   />

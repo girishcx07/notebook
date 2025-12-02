@@ -8,7 +8,6 @@ import {
   DialogTitle,
 } from "@notebook/ui/components/dialog";
 import { Button } from "@notebook/ui/components/button";
-import { Input } from "@notebook/ui/components/input";
 import { Separator } from "@notebook/ui/components/separator";
 import { Icons } from "./icons";
 import { LoginForm } from "./login-form";

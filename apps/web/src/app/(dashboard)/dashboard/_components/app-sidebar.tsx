@@ -20,15 +20,6 @@ import {
   SidebarMenuItem,
 } from "@notebook/ui/components/sidebar";
 
-const data = {
-  user: {
-    name: "Girish Chaudhari",
-    email: "girishvishnuc98@gmail.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  ...NAV_DATA,
-};
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -48,12 +39,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={NAV_DATA.navMain} />
         <NavRecentNotes />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavSecondary items={NAV_DATA.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );
