@@ -38,13 +38,13 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { keys } from "@/src/constants/query-key";
 import { createNoteFormSchema } from "@notebook/schemas";
-import { useSession } from "@/src/components/session-provider";
+import { authClient } from "@/src/lib/auth-client";
 
 export function AddNoteCard() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
-  const session = useSession();
+  const { data: session } = authClient.useSession();
 
   const form = useForm<z.infer<typeof createNoteFormSchema>>({
     resolver: zodResolver(createNoteFormSchema),

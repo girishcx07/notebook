@@ -36,7 +36,8 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { keys } from "@/src/constants/query-key";
-import { useSession } from "@/src/components/session-provider";
+import { authClient } from "@/src/lib/auth-client";
+import Link from "next/link";
 
 type NavItem = {
   title: string;
@@ -137,20 +138,30 @@ function NavRecentNotesItem({ item }: { item: NavItem }) {
 }
 
 export const NavRecentNotes = () => {
+  const { data: session, isPending } = authClient.useSession();
+
+  if (isPending) {
+    return <NavRecentNotesSkeleton />;
+  }
+
+  if (!session?.user) {
+    return <NavFallbackRecentNotes />;
+  }
+
   return (
     <Suspense fallback={<NavRecentNotesSkeleton />}>
       <ErrorBoundary fallback={<NavFallbackRecentNotes />}>
-        <NavRecentNotesSuspense />
+        <NavRecentNotesSuspense userId={session.user.id} />
       </ErrorBoundary>
     </Suspense>
   );
 };
 
-export function NavRecentNotesSuspense() {
-  const session = useSession();
+export function NavRecentNotesSuspense({ userId }: { userId: string }) {
   const { data: notes } = useSuspenseQuery({
-    queryKey: keys.notes.recent(session?.user.id!),
-    queryFn: () => getRecentNotes(session?.user.id!),
+    queryKey: keys.notes.recent(userId),
+    queryFn: () => getRecentNotes(userId),
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   // Normalize items (handle title vs name)

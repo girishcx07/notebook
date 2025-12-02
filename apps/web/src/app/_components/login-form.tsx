@@ -116,13 +116,14 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
                         variant="ghost"
                         aria-label="Info"
                         size="icon-xs"
+                        disabled={isSubmitting}
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                       </InputGroupButton>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Password must be at least 8 characters</p>
+                      <p>Toggle password visibility</p>
                     </TooltipContent>
                   </Tooltip>
                 </InputGroupAddon>
