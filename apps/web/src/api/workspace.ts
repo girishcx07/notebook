@@ -1,16 +1,9 @@
 import { rpcClient } from "@/src/lib/api";
-import { authClient } from "@/src/lib/auth-client";
 
-export async function getWorkspaces() {
-  const { data: session } = await authClient.getSession();
-
-  if (!session?.user) {
-    throw new Error("User not found");
-  }
-
+export async function getWorkspaces(userId: string) {
   const res = await rpcClient.workspace.$get({
     query: {
-      userId: session.user.id,
+      userId,
     },
   });
 

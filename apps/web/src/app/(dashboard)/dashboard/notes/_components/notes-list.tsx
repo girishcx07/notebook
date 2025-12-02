@@ -12,6 +12,10 @@ import { noteContainerVariants } from "@/src/lib/motion";
 import { AddNoteCard } from "./add-note-card";
 import { NoteCard } from "./note-card";
 
+import { getWorkspaces } from "@/src/api/workspace";
+import { FolderCard } from "./folder-card";
+import { useSession } from "@/src/components/session-provider";
+
 export const NotesList = () => {
   return (
     <Suspense fallback={<NotesListSkeleton />}>
@@ -22,10 +26,9 @@ export const NotesList = () => {
   );
 };
 
-import { getWorkspaces } from "@/src/api/workspace";
-import { FolderCard } from "./folder-card";
-
 export function NotesListSuspense() {
+  const session = useSession();
+
   const { data: notes } = useSuspenseQuery({
     queryKey: keys.notes.all,
     queryFn: getAllNotes,
@@ -33,7 +36,7 @@ export function NotesListSuspense() {
 
   const { data: workspaces } = useSuspenseQuery({
     queryKey: keys.workspaces.all,
-    queryFn: getWorkspaces,
+    queryFn: () => getWorkspaces(session?.user?.id || ""),
   });
 
   const router = useRouter();
