@@ -37,6 +37,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { keys } from "@/src/constants/query-key";
 import { useSession } from "@/src/components/session-provider";
+import Link from "next/link";
 
 type NavItem = {
   title: string;
@@ -66,13 +67,13 @@ function NavRecentNotesItem({ item }: { item: NavItem }) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild tooltip={item.title}>
-        <a href={item.url}>
+        <Link href={item.url}>
           {item.icon ? <item.icon /> : <IconFolder />}
           <span>{item.title}</span>
           {item.pinned && (
             <IconPin className="ml-auto size-3.5 text-muted-foreground" />
           )}
-        </a>
+        </Link>
       </SidebarMenuButton>
 
       {hasChildren && (
@@ -90,9 +91,9 @@ function NavRecentNotesItem({ item }: { item: NavItem }) {
               {item.items!.map((subItem) => (
                 <SidebarMenuSubItem key={subItem.title}>
                   <SidebarMenuSubButton asChild>
-                    <a href={subItem.url}>
+                    <Link href={subItem.url}>
                       <span>{subItem.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
               ))}
