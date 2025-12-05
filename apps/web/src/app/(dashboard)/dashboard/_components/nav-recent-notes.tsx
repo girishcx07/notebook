@@ -158,7 +158,7 @@ export function NavRecentNotesSuspense({ userId }: { userId: string }) {
   // Normalize items (handle title vs name)
   const normalizedItems: NavItem[] = (notes || []).map((note: any) => ({
     title: note.title || "Untitled",
-    url: `/dashboard/notes/${note.id}`,
+    url: `/dashboard/library/${note.id}`,
     items: [],
     lastUpdated: note.updatedAt,
   }));
@@ -190,7 +190,7 @@ const NavRecentNotesSkeleton = () => {
   const lists = Array.from({ length: 5 });
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
+      <SidebarGroupLabel>Quick Access</SidebarGroupLabel>
       {lists.map((_, index) => (
         <SidebarMenuSkeleton key={index} />
       ))}
@@ -201,10 +201,10 @@ const NavRecentNotesSkeleton = () => {
 const NavFallbackRecentNotes = () => {
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
+      <SidebarGroupLabel>Quick Access</SidebarGroupLabel>
       <SidebarMenu>
         <div className="text-muted-foreground px-2 py-2 text-sm">
-          No recent notes
+          Nothing in Quick Access yet
         </div>
       </SidebarMenu>
     </SidebarGroup>

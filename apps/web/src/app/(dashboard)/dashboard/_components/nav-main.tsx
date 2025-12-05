@@ -12,6 +12,8 @@ import {
 } from "@notebook/ui/components/sidebar";
 import { NotebookIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import CreateModal from "./create-modal";
+import { useState } from "react";
 
 export function NavMain({
   items,
@@ -22,43 +24,50 @@ export function NavMain({
     icon?: Icon;
   }[];
 }) {
+  const [open, setOpen] = useState(false);
+
   const router = useRouter();
   return (
-    <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Create Note"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
-            >
-              <IconCirclePlusFilled />
-              <span>Create Note</span>
-            </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <NotebookIcon />
-              <span className="sr-only">Notebook</span>
-            </Button>
-          </SidebarMenuItem>
-        </SidebarMenu>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem
-              key={item.title}
-              onClick={() => router.push(item.url)}
-            >
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+    <>
+      <SidebarGroup>
+        <SidebarGroupContent className="flex flex-col gap-2">
+          <SidebarMenu>
+            <SidebarMenuItem className="flex items-center gap-2">
+              <SidebarMenuButton
+                tooltip="Create"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+                onClick={() => setOpen(true)}
+              >
+                <IconCirclePlusFilled />
+                <span>Create</span>
               </SidebarMenuButton>
+              <Button
+                size="icon"
+                className="size-8 group-data-[collapsible=icon]:opacity-0"
+                variant="outline"
+              >
+                <NotebookIcon />
+                <span className="sr-only">Notebook</span>
+              </Button>
             </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
+          </SidebarMenu>
+          <SidebarMenu>
+            {items.map((item) => (
+              <SidebarMenuItem
+                key={item.title}
+                onClick={() => router.push(item.url)}
+              >
+                <SidebarMenuButton tooltip={item.title}>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+
+      <CreateModal open={open} onOpenChange={setOpen} />
+    </>
   );
 }

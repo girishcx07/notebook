@@ -75,7 +75,7 @@ export function AddNoteCard() {
       });
 
       // Navigate to the new note
-      router.push(`/dashboard/notes/${newNote.id}`);
+      router.push(`/dashboard/library/${newNote.id}`);
     } catch (error) {
       toast.error("Failed to create note");
       console.error(error);

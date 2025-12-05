@@ -25,13 +25,8 @@ export const NAV_DATA = {
       icon: IconListDetails,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Notes",
-      url: "/dashboard/notes",
+      title: "Library",
+      url: "/dashboard/library",
       icon: IconFolder,
     },
     {
