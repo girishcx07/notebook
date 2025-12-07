@@ -1,23 +1,21 @@
 import { z } from "zod";
 
-// Workspace follower schemas
-export const followWorkspaceSchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
+// Param schemas (for URL parameters)
+export const idParamSchema = z.object({
+  id: z.string(),
 });
 
-export const unfollowWorkspaceSchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
-});
+// Workspace follower schemas
+export const followWorkspaceSchema = idParamSchema;
+export const unfollowWorkspaceSchema = idParamSchema;
 
 export const getWorkspaceFollowersSchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
   limit: z.coerce.number().min(1).max(100).default(20),
   offset: z.coerce.number().min(0).default(0),
 });
 
 // Workspace invitation schemas
 export const inviteToWorkspaceSchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
   userIds: z
     .array(z.string().uuid("Invalid user ID"))
     .min(1, "At least one user required"),
@@ -25,64 +23,46 @@ export const inviteToWorkspaceSchema = z.object({
 });
 
 export const respondToInvitationSchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
   action: z.enum(["accept", "decline"]),
 });
 
 export const removeWorkspaceMemberSchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
   userId: z.string().uuid("Invalid user ID"),
 });
 
 // Workspace management schemas
 export const archiveWorkspaceSchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
   archived: z.boolean(),
 });
 
 export const updateWorkspaceVisibilitySchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
   visibility: z.enum(["public", "private"]),
 });
 
 // Note follower schemas
-export const followNoteSchema = z.object({
-  noteId: z.string().uuid("Invalid note ID"),
-});
-
-export const unfollowNoteSchema = z.object({
-  noteId: z.string().uuid("Invalid note ID"),
-});
+export const followNoteSchema = idParamSchema;
+export const unfollowNoteSchema = idParamSchema;
 
 export const getNoteFollowersSchema = z.object({
-  noteId: z.string().uuid("Invalid note ID"),
   limit: z.coerce.number().min(1).max(100).default(20),
   offset: z.coerce.number().min(0).default(0),
 });
 
 // Note viewer schemas
-export const recordNoteViewSchema = z.object({
-  noteId: z.string().uuid("Invalid note ID"),
-});
+export const recordNoteViewSchema = idParamSchema;
 
 export const getNoteViewersSchema = z.object({
-  noteId: z.string().uuid("Invalid note ID"),
   limit: z.coerce.number().min(1).max(50).default(10),
 });
 
 // Note stats schema
-export const getNoteStatsSchema = z.object({
-  noteId: z.string().uuid("Invalid note ID"),
-});
+export const getNoteStatsSchema = idParamSchema;
 
 // Workspace stats schema
-export const getWorkspaceStatsSchema = z.object({
-  workspaceId: z.string().uuid("Invalid workspace ID"),
-});
+export const getWorkspaceStatsSchema = idParamSchema;
 
 // Archive note schema
 export const archiveNoteSchema = z.object({
-  noteId: z.string().uuid("Invalid note ID"),
   archived: z.boolean(),
 });
 

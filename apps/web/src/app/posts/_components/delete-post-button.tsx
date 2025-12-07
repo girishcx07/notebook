@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { deletePost } from "@/src/api/post";
+import { keys } from "@/src/constants/query-key";
 import { Button } from "@notebook/ui/components/button";
 import {
   Dialog,
@@ -12,31 +12,37 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@notebook/ui/components/dialog";
-import { deletePost } from "@/src/lib/api";
+import { useMutation } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface DeletePostButtonProps {
-  postId: number;
+  postId: string;
 }
 
 export function DeletePostButton({ postId }: DeletePostButtonProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState("");
+
+  const deletePostMutation = useMutation({
+    mutationKey: keys.posts.deleteById(postId),
+    mutationFn: deletePost,
+  });
 
   const handleDelete = async () => {
-    setError("");
-
-    startTransition(async () => {
-      try {
-        await deletePost(postId);
+    deletePostMutation.mutate(postId, {
+      onSuccess: () => {
         setOpen(false);
-        router.push("/posts"); // Navigate back to posts list
-        router.refresh(); // Revalidate server data
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to delete post");
-      }
+        toast.success("Post deleted successfully");
+        router.push("/posts");
+      },
+      onError: (err) => {
+        toast.error(
+          err instanceof Error ? err.message : "Failed to delete post"
+        );
+      },
     });
   };
 
@@ -56,13 +62,12 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
             undone.
           </DialogDescription>
         </DialogHeader>
-        {error && <p className="text-sm text-destructive">{error}</p>}
         <DialogFooter>
           <Button
             type="button"
             variant="outline"
             onClick={() => setOpen(false)}
-            disabled={isPending}
+            disabled={deletePostMutation.isPending}
           >
             Cancel
           </Button>
@@ -70,9 +75,9 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
             type="button"
             variant="destructive"
             onClick={handleDelete}
-            disabled={isPending}
+            disabled={deletePostMutation.isPending}
           >
-            {isPending ? "Deleting..." : "Delete Post"}
+            {deletePostMutation.isPending ? "Deleting..." : "Delete Post"}
           </Button>
         </DialogFooter>
       </DialogContent>

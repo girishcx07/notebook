@@ -1,20 +1,19 @@
 "use client";
 
 import { getAllNotes } from "@/src/api/note";
+import { keys } from "@/src/constants/query-key";
+import { noteContainerVariants } from "@/src/lib/motion";
 import { Skeleton } from "@notebook/ui/components/skeleton";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { keys } from "@/src/constants/query-key";
-import { motion } from "framer-motion";
-import { noteContainerVariants } from "@/src/lib/motion";
 import { AddNoteCard } from "./add-note-card";
 import { NoteCard } from "./note-card";
 
 import { getWorkspaces } from "@/src/api/workspace";
-import { FolderCard } from "./folder-card";
 import { useSession } from "@/src/components/session-provider";
+import { FolderCard } from "./folder-card";
 
 export const NotesList = () => {
   return (
@@ -38,8 +37,6 @@ export function NotesListSuspense() {
     queryKey: keys.workspaces.all,
     queryFn: () => getWorkspaces(session?.user?.id || ""),
   });
-
-  const router = useRouter();
 
   if (
     (!notes || notes.length === 0) &&
