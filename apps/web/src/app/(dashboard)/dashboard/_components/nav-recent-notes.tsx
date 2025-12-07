@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   IconDots,
   IconFolder,
+  IconNote,
   IconPin,
   IconShare3,
   IconTrash,
@@ -45,6 +46,7 @@ type NavItem = {
   icon?: Icon;
   pinned?: boolean;
   lastUpdated?: string;
+  type: "note" | "workspace";
   items?: {
     title: string;
     url: string;
@@ -164,7 +166,9 @@ export function NavRecentNotesSuspense({ userId }: { userId: string }) {
         : `/dashboard/workspaces/${item.id}`,
     items: [],
     lastUpdated: item.updatedAt,
-    icon: item.type === "workspace" ? IconFolder : undefined,
+    icon: item.type === "workspace" ? IconFolder : IconNote,
+    pinned: item.pinned,
+    type: item.type,
   }));
 
   if (!normalizedItems || normalizedItems.length === 0) {
