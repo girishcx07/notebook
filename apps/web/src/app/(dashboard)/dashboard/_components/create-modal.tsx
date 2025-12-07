@@ -14,204 +14,126 @@ import {
   RadioGroupItem,
 } from "@notebook/ui/components/radio-group";
 import { cn } from "@notebook/ui/lib/utils";
-import { FolderTreeIcon, LucideIcon, NotebookPenIcon } from "lucide-react";
-import React, { useId, useState } from "react";
+import { FolderTreeIcon, type LucideIcon, NotebookPenIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useId, useState } from "react";
 
-type CreateType = "note" | "workspace";
-
-export interface WorkspaceOption {
-  id: string;
-  title: string;
-}
+type CreateType = "note" | "workspace" | "";
 
 interface CreateModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-type SectionType = "first" | "second";
-
 export default function CreateModal({ open, onOpenChange }: CreateModalProps) {
-  const [type, setType] = useState<CreateType | string>("");
-  const [section, setSection] = useState<SectionType>("first");
+  const router = useRouter();
+
+  const [type, setType] = useState<CreateType>("");
+
+  const handleClose = () => {
+    onOpenChange(false);
+    setType("");
+  };
+
+  const handleContinue = () => {
+    if (type === "note") {
+      router.push("/dashboard/notes/new");
+    } else if (type === "workspace") {
+      router.push("/dashboard/workspaces/new");
+    }
+    handleClose();
+  };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        {section === "first" ? (
-          <SectionFirst
-            type={type}
-            setType={setType}
-            onSectionChange={setSection}
-          />
-        ) : (
-          <SectionSecond onSectionChange={setSection} />
-        )}
+    <Dialog open={open} onOpenChange={handleClose}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Create</DialogTitle>
+          <p className="text-sm text-muted-foreground mt-1">
+            Choose what you'd like to create
+          </p>
+        </DialogHeader>
+
+        <div className="w-full px-2 py-4">
+          <RadioGroup
+            className="gap-3"
+            value={type}
+            onValueChange={(v) => setType(v as CreateType)}
+          >
+            <RadioCard
+              title="Note"
+              description="Create a new note to capture your thoughts and ideas"
+              icon={NotebookPenIcon}
+              value="note"
+              isSelected={type === "note"}
+            />
+            <RadioCard
+              title="Workspace"
+              description="Create a workspace to organize multiple notes together"
+              icon={FolderTreeIcon}
+              value="workspace"
+              isSelected={type === "workspace"}
+            />
+          </RadioGroup>
+        </div>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button disabled={!type} onClick={handleContinue}>
+            Continue
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
 
-const SectionFirst = ({
-  type,
-  setType,
-  onSectionChange,
-}: {
-  type: CreateType | string;
-  setType: (type: CreateType) => void;
-  onSectionChange: (section: SectionType) => void;
-}) => {
-  return (
-    <>
-      <DialogHeader>
-        <DialogTitle>Create</DialogTitle>
-        <p className="text-sm text-muted-foreground mt-1">
-          Choose what to create and where it will appear.
-        </p>
-      </DialogHeader>
-
-      <div className="w-full px-2">
-        <RadioGroup className="gap-2" value={type} onValueChange={setType}>
-          <RadioCard
-            title="Note"
-            description="Create a new note to store your thoughts."
-            icon={NotebookPenIcon}
-            name="note"
-            value="note"
-            isSelected={type === "note"}
-          />
-          <RadioCard
-            title="Workspace"
-            description="Create a workspace to store multiple notes."
-            icon={FolderTreeIcon}
-            name="workspace"
-            value="workspace"
-            isSelected={type === "workspace"}
-          />
-        </RadioGroup>
-      </div>
-      <DialogFooter>
-        <Button
-          disabled={!type}
-          type="button"
-          onClick={() => onSectionChange("second")}
-        >
-          Next
-        </Button>
-      </DialogFooter>
-    </>
-  );
-};
-
-const SectionSecond = ({
-  onSectionChange,
-}: {
-  onSectionChange: (section: SectionType) => void;
-}) => {
-  return (
-    <>
-      <DialogHeader>
-        <DialogTitle>Create</DialogTitle>
-        <p className="text-sm text-muted-foreground mt-1">
-          Choose what to create and where it will appear.
-        </p>
-      </DialogHeader>
-      <div className="w-full px-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit a, ullam
-        consequatur voluptatem pariatur corporis eum nulla doloribus nobis aut
-        assumenda ex, aperiam officia fugiat! Dolor quia esse aperiam accusamus.
-      </div>
-      <DialogFooter>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => onSectionChange("first")}
-        >
-          Back
-        </Button>
-        <Button type="button" onClick={() => onSectionChange("second")}>
-          Next
-        </Button>
-      </DialogFooter>
-    </>
-  );
-};
-
-const CreateWorkspaceForm = ({
-  onSectionChange,
-}: {
-  onSectionChange: (section: SectionType) => void;
-}) => {
-  return (
-    <>
-      <DialogHeader>
-        <DialogTitle>Create</DialogTitle>
-        <p className="text-sm text-muted-foreground mt-1">
-          Choose what to create and where it will appear.
-        </p>
-      </DialogHeader>
-      <div className="w-full px-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit a, ullam
-        consequatur voluptatem pariatur corporis eum nulla doloribus nobis aut
-        assumenda ex, aperiam officia fugiat! Dolor quia esse aperiam accusamus.
-      </div>
-      <DialogFooter>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => onSectionChange("first")}
-        >
-          Back
-        </Button>
-        <Button type="button" onClick={() => onSectionChange("second")}>
-          Next
-        </Button>
-      </DialogFooter>
-    </>
-  );
-};
+// Reusable Radio Card Component
+interface RadioCardProps {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  value: string;
+  isSelected: boolean;
+}
 
 const RadioCard = ({
   title,
   description,
   icon: Icon,
-  name,
   value,
   isSelected,
-}: {
-  title: string;
-  description: string;
-  icon: LucideIcon;
-  name: string;
-  value: string;
-  isSelected: boolean;
-}) => {
+}: RadioCardProps) => {
   const id = useId();
-  const nameId = `${id}-${name}`;
-  const descriptionId = `${id}-${name}-description`;
+  const nameId = `${id}-${value}`;
+  const descriptionId = `${id}-${value}-description`;
 
   return (
-    <Label htmlFor={nameId}>
+    <Label htmlFor={nameId} className="cursor-pointer">
       <div
         className={cn(
-          "relative flex w-full items-start gap-2 rounded-md border border-border p-4 shadow-xs outline-none",
-          isSelected && "bg-primary/10 text-primary border-primary"
+          "relative flex w-full items-start gap-2 rounded-lg border border-border p-4 shadow-sm transition-all hover:bg-accent/50",
+          isSelected && "bg-primary/10 border-primary ring-2 ring-primary/20"
         )}
       >
         <div className="flex grow items-start gap-3">
-          <Icon />
-          <div className="grid grow gap-2">
-            {/* <Label htmlFor={nameId}> */}
-            {title}
-            {/* </Label> */}
-            <p className="text-muted-foreground text-xs" id={descriptionId}>
+          <Icon
+            className={cn("h-5 w-5 mt-0.5", isSelected && "text-primary")}
+          />
+          <div className="grid grow gap-1">
+            <div className={cn("font-medium", isSelected && "text-primary")}>
+              {title}
+            </div>
+            <p className="text-xs text-muted-foreground" id={descriptionId}>
               {description}
             </p>
           </div>
         </div>
         <RadioGroupItem
           aria-describedby={descriptionId}
-          className="order-1 after:absolute after:inset-0"
+          className="after:absolute after:inset-0"
           id={nameId}
           value={value}
         />

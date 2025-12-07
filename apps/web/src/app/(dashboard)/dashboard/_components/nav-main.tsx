@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@notebook/ui/components/sidebar";
-import { NotebookIcon } from "lucide-react";
+import { type LucideIcon, NotebookIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import CreateModal from "./create-modal";
 import { useState } from "react";
@@ -21,7 +21,7 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: Icon;
+    icon?: Icon | LucideIcon;
   }[];
 }) {
   const [open, setOpen] = useState(false);

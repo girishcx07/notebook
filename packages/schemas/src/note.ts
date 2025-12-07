@@ -3,7 +3,7 @@ import { z } from "zod";
 // Schema for creating a new note
 export const createNoteSchema = z.object({
   title: z.string().min(1, "Title is required").max(255, "Title too long"),
-  content: z.string().min(1, "Content is required"),
+  content: z.string().default(""), // Content can be empty initially
   userId: z.string().min(1, "User ID is required"),
   workspaceId: z.string().optional(),
   status: z.enum(["private", "public", "request_access"]).default("private"),
@@ -55,7 +55,9 @@ export const getRecentNotesSchema = z.object({
 
 export const createNoteFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
+  content: z.string().optional(), // Content can be empty
   status: z.enum(["private", "public", "request_access"]),
+  workspaceId: z.string().optional(), // For attaching to workspace
 });
 
 // TypeScript types inferred from Zod schemas

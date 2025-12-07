@@ -1,16 +1,14 @@
 import {
+  IconBrandSafari,
   IconCamera,
-  IconChartBar,
   IconDashboard,
   IconFileAi,
   IconFileDescription,
   IconFolder,
-  IconHelp,
   IconListDetails,
-  IconSearch,
-  IconSettings,
   IconUsers,
 } from "@tabler/icons-react";
+import { NotepadTextIcon } from "lucide-react";
 
 export const NAV_DATA = {
   navMain: [
@@ -25,13 +23,23 @@ export const NAV_DATA = {
       icon: IconListDetails,
     },
     {
-      title: "Library",
-      url: "/dashboard/library",
+      title: "Explore",
+      url: "/dashboard/explore",
+      icon: IconBrandSafari,
+    },
+    {
+      title: "Notes",
+      url: "/dashboard/notes",
+      icon: NotepadTextIcon,
+    },
+    {
+      title: "Workspaces",
+      url: "/dashboard/workspaces",
       icon: IconFolder,
     },
     {
       title: "Team",
-      url: "#",
+      url: "/dashboard/team",
       icon: IconUsers,
     },
   ],
@@ -81,23 +89,6 @@ export const NAV_DATA = {
           url: "#",
         },
       ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
     },
   ],
 };

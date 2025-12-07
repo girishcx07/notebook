@@ -2,11 +2,13 @@
 
 import {
   IconDotsVertical,
+  IconHelp,
   IconLogout,
-  IconNotification,
+  IconSettings,
   IconUserCircle,
 } from "@tabler/icons-react";
 
+import { authClient } from "@/src/lib/auth-client";
 import {
   Avatar,
   AvatarFallback,
@@ -27,10 +29,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@notebook/ui/components/sidebar";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/src/lib/auth-client";
-import { useState } from "react";
 import { getUserInitials } from "@notebook/utils";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function NavUser() {
   const { data: session, isPending, error } = authClient.useSession();
@@ -111,13 +112,18 @@ export function NavUser() {
                 <IconUserCircle />
                 Account
               </DropdownMenuItem>
+              <DropdownMenuItem>
+                <IconSettings />
+                Settings
+              </DropdownMenuItem>
+              {/* TODO: Add billing */}
               {/* <DropdownMenuItem>
                 <IconCreditCard />
                 Billing
               </DropdownMenuItem> */}
               <DropdownMenuItem>
-                <IconNotification />
-                Notifications
+                <IconHelp />
+                Get Help
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

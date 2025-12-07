@@ -10,7 +10,7 @@ export function NoteCard({ note }: { note: any }) {
   return (
     <motion.div
       variants={noteCardVariants}
-      onClick={() => router.push(`/dashboard/library/${note.id}`)}
+      onClick={() => router.push(`/dashboard/notes/${note.id}`)}
       className="
       bg-card shadow-sm min-h-[220px]
         border border-dashed rounded-xl p-6 cursor-pointer group transition-colors

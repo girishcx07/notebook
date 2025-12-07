@@ -158,7 +158,7 @@ export function NavRecentNotesSuspense({ userId }: { userId: string }) {
   // Normalize items (handle title vs name)
   const normalizedItems: NavItem[] = (notes || []).map((note: any) => ({
     title: note.title || "Untitled",
-    url: `/dashboard/library/${note.id}`,
+    url: `/dashboard/notes/${note.id}`,
     items: [],
     lastUpdated: note.updatedAt,
   }));

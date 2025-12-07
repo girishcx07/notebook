@@ -1,6 +1,6 @@
 import { getRecentNotes } from "@/src/api/note";
 import { ChartAreaInteractive } from "@/src/app/(dashboard)/dashboard/_components/chart-area-interactive";
-import { DashboardContent } from "@/src/app/(dashboard)/dashboard/_components/dashboard-content";
+import { DashboardContent } from "@/src/components/dashboard-content";
 import { SectionCards } from "@/src/app/(dashboard)/dashboard/_components/section-cards";
 import { keys } from "@/src/constants/query-key";
 import { SIDEBAR_DATA } from "@/src/constants/sidebar";
@@ -28,7 +28,7 @@ const Page = async () => {
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <DashboardContent>
+      <DashboardContent title="Dashboard">
         <SectionCards />
         <ChartAreaInteractive />
         <DataTable data={SIDEBAR_DATA} />
