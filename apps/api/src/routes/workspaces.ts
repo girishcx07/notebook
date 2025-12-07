@@ -18,6 +18,8 @@ const workspacesRoutes = new Hono()
         id: workspace.id,
         name: workspace.name,
         description: workspace.description,
+        visibility: workspace.visibility,
+        followerCount: workspace.followerCount,
         createdAt: workspace.createdAt,
       })
       .from(workspace)

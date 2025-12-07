@@ -10,20 +10,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@notebook/ui/components/sidebar";
-import { type LucideIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CreateModal from "./create-modal";
+import { type LucideIcon } from "lucide-react";
+import type { Route } from "next";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: Icon | LucideIcon;
-  }[];
-}) {
+interface NavMenuItem<T extends string = string> {
+  title: string;
+  url: T;
+  icon?: Icon | LucideIcon;
+}
+
+export function NavMain({ items }: { items: NavMenuItem<Route>[] }) {
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -55,7 +54,9 @@ export function NavMain({
             {items.map((item) => (
               <SidebarMenuItem
                 key={item.title}
-                onClick={() => router.push(item.url)}
+                onClick={() => {
+                  router.push(item.url);
+                }}
               >
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
