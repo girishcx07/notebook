@@ -90,6 +90,7 @@ export const noteTagRelations = relations(noteTag, ({ one }) => ({
 
 export const tagRelations = relations(tag, ({ many }) => ({
   notes: many(noteTag),
+  workspace: many(workspace),
 }));
 
 export type Note = typeof note.$inferSelect;

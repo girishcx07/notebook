@@ -1,6 +1,6 @@
 "use client";
 
-import { IconCirclePlusFilled, type Icon } from "@tabler/icons-react";
+import { IconCirclePlusFilled, IconBell, type Icon } from "@tabler/icons-react";
 
 import { Button } from "@notebook/ui/components/button";
 import {
@@ -10,10 +10,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@notebook/ui/components/sidebar";
-import { type LucideIcon, NotebookIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import CreateModal from "./create-modal";
 import { useState } from "react";
+import CreateModal from "./create-modal";
 
 export function NavMain({
   items,
@@ -46,7 +46,7 @@ export function NavMain({
                 className="size-8 group-data-[collapsible=icon]:opacity-0"
                 variant="outline"
               >
-                <NotebookIcon />
+                <IconBell />
                 <span className="sr-only">Notebook</span>
               </Button>
             </SidebarMenuItem>

@@ -150,36 +150,33 @@ export const NavRecentNotes = () => {
 };
 
 export function NavRecentNotesSuspense({ userId }: { userId: string }) {
-  const { data: notes } = useSuspenseQuery({
+  const { data: items } = useSuspenseQuery({
     queryKey: keys.notes.recent(userId),
     queryFn: () => getRecentNotes(userId),
   });
 
-  // Normalize items (handle title vs name)
-  const normalizedItems: NavItem[] = (notes || []).map((note: any) => ({
-    title: note.title || "Untitled",
-    url: `/dashboard/notes/${note.id}`,
+  // Map items with type-aware URLs and icons
+  const normalizedItems: NavItem[] = (items || []).map((item) => ({
+    title: item.type === "note" ? item.title || "Untitled" : item.name,
+    url:
+      item.type === "note"
+        ? `/dashboard/notes/${item.id}`
+        : `/dashboard/workspaces/${item.id}`,
     items: [],
-    lastUpdated: note.updatedAt,
+    lastUpdated: item.updatedAt,
+    icon: item.type === "workspace" ? IconFolder : undefined,
   }));
 
-  // Sort: Recently updated first (mock logic for now as we don't have pinned)
-  const sortedItems = [...normalizedItems].sort((a, b) => {
-    return (
-      new Date(b.lastUpdated!).getTime() - new Date(a.lastUpdated!).getTime()
-    );
-  });
-
-  if (!sortedItems || sortedItems.length === 0) {
+  if (!normalizedItems || normalizedItems.length === 0) {
     return <NavFallbackRecentNotes />;
   }
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Recent Notes</SidebarGroupLabel>
+      <SidebarGroupLabel>Quick Access</SidebarGroupLabel>
       <SidebarMenu>
-        {sortedItems.map((item) => (
-          <NavRecentNotesItem key={item.title + item.url} item={item} />
+        {normalizedItems.map((item, idx) => (
+          <NavRecentNotesItem key={idx} item={item} />
         ))}
       </SidebarMenu>
     </SidebarGroup>

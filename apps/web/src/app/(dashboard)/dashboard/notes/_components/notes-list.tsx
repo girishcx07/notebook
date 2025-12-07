@@ -60,7 +60,7 @@ export function NotesListSuspense() {
       className="grid gap-5 md:grid-cols-4 lg:grid-cols-5"
     >
       <AddNoteCard />
-      {workspaces?.map((workspace: any) => (
+      {workspaces?.map((workspace) => (
         <FolderCard key={workspace.id} workspace={workspace} />
       ))}
       {notes.map((note) => (

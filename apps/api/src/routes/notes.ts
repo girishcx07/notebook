@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { db, note } from "@notebook/db";
+import { db, note, workspace } from "@notebook/db";
 import {
   createNoteSchema,
   getNoteByIdSchema,
@@ -50,14 +50,62 @@ const notesRoutes = new Hono()
 
   .get("/recent", zValidator("query", getRecentNotesSchema), async (c) => {
     const { userId, limit } = c.req.valid("query");
+
+    // Fetch recent notes
     const recentNotes = await db
-      .select()
+      .select({
+        id: note.id,
+        title: note.title,
+        content: note.content,
+        updatedAt: note.updatedAt,
+        pinned: note.pinned,
+        workspaceId: note.workspaceId,
+      })
       .from(note)
       .where(eq(note.createdBy, userId))
       .orderBy(desc(note.pinned), desc(note.updatedAt))
       .limit(limit);
 
-    return c.json(recentNotes);
+    // Fetch recent workspaces
+    const recentWorkspaces = await db
+      .select({
+        id: workspace.id,
+        name: workspace.name,
+        description: workspace.description,
+        createdAt: workspace.createdAt,
+      })
+      .from(workspace)
+      .where(eq(workspace.createdBy, userId))
+      .orderBy(desc(workspace.createdAt))
+      .limit(limit);
+
+    // Combine and add type field
+    const notesWithType = recentNotes.map((n) => ({
+      ...n,
+      type: "note" as const,
+      name: n.title, // Alias for consistent interface
+    }));
+
+    const workspacesWithType = recentWorkspaces.map((w) => ({
+      ...w,
+      type: "workspace" as const,
+      title: w.name, // Alias for consistent interface
+      updatedAt: w.createdAt, // Use createdAt as updatedAt for workspaces
+      pinned: false, // Workspaces don't have pinned status
+    }));
+
+    // Combine both arrays and sort by updatedAt
+    const combined = [...notesWithType, ...workspacesWithType]
+      .sort((a, b) => {
+        // Sort by pinned first (notes only), then by date
+        if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
+        return (
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+      })
+      .slice(0, limit); // Limit the combined result
+
+    return c.json(combined);
   })
 
   .get("/:id", zValidator("param", getNoteByIdSchema), async (c) => {
