@@ -34,7 +34,7 @@ export function FolderCard({ workspace }: { workspace: FolderCardProps }) {
         </h3>
       </div>
 
-      <p className="text-sm text-muted-foreground line-clamp-3 group-hover:text-primary/80 flex-grow">
+      <p className="text-sm text-muted-foreground line-clamp-3 group-hover:text-primary/80 grow">
         {workspace.description || "No description"}
       </p>
 
