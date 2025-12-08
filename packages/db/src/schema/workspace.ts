@@ -1,5 +1,5 @@
 import { user } from "./user";
-import { note } from "./note";
+import { note, tag } from "./note";
 
 import { relations } from "drizzle-orm";
 import {
@@ -36,6 +36,7 @@ export const workspaceRelations = relations(workspace, ({ many, one }) => ({
     fields: [workspace.createdBy],
     references: [user.id],
   }),
+  tags: many(tag),
 }));
 
 export const workspaceMember = pgTable(

@@ -29,6 +29,8 @@ const workspacesRoutes = new Hono()
         // OR eq(workspaceMember.userId, userId) -- logic can be expanded later
       );
 
+    console.log(workspaces);
+
     return c.json(workspaces);
   })
   .post("/", zValidator("json", createWorkspaceSchema), async (c) => {

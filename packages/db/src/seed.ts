@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import { db } from ".";
-import { note, user } from "./schema";
+import { note, user, workspace, workspaceMember } from "./schema";
 
 import path from "path";
 import fs from "fs";
@@ -42,8 +42,39 @@ async function main() {
   }));
 
   await db.insert(note).values(notesToInsert);
-
   console.log("✅ Successfully added 10 notes!");
+
+  console.log("🏢 Seeding workspaces...");
+
+  const workspacesToInsert = Array.from({ length: 10 }).map((_, i) => {
+    const workspaceId = crypto.randomUUID();
+    return {
+      workspace: {
+        id: workspaceId,
+        name: `Workspace ${i + 1}`,
+        description: `Description for Workspace ${i + 1}`,
+        visibility: "private" as const,
+        createdBy: firstUser.id,
+      },
+      member: {
+        id: crypto.randomUUID(),
+        userId: firstUser.id,
+        workspaceId: workspaceId,
+        role: "admin",
+        status: "active" as const,
+      },
+    };
+  });
+
+  // Insert workspaces
+  await db.insert(workspace).values(workspacesToInsert.map((w) => w.workspace));
+
+  // Insert members
+  await db
+    .insert(workspaceMember)
+    .values(workspacesToInsert.map((w) => w.member));
+
+  console.log("✅ Successfully added 10 workspaces!");
   process.exit(0);
 }
 

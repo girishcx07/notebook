@@ -139,9 +139,12 @@ export const noteTagRelations = relations(noteTag, ({ one }) => ({
   }),
 }));
 
-export const tagRelations = relations(tag, ({ many }) => ({
+export const tagRelations = relations(tag, ({ many, one }) => ({
   notes: many(noteTag),
-  workspace: many(workspace),
+  workspace: one(workspace, {
+    fields: [tag.workspaceId],
+    references: [workspace.id],
+  }),
 }));
 
 export const noteFollowerRelations = relations(noteFollower, ({ one }) => ({
