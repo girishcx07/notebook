@@ -21,7 +21,7 @@ type NavMain = {
 type NavClouds = {
   title: string;
   icon: Icon | LucideIcon;
-  isActive: boolean;
+  isActive?: boolean;
   url: Route;
   items: {
     title: string;
