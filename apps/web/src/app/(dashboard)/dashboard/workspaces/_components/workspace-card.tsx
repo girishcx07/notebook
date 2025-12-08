@@ -17,6 +17,12 @@ interface WorkspaceCardProps {
   };
 }
 
+/**
+ * Renders an interactive workspace card that displays workspace metadata and navigates to the workspace anchor when clicked.
+ *
+ * @param workspace - Workspace data including `id`, `name`, `description`, `visibility`, `followerCount`, and `createdAt`.
+ * @returns A React element representing the workspace card with name, description, creation date, and conditional visibility/follower badges.
+ */
 export function WorkspaceCard({ workspace }: WorkspaceCardProps) {
   const router = useRouter();
 

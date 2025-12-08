@@ -5,6 +5,14 @@ import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+/**
+ * Renders a clickable card that navigates to the new workspace creation page.
+ *
+ * The card displays a plus icon and the label "Add Workspace" and triggers
+ * navigation to `/dashboard/workspaces/new` when clicked.
+ *
+ * @returns The JSX element for the "Add Workspace" card that navigates to the new workspace route when activated.
+ */
 export function AddWorkspaceCard() {
   const router = useRouter();
 

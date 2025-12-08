@@ -21,6 +21,13 @@ import { useMutation } from "@tanstack/react-query";
 import { keys } from "@/src/constants/query-key";
 import { toast } from "sonner";
 
+/**
+ * Renders a dialog-based form for creating a new post.
+ *
+ * The form validates that title and content are not empty, displays toast errors for validation or creation failures, and clears the fields and closes the dialog on successful creation.
+ *
+ * @returns The React element that provides the create-post dialog and its trigger.
+ */
 export function CreatePostForm() {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");

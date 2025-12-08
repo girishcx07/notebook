@@ -14,6 +14,14 @@ interface FolderCardProps {
   createdAt: string;
 }
 
+/**
+ * Render a clickable card that displays a workspace's metadata.
+ *
+ * Clicking the card navigates to the corresponding workspace anchor in the dashboard.
+ *
+ * @param workspace - Workspace metadata used to populate the card (id, name, description, visibility, followerCount, createdAt)
+ * @returns A React element representing the folder card
+ */
 export function FolderCard({ workspace }: { workspace: FolderCardProps }) {
   const router = useRouter();
 

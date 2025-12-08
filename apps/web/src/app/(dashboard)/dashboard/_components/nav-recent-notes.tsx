@@ -54,6 +54,12 @@ type NavItem<T extends string = string> = {
   }[];
 };
 
+/**
+ * Render a sidebar menu entry for a recent note or workspace, including an optional collapsible sub-list and an actions dropdown.
+ *
+ * @param item - The navigation item to render (title, url, icon, pinned flag, type, and optional child items).
+ * @returns A sidebar menu item element that displays the item's icon and title, an optional expandable list of sub-items, and a dropdown with actions (view, share, pin, move to trash).
+ */
 function NavRecentNotesItem({ item }: { item: NavItem<Route> }) {
   const { isMobile } = useSidebar();
   const [isOpen, setIsOpen] = useState(false);
@@ -152,6 +158,12 @@ export const NavRecentNotes = () => {
   );
 };
 
+/**
+ * Renders the user's recent notes and workspaces as a "Quick Access" sidebar group.
+ *
+ * @param userId - The ID of the user whose recent items should be fetched and displayed.
+ * @returns A SidebarGroup containing recent note and workspace items, or a fallback component when no recent items exist.
+ */
 export function NavRecentNotesSuspense({ userId }: { userId: string }) {
   const { data: items } = useSuspenseQuery({
     queryKey: keys.notes.recent(userId),

@@ -25,6 +25,15 @@ export const NotesList = () => {
   );
 };
 
+/**
+ * Render a placeholder when there are no notes or workspaces, otherwise render a motion-enabled grid of cards.
+ *
+ * Fetches the current session, notes, and workspaces (suspense-enabled) and displays:
+ * - a centered, dashed placeholder if both notes and workspaces are empty or missing, or
+ * - a grid containing an AddNote card followed by workspace folder cards and note cards.
+ *
+ * @returns A React element: a centered placeholder when no notes or workspaces exist, or a motion-enabled grid with an add card, folder cards for each workspace, and note cards for each note.
+ */
 export function NotesListSuspense() {
   const session = useSession();
 

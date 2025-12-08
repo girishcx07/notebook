@@ -22,6 +22,16 @@ interface DeletePostButtonProps {
   postId: string;
 }
 
+/**
+ * Render a "Delete" button that opens a confirmation dialog and deletes the specified post when confirmed.
+ *
+ * The component shows a destructive-styled button that opens a modal with cancel and confirm actions.
+ * Confirming triggers a delete mutation for the given `postId`; on success the dialog closes, a success
+ * toast is shown, and the router navigates to `/posts`. On error an error toast is shown.
+ *
+ * @param postId - The ID of the post to delete
+ * @returns The JSX element containing the delete button and confirmation dialog
+ */
 export function DeletePostButton({ postId }: DeletePostButtonProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);

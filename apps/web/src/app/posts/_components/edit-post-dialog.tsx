@@ -28,6 +28,16 @@ interface EditPostDialogProps {
   };
 }
 
+/**
+ * Render a button that opens a dialog allowing the user to edit a post's title and content.
+ *
+ * The dialog initializes fields from `post`, validates that at least one field is non-empty,
+ * and submits changed fields via a mutation. The dialog closes on successful update and
+ * shows toast errors for validation or mutation failures.
+ *
+ * @param post - The post to edit; must include `id`, `title`, and `content`.
+ * @returns The dialog UI (JSX element) for editing the specified post.
+ */
 export function EditPostDialog({ post }: EditPostDialogProps) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(post.title);

@@ -22,6 +22,12 @@ interface NavMenuItem<T extends string = string> {
   icon?: Icon | LucideIcon;
 }
 
+/**
+ * Render the main sidebar navigation with a create control and a list of navigable items.
+ *
+ * @param items - Array of navigation items; each item's title is shown and clicking it navigates to its `url`. Items may include an optional `icon` rendered next to the title.
+ * @returns The sidebar navigation element containing the create button, notification button, menu items, and the CreateModal whose visibility is controlled by the create button.
+ */
 export function NavMain({ items }: { items: NavMenuItem<Route>[] }) {
   const [open, setOpen] = useState(false);
 
