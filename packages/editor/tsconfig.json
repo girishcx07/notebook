@@ -1,0 +1,14 @@
+{
+  "extends": "@notebook/typescript-config/react-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@notebook/ui": ["../ui/src/*"]
+    },
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true
+  },
+  "include": ["src"]
+}
