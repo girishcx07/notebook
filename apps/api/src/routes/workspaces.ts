@@ -18,6 +18,8 @@ const workspacesRoutes = new Hono()
         id: workspace.id,
         name: workspace.name,
         description: workspace.description,
+        visibility: workspace.visibility,
+        followerCount: workspace.followerCount,
         createdAt: workspace.createdAt,
       })
       .from(workspace)
@@ -26,6 +28,8 @@ const workspacesRoutes = new Hono()
         eq(workspace.createdBy, userId)
         // OR eq(workspaceMember.userId, userId) -- logic can be expanded later
       );
+
+    console.log(workspaces);
 
     return c.json(workspaces);
   })

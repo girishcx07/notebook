@@ -15,37 +15,48 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@notebook/ui/components/dialog";
-import { createPost } from "@/src/lib/api";
 import { Plus } from "lucide-react";
+import { createPost } from "@/src/api/post";
+import { useMutation } from "@tanstack/react-query";
+import { keys } from "@/src/constants/query-key";
+import { toast } from "sonner";
 
 export function CreatePostForm() {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [error, setError] = useState("");
+
+  const createPostMutation = useMutation({
+    mutationKey: keys.posts.create,
+    mutationFn: createPost,
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
 
     if (!title.trim() || !content.trim()) {
-      setError("Title and content are required");
+      toast.error("Title and content are required");
       return;
     }
 
-    startTransition(async () => {
-      try {
-        await createPost(title, content);
-        setOpen(false);
-        setTitle("");
-        setContent("");
-        router.refresh(); // Revalidate server data
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to create post");
+    createPostMutation.mutate(
+      {
+        title,
+        content,
+      },
+      {
+        onSuccess: () => {
+          setTitle("");
+          setContent("");
+          setOpen(false);
+        },
+        onError: (err) => {
+          toast.error(
+            err instanceof Error ? err.message : "Failed to create post"
+          );
+        },
       }
-    });
+    );
   };
 
   return (
@@ -72,7 +83,7 @@ export function CreatePostForm() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter post title..."
-                disabled={isPending}
+                disabled={createPostMutation.isPending}
               />
             </div>
             <div className="grid gap-2">
@@ -83,22 +94,21 @@ export function CreatePostForm() {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write your post content..."
                 rows={6}
-                disabled={isPending}
+                disabled={createPostMutation.isPending}
               />
             </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <DialogFooter>
             <Button
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              disabled={isPending}
+              disabled={createPostMutation.isPending}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? "Creating..." : "Create Post"}
+            <Button type="submit" disabled={createPostMutation.isPending}>
+              {createPostMutation.isPending ? "Creating..." : "Create Post"}
             </Button>
           </DialogFooter>
         </form>

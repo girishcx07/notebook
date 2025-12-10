@@ -1,11 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { updatePost } from "@/src/api/post";
+import { keys } from "@/src/constants/query-key";
 import { Button } from "@notebook/ui/components/button";
-import { Input } from "@notebook/ui/components/input";
-import { Textarea } from "@notebook/ui/components/textarea";
-import { Label } from "@notebook/ui/components/label";
 import {
   Dialog,
   DialogContent,
@@ -15,31 +12,37 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@notebook/ui/components/dialog";
-import { updatePost } from "@/src/lib/api";
+import { Input } from "@notebook/ui/components/input";
+import { Label } from "@notebook/ui/components/label";
+import { Textarea } from "@notebook/ui/components/textarea";
+import { useMutation } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface EditPostDialogProps {
   post: {
-    id: number;
+    id: string;
     title: string;
     content: string;
   };
 }
 
 export function EditPostDialog({ post }: EditPostDialogProps) {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
-  const [error, setError] = useState("");
+
+  const editMutation = useMutation({
+    mutationFn: updatePost,
+    mutationKey: keys.posts.updateById(post.id),
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
 
     if (!title.trim() && !content.trim()) {
-      setError("At least one field must be provided");
+      toast.error("At least one field must be provided");
       return;
     }
 
@@ -52,15 +55,23 @@ export function EditPostDialog({ post }: EditPostDialogProps) {
       return;
     }
 
-    startTransition(async () => {
-      try {
-        await updatePost(post.id, updates);
-        setOpen(false);
-        router.refresh(); // Revalidate server data
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to update post");
+    editMutation.mutate(
+      {
+        id: post.id,
+        content: content,
+        title: title,
+      },
+      {
+        onSuccess: () => {
+          setOpen(false);
+        },
+        onError: (err) => {
+          toast.error(
+            err instanceof Error ? err.message : "Failed to update post"
+          );
+        },
       }
-    });
+    );
   };
 
   return (
@@ -87,7 +98,7 @@ export function EditPostDialog({ post }: EditPostDialogProps) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter post title..."
-                disabled={isPending}
+                disabled={editMutation.isPending}
               />
             </div>
             <div className="grid gap-2">
@@ -98,22 +109,21 @@ export function EditPostDialog({ post }: EditPostDialogProps) {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write your post content..."
                 rows={6}
-                disabled={isPending}
+                disabled={editMutation.isPending}
               />
             </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <DialogFooter>
             <Button
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              disabled={isPending}
+              disabled={editMutation.isPending}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? "Saving..." : "Save Changes"}
+            <Button type="submit" disabled={editMutation.isPending}>
+              {editMutation.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </DialogFooter>
         </form>

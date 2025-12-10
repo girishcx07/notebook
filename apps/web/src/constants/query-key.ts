@@ -8,6 +8,13 @@ export const keys = {
     all: ["workspaces"] as const,
   },
 
+  posts: {
+    all: ["posts"] as const,
+    create: ["posts", "create"] as const,
+    deleteById: (id: string) => ["posts", "deleteById", id] as const,
+    updateById: (id: string) => ["posts", "updateById", id] as const,
+  },
+
   students: {
     all: ["students"] as const,
     activity: (id: string) => ["students", "activity", id] as const,

@@ -18,19 +18,20 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "hono": "^4.10.6",
     "@hono/zod-validator": "^0.4.1",
     "@notebook/db": "workspace:*",
     "@notebook/schemas": "workspace:*",
     "drizzle-orm": "^0.36.4",
+    "hono": "^4.10.6",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240529.0",
     "@notebook/typescript-config": "workspace:*",
-    "wrangler": "^4.4.0",
-    "typescript": "^5.7.3",
+    "dotenv": "^16.4.7",
     "tsup": "^8.3.5",
-    "vitest": "^2.1.8"
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8",
+    "wrangler": "^4.4.0"
   }
 }

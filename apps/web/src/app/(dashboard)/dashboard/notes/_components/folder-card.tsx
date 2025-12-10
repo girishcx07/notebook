@@ -5,13 +5,22 @@ import { noteCardVariants } from "@/src/lib/motion";
 import { useRouter } from "next/navigation";
 import { Folder } from "lucide-react";
 
-export function FolderCard({ workspace }: { workspace: any }) {
+interface FolderCardProps {
+  id: string;
+  name: string;
+  description: string | null;
+  visibility: "private" | "public";
+  followerCount: number;
+  createdAt: string;
+}
+
+export function FolderCard({ workspace }: { workspace: FolderCardProps }) {
   const router = useRouter();
 
   return (
     <motion.div
       variants={noteCardVariants}
-      onClick={() => router.push(`/dashboard/workspaces/${workspace.id}`)}
+      onClick={() => router.push(`/dashboard/workspaces#${workspace.id}`)}
       className="
       bg-card shadow-sm min-h-[220px]
         border border-dashed rounded-xl p-6 cursor-pointer group transition-colors
@@ -25,7 +34,7 @@ export function FolderCard({ workspace }: { workspace: any }) {
         </h3>
       </div>
 
-      <p className="text-sm text-muted-foreground line-clamp-3 group-hover:text-primary/80 flex-grow">
+      <p className="text-sm text-muted-foreground line-clamp-3 group-hover:text-primary/80 grow">
         {workspace.description || "No description"}
       </p>
 

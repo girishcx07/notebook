@@ -1,6 +1,7 @@
 import {
   boolean,
   index,
+  integer,
   pgTable,
   text,
   timestamp,
@@ -23,6 +24,11 @@ export const note = pgTable(
     status: text("status", { enum: ["private", "public", "request_access"] })
       .default("private")
       .notNull(),
+
+    followerCount: integer("follower_count").default(0).notNull(),
+    viewerCount: integer("viewer_count").default(0).notNull(),
+    archived: boolean("archived").default(false).notNull(),
+    archivedAt: timestamp("archived_at"),
 
     workspaceId: text("workspace_id")
       // .notNull() NOTE: workspaceId is nullable for now. User can create separate notes without workspace
@@ -65,6 +71,49 @@ export const noteTag = pgTable(
   (table) => [uniqueIndex("note_tag_unique").on(table.noteId, table.tagId)]
 );
 
+export const noteFollower = pgTable(
+  "note_follower",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    noteId: text("note_id")
+      .notNull()
+      .references(() => note.id, { onDelete: "cascade" }),
+    followedAt: timestamp("followed_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("note_follower_user_idx").on(table.userId),
+    index("note_follower_note_idx").on(table.noteId),
+    uniqueIndex("note_follower_unique").on(table.userId, table.noteId),
+  ]
+);
+
+export const noteViewer = pgTable(
+  "note_viewer",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    noteId: text("note_id")
+      .notNull()
+      .references(() => note.id, { onDelete: "cascade" }),
+    lastViewedAt: timestamp("last_viewed_at").defaultNow().notNull(),
+    viewCount: integer("view_count").default(1).notNull(),
+  },
+  (table) => [
+    index("note_viewer_user_idx").on(table.userId),
+    index("note_viewer_note_idx").on(table.noteId),
+    uniqueIndex("note_viewer_unique").on(table.userId, table.noteId),
+  ]
+);
+
 export const noteRelations = relations(note, ({ one, many }) => ({
   workspace: one(workspace, {
     fields: [note.workspaceId],
@@ -75,6 +124,8 @@ export const noteRelations = relations(note, ({ one, many }) => ({
     references: [user.id],
   }),
   tags: many(noteTag),
+  followers: many(noteFollower),
+  viewers: many(noteViewer),
 }));
 
 export const noteTagRelations = relations(noteTag, ({ one }) => ({
@@ -88,9 +139,34 @@ export const noteTagRelations = relations(noteTag, ({ one }) => ({
   }),
 }));
 
-export const tagRelations = relations(tag, ({ many }) => ({
+export const tagRelations = relations(tag, ({ many, one }) => ({
   notes: many(noteTag),
-  workspace: many(workspace),
+  workspace: one(workspace, {
+    fields: [tag.workspaceId],
+    references: [workspace.id],
+  }),
+}));
+
+export const noteFollowerRelations = relations(noteFollower, ({ one }) => ({
+  user: one(user, {
+    fields: [noteFollower.userId],
+    references: [user.id],
+  }),
+  note: one(note, {
+    fields: [noteFollower.noteId],
+    references: [note.id],
+  }),
+}));
+
+export const noteViewerRelations = relations(noteViewer, ({ one }) => ({
+  user: one(user, {
+    fields: [noteViewer.userId],
+    references: [user.id],
+  }),
+  note: one(note, {
+    fields: [noteViewer.noteId],
+    references: [note.id],
+  }),
 }));
 
 export type Note = typeof note.$inferSelect;

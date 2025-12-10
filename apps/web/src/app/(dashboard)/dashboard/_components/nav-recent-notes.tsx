@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   IconDots,
   IconFolder,
+  IconNote,
   IconPin,
   IconShare3,
   IconTrash,
@@ -38,20 +39,22 @@ import { ErrorBoundary } from "react-error-boundary";
 import { keys } from "@/src/constants/query-key";
 import { useSession } from "@/src/components/session-provider";
 import Link from "next/link";
+import type { Route } from "next";
 
-type NavItem = {
+type NavItem<T extends string = string> = {
   title: string;
-  url: string;
+  url: T;
   icon?: Icon;
   pinned?: boolean;
   lastUpdated?: string;
+  type: "note" | "workspace";
   items?: {
     title: string;
-    url: string;
+    url: T;
   }[];
 };
 
-function NavRecentNotesItem({ item }: { item: NavItem }) {
+function NavRecentNotesItem({ item }: { item: NavItem<Route> }) {
   const { isMobile } = useSidebar();
   const [isOpen, setIsOpen] = useState(false);
   const hasChildren = item.items && item.items.length > 0;
@@ -91,7 +94,7 @@ function NavRecentNotesItem({ item }: { item: NavItem }) {
               {item.items!.map((subItem) => (
                 <SidebarMenuSubItem key={subItem.title}>
                   <SidebarMenuSubButton asChild>
-                    <Link href={subItem.url}>
+                    <Link href={subItem.url as any}>
                       <span>{subItem.title}</span>
                     </Link>
                   </SidebarMenuSubButton>
@@ -156,16 +159,24 @@ export function NavRecentNotesSuspense({ userId }: { userId: string }) {
   });
 
   // Map items with type-aware URLs and icons
-  const normalizedItems: NavItem[] = (items || []).map((item) => ({
-    title: item.type === "note" ? item.title || "Untitled" : item.name,
-    url:
-      item.type === "note"
-        ? `/dashboard/notes/${item.id}`
-        : `/dashboard/workspaces/${item.id}`,
-    items: [],
-    lastUpdated: item.updatedAt,
-    icon: item.type === "workspace" ? IconFolder : undefined,
-  }));
+  const normalizedItems: NavItem<Route>[] = (items || []).map((item) => {
+    let url: Route;
+
+    if (item.type === "note") {
+      url = `/dashboard/notes?${item.id}`;
+    } else {
+      url = `/dashboard/workspaces?${item.id}`;
+    }
+    return {
+      title: item.type === "note" ? item.title || "Untitled" : item.name,
+      url,
+      items: [],
+      lastUpdated: item.updatedAt,
+      icon: item.type === "workspace" ? IconFolder : IconNote,
+      pinned: item.pinned,
+      type: item.type,
+    };
+  });
 
   if (!normalizedItems || normalizedItems.length === 0) {
     return <NavFallbackRecentNotes />;

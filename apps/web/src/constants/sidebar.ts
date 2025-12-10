@@ -7,10 +7,34 @@ import {
   IconFolder,
   IconListDetails,
   IconUsers,
+  type Icon,
 } from "@tabler/icons-react";
-import { NotepadTextIcon } from "lucide-react";
+import { LucideIcon, NotepadTextIcon } from "lucide-react";
+import { Route } from "next";
 
-export const NAV_DATA = {
+type NavMain = {
+  title: string;
+  url: Route;
+  icon: Icon | LucideIcon;
+};
+
+type NavClouds = {
+  title: string;
+  icon: Icon | LucideIcon;
+  isActive?: boolean;
+  url: Route;
+  items: {
+    title: string;
+    url: Route;
+  }[];
+};
+
+interface NavData {
+  navMain: NavMain[];
+  navClouds: NavClouds[];
+}
+
+export const NAV_DATA: NavData = {
   navMain: [
     {
       title: "Dashboard",
@@ -38,8 +62,8 @@ export const NAV_DATA = {
       icon: IconFolder,
     },
     {
-      title: "Team",
-      url: "/dashboard/team",
+      title: "Teams",
+      url: "/dashboard/teams",
       icon: IconUsers,
     },
   ],
@@ -91,7 +115,7 @@ export const NAV_DATA = {
       ],
     },
   ],
-};
+} as const;
 
 export const SIDEBAR_DATA = [
   {
