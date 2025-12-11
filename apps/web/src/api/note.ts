@@ -3,7 +3,12 @@ import { authClient } from "@/src/lib/auth-client";
 import { rpcClient } from "@/src/lib/api";
 
 /**
- * Create a new note
+ * Create a new note for the current session user.
+ *
+ * @param payload - Note data excluding `userId`; should include `title`, `content`, `workspaceId`, and `status`
+ * @returns The created note object as returned by the API
+ * @throws Error - if there is no authenticated session user ("User not found")
+ * @throws Error - if the API request fails ("Failed to create note")
  */
 export async function createNote(payload: Omit<CreateNote, "userId">) {
   const { data: session } = await authClient.getSession();

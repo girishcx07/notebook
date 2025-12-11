@@ -12,6 +12,11 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { keys } from "@/src/constants/query-key";
 import { getAllPosts } from "@/src/api/post";
 
+/**
+ * Render a responsive grid of post cards by fetching all posts.
+ *
+ * @returns A React element containing either a responsive grid of post cards (each linking to its post page) or a centered "No posts found" placeholder when no posts are available.
+ */
 export function PostsList() {
   const { data: posts } = useSuspenseQuery({
     queryKey: keys.posts.all,
@@ -49,6 +54,14 @@ export function PostsList() {
   );
 }
 
+/**
+ * Renders a skeleton grid of post cards to display while post data is loading.
+ *
+ * The grid matches the PostsList layout and contains six placeholder cards with
+ * animated header and content bars to simulate loading text.
+ *
+ * @returns A responsive grid element containing six post card skeletons.
+ */
 export function PostsListSkeleton() {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

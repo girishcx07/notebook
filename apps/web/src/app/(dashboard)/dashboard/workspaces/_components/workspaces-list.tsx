@@ -22,6 +22,13 @@ export const WorkspacesList = () => {
   );
 };
 
+/**
+ * Render a responsive grid of workspace cards or a centered empty-state placeholder when no workspaces exist.
+ *
+ * @returns A JSX element containing either:
+ * - a motion-enabled grid with an AddWorkspaceCard followed by a WorkspaceCard for each workspace, or
+ * - a dashed bordered, centered message stating "No workspaces found" when the workspace list is empty.
+ */
 export function WorkspacesListSuspense() {
   const session = useSession();
 
@@ -53,6 +60,11 @@ export function WorkspacesListSuspense() {
   );
 }
 
+/**
+ * Displays a grid of skeleton placeholder cards used while workspace data is loading.
+ *
+ * @returns A JSX element containing six skeleton cards arranged in a responsive grid to mimic workspace cards during loading.
+ */
 export function WorkspacesListSkeleton() {
   return (
     <div className="grid gap-5 md:grid-cols-4 lg:grid-cols-5">

@@ -1,7 +1,12 @@
 import { rpcClient } from "@/src/lib/api";
 
 /**
- * Create a new post
+ * Create a new post.
+ *
+ * @param title - The post's title
+ * @param content - The post's content
+ * @returns The created post object parsed from the response body
+ * @throws Error if the API response is not OK
  */
 export async function createPost({
   title,
@@ -25,7 +30,11 @@ export async function createPost({
 }
 
 /**
- * Get a post by ID
+ * Retrieve a post by its ID.
+ *
+ * @param id - The ID of the post to fetch
+ * @returns The parsed JSON body of the post
+ * @throws `Error` with message "Post not found" and `cause` set to "post_not_found" if the server responds 404; otherwise throws `Error` with message "Failed to fetch post" for other non-OK responses
  */
 export async function getPostById(id: string) {
   const res = await rpcClient.posts[":id"].$get({
@@ -45,7 +54,10 @@ export async function getPostById(id: string) {
 }
 
 /**
- * Get all posts
+ * Fetches all posts.
+ *
+ * @returns The parsed JSON body containing the list of posts.
+ * @throws Error if the request fails (message: "Failed to fetch posts").
  */
 export async function getAllPosts() {
   const res = await rpcClient.posts.$get();
@@ -58,7 +70,10 @@ export async function getAllPosts() {
 }
 
 /**
- * Update a post
+ * Updates a post by ID with the provided fields.
+ *
+ * @param data - Object containing the post `id` and the fields to update (`title` and/or `content`).
+ * @returns The updated post object as returned by the API.
  */
 export async function updatePost(data: {
   title?: string;
@@ -81,7 +96,12 @@ export async function updatePost(data: {
 }
 
 /**
- * Delete a post
+ * Delete a post by ID.
+ *
+ * @param id - The ID of the post to delete.
+ * @returns The parsed response body from the delete request.
+ * @throws Error when the post is not found ("Post not found").
+ * @throws Error when the delete request fails for other reasons ("Failed to delete post").
  */
 export async function deletePost(id: string) {
   const res = await rpcClient.posts[":id"].$delete({
