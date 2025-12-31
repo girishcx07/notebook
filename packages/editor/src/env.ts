@@ -1,0 +1,8 @@
+export const ENV = {
+  TIPTAP_COLLAB_DOC_PREFIX: process.env.TIPTAP_COLLAB_DOC_PREFIX || "",
+  TIPTAP_COLLAB_APP_ID: process.env.TIPTAP_COLLAB_APP_ID || "",
+  TIPTAP_COLLAB_TOKEN: process.env.TIPTAP_COLLAB_TOKEN || "",
+  TIPTAP_AI_APP_ID: process.env.TIPTAP_AI_APP_ID || "",
+  TIPTAP_AI_TOKEN: process.env.TIPTAP_AI_TOKEN || "",
+  USE_JWT_TOKEN_API_ENDPOINT: process.env.USE_JWT_TOKEN_API_ENDPOINT || "",
+};
