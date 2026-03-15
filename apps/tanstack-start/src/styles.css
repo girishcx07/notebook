@@ -21,6 +21,17 @@
   }
 }
 
+@font-face {
+  font-family: "Scary";
+  src: url("./assets/fonts/Scary.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-scary: "Scary";
+}
+
 @layer base {
   :root {
     --font-geist-sans: "Geist Variable";

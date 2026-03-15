@@ -3,10 +3,10 @@
   "compilerOptions": {
     "lib": ["ES2022", "dom", "dom.iterable"],
     "jsx": "preserve",
-    "baseUrl": "./src",
+    "types": ["node"],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@acme/ui/*": ["./src/*"]
     }
-  },
-  "include": ["src"]
+  }
 }

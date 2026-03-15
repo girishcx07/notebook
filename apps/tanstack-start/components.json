@@ -5,16 +5,16 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "unused.css",
+    "css": "../../tooling/tailwind/theme.css",
     "baseColor": "mist",
     "cssVariables": true,
     "prefix": ""
   },
   "aliases": {
-    "components": "@acme/ui/components",
     "utils": "@acme/ui/lib/utils",
     "ui": "@acme/ui/components",
-    "lib": "@acme/ui/lib",
-    "hooks": "@acme/ui/hooks"
+    "components": "@/components",
+    "hooks": "@/hooks",
+    "lib": "@/lib"
   }
 }
