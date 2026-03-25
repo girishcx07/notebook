@@ -9,25 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as RegisterRouteImport } from './routes/register'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as SiteLayoutRouteImport } from './routes/_siteLayout'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as SiteLayoutIndexRouteImport } from './routes/_siteLayout/index'
+import { Route as SiteLayoutRegisterRouteImport } from './routes/_siteLayout/register'
+import { Route as SiteLayoutLoginRouteImport } from './routes/_siteLayout/login'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api/trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SiteLayoutRoute = SiteLayoutRouteImport.update({
   id: '/_siteLayout',
   getParentRoute: () => rootRouteImport,
@@ -39,6 +29,16 @@ const ProtectedRoute = ProtectedRouteImport.update({
 const SiteLayoutIndexRoute = SiteLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => SiteLayoutRoute,
+} as any)
+const SiteLayoutRegisterRoute = SiteLayoutRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => SiteLayoutRoute,
+} as any)
+const SiteLayoutLoginRoute = SiteLayoutLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => SiteLayoutRoute,
 } as any)
 const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
@@ -59,17 +59,17 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteLayoutIndexRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/login': typeof SiteLayoutLoginRoute
+  '/register': typeof SiteLayoutRegisterRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof SiteLayoutIndexRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/login': typeof SiteLayoutLoginRoute
+  '/register': typeof SiteLayoutRegisterRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
 }
@@ -77,9 +77,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteWithChildren
   '/_siteLayout': typeof SiteLayoutRouteWithChildren
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_siteLayout/login': typeof SiteLayoutLoginRoute
+  '/_siteLayout/register': typeof SiteLayoutRegisterRoute
   '/_siteLayout/': typeof SiteLayoutIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
@@ -88,26 +88,26 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/login'
     | '/register'
-    | '/dashboard'
     | '/api/auth/$'
     | '/api/trpc/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard'
     | '/login'
     | '/register'
-    | '/dashboard'
     | '/api/auth/$'
     | '/api/trpc/$'
   id:
     | '__root__'
     | '/_protected'
     | '/_siteLayout'
-    | '/login'
-    | '/register'
     | '/_protected/dashboard'
+    | '/_siteLayout/login'
+    | '/_siteLayout/register'
     | '/_siteLayout/'
     | '/api/auth/$'
     | '/api/trpc/$'
@@ -116,28 +116,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   ProtectedRoute: typeof ProtectedRouteWithChildren
   SiteLayoutRoute: typeof SiteLayoutRouteWithChildren
-  LoginRoute: typeof LoginRoute
-  RegisterRoute: typeof RegisterRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_siteLayout': {
       id: '/_siteLayout'
       path: ''
@@ -157,6 +141,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof SiteLayoutIndexRouteImport
+      parentRoute: typeof SiteLayoutRoute
+    }
+    '/_siteLayout/register': {
+      id: '/_siteLayout/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof SiteLayoutRegisterRouteImport
+      parentRoute: typeof SiteLayoutRoute
+    }
+    '/_siteLayout/login': {
+      id: '/_siteLayout/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof SiteLayoutLoginRouteImport
       parentRoute: typeof SiteLayoutRoute
     }
     '/_protected/dashboard': {
@@ -196,10 +194,14 @@ const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
 )
 
 interface SiteLayoutRouteChildren {
+  SiteLayoutLoginRoute: typeof SiteLayoutLoginRoute
+  SiteLayoutRegisterRoute: typeof SiteLayoutRegisterRoute
   SiteLayoutIndexRoute: typeof SiteLayoutIndexRoute
 }
 
 const SiteLayoutRouteChildren: SiteLayoutRouteChildren = {
+  SiteLayoutLoginRoute: SiteLayoutLoginRoute,
+  SiteLayoutRegisterRoute: SiteLayoutRegisterRoute,
   SiteLayoutIndexRoute: SiteLayoutIndexRoute,
 }
 
@@ -210,8 +212,6 @@ const SiteLayoutRouteWithChildren = SiteLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   ProtectedRoute: ProtectedRouteWithChildren,
   SiteLayoutRoute: SiteLayoutRouteWithChildren,
-  LoginRoute: LoginRoute,
-  RegisterRoute: RegisterRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,
 }

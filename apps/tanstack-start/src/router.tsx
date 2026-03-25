@@ -24,6 +24,7 @@ export function getRouter() {
     routeTree,
     context: { queryClient, trpc },
     defaultPreload: "intent",
+    scrollRestoration: true,
     Wrap: (props) => (
       <TRPCProvider
         trpcClient={trpcClient}

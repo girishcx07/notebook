@@ -22,6 +22,12 @@ export const Route = createRootRouteWithContext<{
 }>()({
   head: () => ({
     links: [{ rel: "stylesheet", href: appCss }],
+    meta: [
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1",
+      },
+    ],
   }),
   component: RootComponent,
   notFoundComponent: () => <p>Not Found</p>,

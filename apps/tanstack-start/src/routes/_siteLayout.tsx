@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/_siteLayout")({
@@ -9,13 +8,12 @@ export const Route = createFileRoute("/_siteLayout")({
 
 function RouteComponent() {
   return (
-    <div>
+    <div className="flex min-h-screen flex-col">
       <SiteHeader />
-      <main>
+
+      <main className="flex flex-1 flex-col">
         <Outlet />
       </main>
-
-      <SiteFooter />
     </div>
   );
 }
