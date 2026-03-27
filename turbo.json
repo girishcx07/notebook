@@ -45,7 +45,7 @@
       "interactive": true
     }
   },
-  "globalEnv": ["DATABASE_URL", "POSTGRES_URL", "AUTH_SECRET", "PORT"],
+  "globalEnv": ["DATABASE_URL", "POSTGRES_URL", "AUTH_SECRET", "PORT", "RESEND_API_KEY", "EMAIL_FROM"],
   "globalPassThroughEnv": [
     "NODE_ENV",
     "CI",

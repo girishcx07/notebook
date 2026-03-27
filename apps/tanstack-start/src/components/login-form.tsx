@@ -38,7 +38,12 @@ export function LoginForm({
       password: "",
     },
     validators: {
-      onSubmit: LoginSchema,
+      onSubmit({ value }) {
+        const res = LoginSchema.safeParse(value);
+        if (!res.success) {
+          return "Please check your email and password";
+        }
+      },
     },
     onSubmit: async ({ value }) => {
       setIsSubmitting(true);

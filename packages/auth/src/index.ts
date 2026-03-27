@@ -5,6 +5,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { oAuthProxy } from "better-auth/plugins";
 
 import { db } from "@acme/db/client";
+import { sendPasswordResetEmail, sendVerificationEmail } from "@acme/mailer";
 
 export function initAuth<
   TExtraPlugins extends BetterAuthPlugin[] = [],
@@ -28,10 +29,38 @@ export function initAuth<
       expo(),
       ...(options.extraPlugins ?? []),
     ],
+
+    // ── Email + Password ────────────────────────────────────────────────────
     emailAndPassword: {
       enabled: true,
       autoSignIn: true,
+      // Required: without this callback Better Auth returns RESET_PASSWORD_ISNT_ENABLED.
+      sendResetPassword: async ({
+        user,
+        url,
+      }: {
+        user: { email: string };
+        url: string;
+      }) => {
+        await sendPasswordResetEmail(user.email, url);
+      },
     },
+
+    // ── Email Verification ──────────────────────────────────────────────────
+    emailVerification: {
+      sendVerificationEmail: async ({
+        user,
+        url,
+      }: {
+        user: { email: string };
+        url: string;
+      }) => {
+        await sendVerificationEmail(user.email, url);
+      },
+      sendOnSignUp: true,
+      autoSignInAfterVerification: true,
+    },
+
     trustedOrigins: ["expo://"],
     onAPIError: {
       onError(error, ctx) {
