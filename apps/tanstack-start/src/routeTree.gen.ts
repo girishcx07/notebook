@@ -14,6 +14,7 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as SiteLayoutIndexRouteImport } from './routes/_siteLayout/index'
 import { Route as SiteLayoutRegisterRouteImport } from './routes/_siteLayout/register'
 import { Route as SiteLayoutLoginRouteImport } from './routes/_siteLayout/login'
+import { Route as SiteLayoutForgotPasswordRouteImport } from './routes/_siteLayout/forgot-password'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api/trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
@@ -41,6 +42,12 @@ const SiteLayoutLoginRoute = SiteLayoutLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => SiteLayoutRoute,
 } as any)
+const SiteLayoutForgotPasswordRoute =
+  SiteLayoutForgotPasswordRouteImport.update({
+    id: '/forgot-password',
+    path: '/forgot-password',
+    getParentRoute: () => SiteLayoutRoute,
+  } as any)
 const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -60,6 +67,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof SiteLayoutIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/forgot-password': typeof SiteLayoutForgotPasswordRoute
   '/login': typeof SiteLayoutLoginRoute
   '/register': typeof SiteLayoutRegisterRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -68,6 +76,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof SiteLayoutIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/forgot-password': typeof SiteLayoutForgotPasswordRoute
   '/login': typeof SiteLayoutLoginRoute
   '/register': typeof SiteLayoutRegisterRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -78,6 +87,7 @@ export interface FileRoutesById {
   '/_protected': typeof ProtectedRouteWithChildren
   '/_siteLayout': typeof SiteLayoutRouteWithChildren
   '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_siteLayout/forgot-password': typeof SiteLayoutForgotPasswordRoute
   '/_siteLayout/login': typeof SiteLayoutLoginRoute
   '/_siteLayout/register': typeof SiteLayoutRegisterRoute
   '/_siteLayout/': typeof SiteLayoutIndexRoute
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/forgot-password'
     | '/login'
     | '/register'
     | '/api/auth/$'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/forgot-password'
     | '/login'
     | '/register'
     | '/api/auth/$'
@@ -106,6 +118,7 @@ export interface FileRouteTypes {
     | '/_protected'
     | '/_siteLayout'
     | '/_protected/dashboard'
+    | '/_siteLayout/forgot-password'
     | '/_siteLayout/login'
     | '/_siteLayout/register'
     | '/_siteLayout/'
@@ -157,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteLayoutLoginRouteImport
       parentRoute: typeof SiteLayoutRoute
     }
+    '/_siteLayout/forgot-password': {
+      id: '/_siteLayout/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof SiteLayoutForgotPasswordRouteImport
+      parentRoute: typeof SiteLayoutRoute
+    }
     '/_protected/dashboard': {
       id: '/_protected/dashboard'
       path: '/dashboard'
@@ -194,12 +214,14 @@ const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
 )
 
 interface SiteLayoutRouteChildren {
+  SiteLayoutForgotPasswordRoute: typeof SiteLayoutForgotPasswordRoute
   SiteLayoutLoginRoute: typeof SiteLayoutLoginRoute
   SiteLayoutRegisterRoute: typeof SiteLayoutRegisterRoute
   SiteLayoutIndexRoute: typeof SiteLayoutIndexRoute
 }
 
 const SiteLayoutRouteChildren: SiteLayoutRouteChildren = {
+  SiteLayoutForgotPasswordRoute: SiteLayoutForgotPasswordRoute,
   SiteLayoutLoginRoute: SiteLayoutLoginRoute,
   SiteLayoutRegisterRoute: SiteLayoutRegisterRoute,
   SiteLayoutIndexRoute: SiteLayoutIndexRoute,
