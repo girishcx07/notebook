@@ -12,6 +12,9 @@ import { z, ZodError } from "zod/v4";
 
 import type { Auth } from "@acme/auth";
 import { db } from "@acme/db/client";
+import { getLogger } from "@acme/observability";
+
+const logger = getLogger({ service: "trpc" });
 
 /**
  * 1. CONTEXT
@@ -91,7 +94,10 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   const result = await next();
 
   const end = Date.now();
-  console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
+  logger.debug(
+    { durationMs: end - start, path },
+    "Completed tRPC procedure execution",
+  );
 
   return result;
 });

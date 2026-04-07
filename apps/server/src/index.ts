@@ -1,12 +1,15 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { logger } from "hono/logger";
+import { logger as requestLogger } from "hono/logger";
 
 import { appRouter, createTRPCContext } from "@acme/api";
 import { initAuth } from "@acme/auth";
+import { getLogger } from "@acme/observability";
 
 import { env } from "./env";
+
+const appLogger = getLogger({ service: "api-server" });
 
 const auth = initAuth({
   baseUrl: env.PUBLIC_SERVER_URL,
@@ -25,15 +28,42 @@ app.get("/healthcheck", (c) => {
   return c.text("OK");
 });
 
-app.use(logger());
+app.use(requestLogger());
 
-const trustedOrigins = [env.PUBLIC_WEB_URL].map((url) => new URL(url).origin);
+const trustedOrigins = Array.from(
+  new Set([
+    env.PUBLIC_WEB_URL,
+    ...(env.ALLOWED_EMBED_ORIGINS?.split(",")
+      .map((origin) => origin.trim())
+      .filter(Boolean) ?? []),
+  ]),
+).map((url) => new URL(url).origin);
 
 app.use(
   "/api/*",
   cors({
-    origin: trustedOrigins,
+    origin(origin) {
+      if (!origin) {
+        return env.PUBLIC_WEB_URL;
+      }
+
+      if (trustedOrigins.includes(origin)) {
+        return origin;
+      }
+
+      appLogger.warn({ origin }, "Blocked cross-origin API request");
+      return undefined;
+    },
     credentials: true,
+    allowHeaders: [
+      "Authorization",
+      "Content-Type",
+      "x-embed-mode",
+      "x-embed-module",
+      "x-embed-origin",
+      "x-embed-version",
+      "x-trpc-source",
+    ],
   }),
 );
 
