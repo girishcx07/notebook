@@ -1,11 +1,12 @@
 {
-  "extends": "@notebook/typescript-config/react-library.json",
+  "extends": "@acme/tsconfig/base.json",
   "compilerOptions": {
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "jsx": "preserve",
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@notebook/ui/*": ["./src/*"]
+      "@acme/ui/*": ["./src/*"]
     }
-  },
-  "include": ["."],
-  "exclude": ["node_modules", "dist"]
+  }
 }

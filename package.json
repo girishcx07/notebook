@@ -1,23 +1,51 @@
 {
-  "name": "notebook",
-  "version": "0.0.1",
+  "name": "create-t3-turbo",
   "private": true,
+  "engines": {
+    "node": "^22.21.0",
+    "pnpm": "^10.19.0"
+  },
+  "packageManager": "pnpm@10.19.0",
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "test": "turbo test",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "build": "turbo run build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo run clean",
+    "auth:generate": "pnpm -F @acme/auth generate",
+    "db:push": "turbo -F @acme/db push",
+    "db:studio": "turbo -F @acme/db studio",
+    "dev": "turbo watch dev --continue",
+    "format": "turbo run format --continue -- --cache --cache-location .cache/.prettiercache",
+    "format:fix": "turbo run format --continue -- --write --cache --cache-location .cache/.prettiercache",
+    "lint": "turbo run lint --continue -- --cache --cache-location .cache/.eslintcache",
+    "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location .cache/.eslintcache",
+    "lint:ws": "sherif",
+    "prepare": "husky",
+    "test": "turbo run test --continue",
+    "test:e2e": "playwright test",
+    "typecheck": "turbo run typecheck",
+    "commitlint": "commitlint --edit",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm format && pnpm lint:ws",
+    "validate": "pnpm check",
+    "ui-add": "turbo run ui-add",
+    "build:prod": "pnpm -F @acme/db container:build && pnpm -F @acme/server container:build && pnpm -F @acme/web container:build",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
   },
   "devDependencies": {
-    "@notebook/eslint-config": "workspace:*",
-    "@notebook/typescript-config": "workspace:*",
-    "prettier": "^3.6.2",
-    "turbo": "^2.5.5",
-    "typescript": "5.7.3"
+    "@acme/prettier-config": "workspace:*",
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
+    "@playwright/test": "catalog:",
+    "@turbo/gen": "^2.8.17",
+    "dotenv-cli": "^11.0.0",
+    "eslint": "catalog:",
+    "husky": "catalog:",
+    "lint-staged": "catalog:",
+    "prettier": "catalog:",
+    "sherif": "catalog:",
+    "turbo": "^2.8.17",
+    "typescript": "catalog:"
   },
-  "packageManager": "pnpm@10.4.1",
-  "engines": {
-    "node": ">=20"
-  }
+  "prettier": "@acme/prettier-config"
 }
