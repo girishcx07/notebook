@@ -1,0 +1,10 @@
+{
+  "extends": "@acme/tsconfig/compiled-package.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "module": "es2022",
+    "lib": ["ES2022", "DOM"],
+    "types": ["node"],
+    "jsxImportSource": "hono/jsx"
+  }
+}

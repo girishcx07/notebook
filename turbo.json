@@ -1,34 +1,77 @@
 {
-  "$schema": "https://turbo.build/schema.json",
+  "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "tasks": {
+    "topo": {
+      "dependsOn": ["^topo"]
+    },
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "check-types": {
-      "dependsOn": ["^check-types"]
+      "outputs": [".cache/tsbuildinfo.json", "dist/**"]
     },
     "dev": {
+      "dependsOn": ["^dev"],
       "cache": false,
-      "persistent": true
+      "persistent": false
+    },
+    "format": {
+      "outputs": [".cache/.prettiercache"],
+      "outputLogs": "new-only"
+    },
+    "lint": {
+      "dependsOn": ["^topo", "^build"],
+      "outputs": [".cache/.eslintcache"]
+    },
+    "typecheck": {
+      "dependsOn": ["^topo", "^build"],
+      "outputs": [".cache/tsbuildinfo.json"]
     },
     "test": {
       "dependsOn": ["^build"],
       "outputs": ["coverage/**"]
     },
-    "db:generate": {
+    "clean": {
       "cache": false
     },
-    "db:migrate": {
+    "//#clean": {
       "cache": false
     },
-    "db:push": {
-      "cache": false
+    "push": {
+      "cache": false,
+      "interactive": true
+    },
+    "studio": {
+      "cache": false,
+      "persistent": true
+    },
+    "ui-add": {
+      "cache": false,
+      "interactive": true
     }
-  }
+  },
+  "globalEnv": [
+    "DATABASE_URL",
+    "POSTGRES_URL",
+    "AUTH_SECRET",
+    "PORT",
+    "HOST",
+    "PUBLIC_WEB_URL",
+    "PUBLIC_SERVER_URL",
+    "API_URL",
+    "ALLOWED_EMBED_ORIGINS",
+    "RESEND_API_KEY",
+    "EMAIL_FROM",
+    "LOG_LEVEL",
+    "SENTRY_DSN",
+    "SENTRY_ENVIRONMENT"
+  ],
+  "globalPassThroughEnv": [
+    "NODE_ENV",
+    "CI",
+    "VERCEL",
+    "VERCEL_ENV",
+    "VERCEL_URL",
+    "PLAYWRIGHT_BASE_URL",
+    "npm_lifecycle_event"
+  ]
 }

@@ -1,0 +1,41 @@
+{
+  "name": "@acme/server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "container:build": "pnpm build",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "pnpm with-env tsx watch src/server.ts",
+    "start": "NODE_ENV=production pnpm with-env node dist/server.js",
+    "serve": "node dist/server.js",
+    "with-env": "dotenv -e ../../.env --",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@acme/api": "workspace:*",
+    "@acme/auth": "workspace:*",
+    "@acme/db": "workspace:*",
+    "@acme/observability": "workspace:*",
+    "@hono/node-server": "^1.13.8",
+    "@t3-oss/env-core": "^0.13.10",
+    "@trpc/server": "catalog:",
+    "hono": "^4.7.2",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "dotenv-cli": "^11.0.0",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "tsdown": "catalog:",
+    "tsx": "^4.19.3",
+    "typescript": "catalog:"
+  },
+  "prettier": "@acme/prettier-config"
+}
