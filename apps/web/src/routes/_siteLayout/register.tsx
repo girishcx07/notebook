@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { SparklesIcon } from "lucide-react";
 import { z } from "zod";
 
 import { Button } from "@acme/ui/components/button";

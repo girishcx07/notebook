@@ -32,11 +32,11 @@ services:
   web:
     build:
       context: .
-      dockerfile: apps/tanstack-start/Dockerfile
+      dockerfile: apps/web/Dockerfile
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://postgres:password@db:5432/acme
-      - VITE_API_URL=http://localhost:3000/api
+      - API_URL=http://localhost:3000
       - AUTH_SECRET=supersecret
       - PORT=3000
     depends_on:

@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { SparklesIcon } from "lucide-react";
 
 import { LoginForm } from "@/components/login-form";
 

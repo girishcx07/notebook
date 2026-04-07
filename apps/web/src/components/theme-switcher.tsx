@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 
@@ -6,7 +7,7 @@ import { cn } from "@acme/ui/lib/utils";
 
 type ThemeMode = "light" | "dark" | "auto";
 
-const options: { value: ThemeMode; icon: any }[] = [
+const options: { icon: LucideIcon; value: ThemeMode }[] = [
   { value: "light", icon: SunIcon },
   { value: "auto", icon: MonitorIcon },
   { value: "dark", icon: MoonIcon },

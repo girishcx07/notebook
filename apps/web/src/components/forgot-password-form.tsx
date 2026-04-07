@@ -42,7 +42,7 @@ export function ForgotPasswordForm({
     },
     validators: {
       onChange({ value }) {
-        if (!value.email) return; 
+        if (!value.email) return;
         const res = ForgotPasswordSchema.safeParse(value);
         return res.success ? undefined : "Please enter a valid email address";
       },
@@ -64,6 +64,7 @@ export function ForgotPasswordForm({
         e.stopPropagation();
         void form.handleSubmit();
       }}
+      {...props}
     >
       <FieldGroup className="gap-0">
         <form.Field

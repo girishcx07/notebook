@@ -9,7 +9,7 @@ RUN addgroup --system --gid 1001 nodejs \
 USER nodejs
 
 # We expect the build to be done on the host
-COPY apps/tanstack-start/.output /app/.output
+COPY apps/web/.output /app/.output
 
 EXPOSE 3000
 ENV PORT=3000

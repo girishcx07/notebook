@@ -1,7 +1,20 @@
 import { serve } from "@hono/node-server";
 
+import {
+  captureException,
+  getLogger,
+  initSentryPlaceholder,
+} from "@acme/observability";
+
 import { env } from "./env";
 import app from "./index";
+
+const logger = getLogger({ service: "api-server" });
+const sentry = initSentryPlaceholder({
+  serviceName: "api-server",
+  dsn: env.SENTRY_DSN,
+  environment: env.SENTRY_ENVIRONMENT,
+});
 
 const server = serve(
   {
@@ -11,22 +24,25 @@ const server = serve(
   },
   (info) => {
     const host = info.family === "IPv6" ? `[${info.address}]` : info.address;
-    console.log(`
-Hono Server Setup:
-- internal server url: http://${host}:${info.port}
-- external server url: ${env.PUBLIC_SERVER_URL}
-- public web url:      ${env.PUBLIC_WEB_URL}
-    `);
+    logger.info(
+      {
+        externalServerUrl: env.PUBLIC_SERVER_URL,
+        internalServerUrl: `http://${host}:${info.port}`,
+        publicWebUrl: env.PUBLIC_WEB_URL,
+      },
+      "Hono server is listening",
+    );
   },
 );
 
 const shutdown = () => {
-  console.log("Shutting down...");
+  logger.info("Shutting down server");
   server.close((error) => {
     if (error) {
-      console.error(error);
+      captureException(error, { phase: "shutdown" }, logger);
+      sentry.captureException(error, { phase: "shutdown" });
     } else {
-      console.log("Server has stopped gracefully.");
+      logger.info("Server stopped gracefully");
     }
     process.exit(0);
   });
@@ -34,3 +50,11 @@ const shutdown = () => {
 
 process.on("SIGINT", shutdown);
 process.on("SIGTERM", shutdown);
+process.on("uncaughtException", (error) => {
+  captureException(error, { phase: "uncaughtException" }, logger);
+  sentry.captureException(error, { phase: "uncaughtException" });
+});
+process.on("unhandledRejection", (reason) => {
+  captureException(reason, { phase: "unhandledRejection" }, logger);
+  sentry.captureException(reason, { phase: "unhandledRejection" });
+});
