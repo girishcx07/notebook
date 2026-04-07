@@ -75,6 +75,7 @@ export function LoginForm({
         e.stopPropagation();
         void form.handleSubmit();
       }}
+      {...props}
     >
       <FieldGroup className="gap-0">
         <div className="mb-7 flex flex-col items-center gap-1.5 text-center">
@@ -148,8 +149,8 @@ export function LoginForm({
         />
         {/* Submit */}
         <Field className="mb-4">
-          <Button type="submit" className="w-full">
-            Login
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Logging in..." : "Login"}
           </Button>
         </Field>
 

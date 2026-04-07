@@ -10,4 +10,10 @@ export default defineConfig(
   baseConfig,
   reactConfig,
   restrictEnvAccess,
+  {
+    files: ["e2e/**/*.ts"],
+    rules: {
+      "no-restricted-properties": "off",
+    },
+  },
 );

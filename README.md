@@ -1,223 +1,93 @@
-# 🚀 TanStack Start Monorepo
+# TanStack Start Monorepo
 
-A full-stack monorepo built with **TanStack Start** (SSR/web), **Hono** (API server), **tRPC**, **Better Auth**, **Drizzle ORM**, and **PostgreSQL** — all orchestrated with **Turborepo** and **pnpm workspaces**.
+Production-oriented workspace for a notebook platform built with TanStack Start, Hono, tRPC, Better Auth, Drizzle, and PostgreSQL. The repository is organized as a scalable pnpm/Turborepo monorepo with shared configs, a reusable SDK in `packages/sdk`, and the dashboard kept in `apps/web`.
 
----
+## Stack
 
-## 📦 Tech Stack
+- Frontend: TanStack Start, React 19, Tailwind CSS v4
+- API: Hono, tRPC, Better Auth
+- Data: Drizzle ORM, PostgreSQL
+- Tooling: pnpm workspaces, Turborepo, ESLint, Prettier, Husky, lint-staged
+- Testing: Vitest for unit coverage, Playwright scaffolding for web smoke tests
+- Observability: Pino-based logger with Sentry placeholder hooks
 
-| Layer              | Technology                                              |
-| ------------------ | ------------------------------------------------------- |
-| **Frontend / SSR** | [TanStack Start](https://tanstack.com/start) + React 19 |
-| **API Server**     | [Hono](https://hono.dev) + tRPC                         |
-| **Auth**           | [Better Auth](https://www.better-auth.com)              |
-| **Database ORM**   | [Drizzle ORM](https://orm.drizzle.team)                 |
-| **Database**       | PostgreSQL 16                                           |
-| **Styling**        | Tailwind CSS v4                                         |
-| **Monorepo**       | [Turborepo](https://turbo.build) + pnpm workspaces      |
-| **Reverse Proxy**  | Nginx (Docker only)                                     |
-| **Runtime**        | Node.js 22                                              |
+## Workspace Layout
 
----
-
-## 🗂️ Project Structure
-
-```
-t3-repo-v4/
+```text
+.
 ├── apps/
-│   ├── tanstack-start/      # TanStack Start SSR web app (port 3000)
-│   │   ├── src/
-│   │   │   ├── routes/      # File-based routing
-│   │   │   ├── lib/         # tRPC client, utils
-│   │   │   ├── component/   # Shared UI components
-│   │   │   ├── auth/        # Auth client setup
-│   │   │   ├── env.ts       # Typed environment variables
-│   │   │   └── router.tsx   # Router configuration
-│   │   ├── Dockerfile       # Multi-stage Docker build
-│   │   ├── vite.config.ts   # Vite + TanStack Start + Nitro config
-│   │   └── turbo.json       # Package-level turbo config (persistent dev)
-│   └── server/              # Hono API server (port 3001)
-│       ├── src/
-│       │   └── server.ts    # Hono app entry — tRPC + Better Auth routes
-│       ├── Dockerfile       # Multi-stage Docker build
-│       └── turbo.json       # Package-level turbo config (persistent dev)
-│
+│   ├── server/        # Hono API server
+│   └── web/           # TanStack Start app and dashboard
 ├── packages/
-│   ├── api/                 # tRPC router definitions (shared)
-│   ├── auth/                # Better Auth config (shared)
-│   ├── db/                  # Drizzle ORM schema, migrations, client
-│   │   └── docker-compose.yml  # Local PostgreSQL container
-│   ├── ui/                  # Shared UI component library
-│   └── validators/          # Shared Zod schemas
-│
-├── tooling/
-│   ├── eslint/              # Shared ESLint config
-│   ├── prettier/            # Shared Prettier config
-│   ├── tailwind/            # Shared Tailwind config
-│   ├── typescript/          # Shared tsconfig bases
-│   └── github/              # GitHub Actions workflows
-│
-├── docker-compose.yml       # Full-stack Docker Compose (web + api + nginx)
-├── nginx.conf               # Nginx reverse proxy config
-├── turbo.json               # Root Turborepo config
-├── pnpm-workspace.yaml      # pnpm workspace + catalog
-└── .env.example             # Environment variable template
+│   ├── api/           # Shared tRPC routers
+│   ├── auth/          # Better Auth setup
+│   ├── db/            # Database client and schema
+│   ├── mailer/        # Transactional email helpers
+│   ├── observability/ # Logging and error tracking placeholder
+│   ├── sdk/           # Reusable SDK and iframe-safe API client
+│   ├── ui/            # Shared UI primitives
+│   └── validators/    # Shared Zod schemas
+├── configs/
+│   ├── eslint/
+│   ├── github/
+│   ├── prettier/
+│   ├── tailwind/
+│   └── typescript/
+└── .github/
+    ├── ISSUE_TEMPLATE/
+    ├── workflows/
+    └── pull_request_template.md
 ```
 
----
+## Local Development
 
-## 🌐 Ports
+1. Install dependencies:
 
-| Service                  | Port   | Description                         |
-| ------------------------ | ------ | ----------------------------------- |
-| **Web (TanStack Start)** | `3000` | SSR frontend app                    |
-| **API (Hono)**           | `3001` | tRPC + REST API                     |
-| **PostgreSQL**           | `5433` | Database (local Docker)             |
-| **Nginx**                | `3000` | Reverse proxy (Docker Compose only) |
+   ```bash
+   pnpm install
+   ```
 
-### Nginx Routing (Docker Compose)
+2. Create local env vars:
 
-| Path     | Target                                    |
-| -------- | ----------------------------------------- |
-| `/api/*` | Hono API server (`localhost:3001`)        |
-| `/*`     | TanStack Start web app (`localhost:3000`) |
+   ```bash
+   cp .env.example .env
+   ```
 
----
+3. Start the supporting services you need, then run:
 
-## ⚡ Getting Started (Local Development)
+   ```bash
+   pnpm dev
+   ```
 
-### Prerequisites
+The main application shell and dashboard live in `apps/web`, and the API server runs from `apps/server`.
 
-- [Node.js 22+](https://nodejs.org)
-- [pnpm 10+](https://pnpm.io) — `npm install -g pnpm`
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (for local PostgreSQL)
+## Core Commands
 
-### 1. Clone the repo
+- `pnpm dev`: Start workspace development tasks
+- `pnpm build`: Build all packages and apps through Turbo
+- `pnpm lint`: Run ESLint across the workspace
+- `pnpm typecheck`: Run TypeScript checks
+- `pnpm test`: Run unit tests
+- `pnpm test:e2e`: Run Playwright smoke tests against a running deployment
+- `pnpm format`: Check formatting
+- `pnpm format:fix`: Apply formatting fixes
+- `pnpm check`: Run the full local quality gate
 
-```bash
-git clone https://github.com/girishcx07/tanstack-start-monorepo.git
-cd tanstack-start-monorepo
-```
+## Embeddable SDK
 
-### 2. Install dependencies
+`packages/sdk` exposes:
 
-```bash
-pnpm install
-```
+- shared tRPC client creation for browser and server usage
+- iframe-safe base URL resolution for embeddable modules
+- helper headers for embed-aware requests
 
-### 3. Set up environment variables
+For third-party embeds, set `ALLOWED_EMBED_ORIGINS` in `.env` to the approved host origins.
 
-```bash
-cp .env.example .env
-```
+## CI and Git Standards
 
-Edit `.env` and fill in your values:
-
-```env
-# PostgreSQL — matches the local Docker container below
-DATABASE_URL="postgresql://postgres:password@localhost:5433/acme"
-
-# Generate with: openssl rand -base64 32
-AUTH_SECRET="your_secret_here"
-```
-
-### 4. Start the local PostgreSQL database
-
-```bash
-pnpm docker:up db
-```
-
-This starts a PostgreSQL container on **port 5433**.
-
-### 5. Push database schema
-
-```bash
-pnpm db:push
-```
-
-### 6. Start the dev server
-
-```bash
-pnpm dev
-```
-
-This runs all packages in watch mode via Turborepo. The browser will open automatically at **http://localhost:3000**.
-
-| What starts                   | Command internally                    |
-| ----------------------------- | ------------------------------------- |
-| `@acme/tanstack-start`        | `vite dev` (port 3000)                |
-| `@acme/server`                | `tsx watch src/server.ts` (port 3001) |
-| `@acme/api`, `@acme/db`, etc. | `tsc --watch`                         |
-
----
-
-## 🔧 Available Commands
-
-| Command             | Description                            |
-| ------------------- | -------------------------------------- |
-| `pnpm dev`          | Start all packages in development mode |
-| `pnpm build:prod`   | Build all packages for production      |
-| `pnpm docker:build` | Build Docker images from artifacts     |
-| `pnpm docker:up`    | Start the production-like stack        |
-| `pnpm docker:down`  | Stop the production-like stack         |
-| `pnpm lint`         | Lint all packages with ESLint          |
-| `pnpm typecheck`    | Type-check all packages                |
-| `pnpm format`       | Check formatting with Prettier         |
-| `pnpm format:fix`   | Auto-fix formatting                    |
-| `pnpm db:push`      | Push Drizzle schema to the database    |
-| `pnpm db:studio`    | Open Drizzle Studio (database UI)      |
-
----
-
-## 🐳 Docker
-
-The project ships with Docker support for a full-stack production-like setup with Nginx as a reverse proxy.
-
-### Start full stack with Docker Compose
-
-```bash
-# 1. Build host-side artifacts
-pnpm build:prod
-
-# 2. Build and start containers
-pnpm docker:build
-pnpm docker:up
-```
-
-This starts:
-
-- **Nginx** on `http://localhost:3000` (reverse proxy)
-- **TanStack Start** web app on internal port `3000`
-- **Hono API** server on internal port `3001`
-
-> Access the app at **http://localhost:3000**
-
-### Start database only
-
-```bash
-docker compose -f packages/db/docker-compose.yml up -d
-```
-
-### Stop all containers
-
-```bash
-docker compose down
-```
-
-### Individual app Dockerfiles
-
-Both apps use **multi-stage Docker builds** powered by Turborepo's `prune` feature for minimal image sizes:
-
-| App             | Dockerfile                       | Exposed Port |
-| --------------- | -------------------------------- | ------------ |
-| TanStack Start  | `apps/tanstack-start/Dockerfile` | `3000`       |
-| Hono API Server | `apps/server/Dockerfile`         | `3001`       |
-
-Build individual images:
-
-```bash
-# Web app
-docker build -f apps/tanstack-start/Dockerfile -t acme-web .
+- GitHub Actions are split into `lint.yml`, `build.yml`, and `test.yml`
+- Husky runs lint-staged before commits and commitlint on commit messages
+- PR and issue templates are provided in `.github`
 
 # API server
 docker build -f apps/server/Dockerfile -t acme-api .

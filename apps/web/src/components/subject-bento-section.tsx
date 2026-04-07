@@ -1,17 +1,28 @@
+import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Atom, BookOpen, Code2, ImageIcon, PenLine, Sigma } from "lucide-react";
+
+interface SubjectCard {
+  accent: string;
+  icon: LucideIcon;
+  iconClassName: string;
+  items: string[];
+  key: string;
+  subtitle: string;
+  title: string;
+}
 
 /* ========================================= */
 /* SUBJECT DATA — 6 CARDS TOTAL */
 /* ========================================= */
 
-const SUBJECTS = [
+const SUBJECTS: SubjectCard[] = [
   {
     key: "physics",
     title: "Physics",
     subtitle: "Wave Theory & Motion",
     icon: Atom,
-    color: "blue",
+    iconClassName: "text-blue-600",
     accent:
       "from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-950/20",
     items: ["Energy ∝ A²", "Wave speed v = f·λ", "Resonance patterns"],
@@ -21,7 +32,7 @@ const SUBJECTS = [
     title: "Mathematics",
     subtitle: "Calculus & Algebra",
     icon: Sigma,
-    color: "purple",
+    iconClassName: "text-purple-600",
     accent:
       "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-950/20",
     items: ["Derivatives", "Integrals", "Graph intuition"],
@@ -31,7 +42,7 @@ const SUBJECTS = [
     title: "Programming",
     subtitle: "Data Structures",
     icon: Code2,
-    color: "emerald",
+    iconClassName: "text-emerald-600",
     accent:
       "from-emerald-50 to-emerald-100 dark:from-emerald-900/30 dark:to-emerald-950/20",
     items: ["Binary Trees", "Sorting", "Big-O"],
@@ -41,7 +52,7 @@ const SUBJECTS = [
     title: "Notes",
     subtitle: "Lecture Summaries",
     icon: PenLine,
-    color: "orange",
+    iconClassName: "text-orange-600",
     accent:
       "from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-950/20",
     items: ["Key points", "Definitions", "Exam tips"],
@@ -51,7 +62,7 @@ const SUBJECTS = [
     title: "Visual Library",
     subtitle: "Diagrams & Charts",
     icon: ImageIcon,
-    color: "pink",
+    iconClassName: "text-pink-600",
     accent:
       "from-pink-50 to-pink-100 dark:from-pink-900/30 dark:to-pink-950/20",
     items: ["Sketches", "Chem charts", "Mind maps"],
@@ -61,7 +72,7 @@ const SUBJECTS = [
     title: "Books & Chapters",
     subtitle: "Your Study Material",
     icon: BookOpen,
-    color: "sky",
+    iconClassName: "text-sky-600",
     accent: "from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-950/20",
     items: ["Chapters", "Topics", "References"],
   },
@@ -102,7 +113,13 @@ export function SubjectBentoSection() {
 /* BENTO CARD COMPONENT — NO ACCORDION */
 /* ========================================= */
 
-function BentoCard({ subject, index }: any) {
+function BentoCard({
+  subject,
+  index,
+}: {
+  index: number;
+  subject: SubjectCard;
+}) {
   const Icon = subject.icon;
 
   return (
@@ -122,7 +139,7 @@ function BentoCard({ subject, index }: any) {
             {subject.subtitle}
           </p>
         </div>
-        <Icon className={`h-8 w-8 text-${subject.color}-600`} />
+        <Icon className={`h-8 w-8 ${subject.iconClassName}`} />
       </div>
 
       {/* ITEMS — ALWAYS VISIBLE */}
