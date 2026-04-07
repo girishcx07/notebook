@@ -26,6 +26,10 @@
       "dependsOn": ["^topo", "^build"],
       "outputs": [".cache/tsbuildinfo.json"]
     },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
     "clean": {
       "cache": false
     },
@@ -45,13 +49,29 @@
       "interactive": true
     }
   },
-  "globalEnv": ["DATABASE_URL", "POSTGRES_URL", "AUTH_SECRET", "PORT", "RESEND_API_KEY", "EMAIL_FROM"],
+  "globalEnv": [
+    "DATABASE_URL",
+    "POSTGRES_URL",
+    "AUTH_SECRET",
+    "PORT",
+    "HOST",
+    "PUBLIC_WEB_URL",
+    "PUBLIC_SERVER_URL",
+    "API_URL",
+    "ALLOWED_EMBED_ORIGINS",
+    "RESEND_API_KEY",
+    "EMAIL_FROM",
+    "LOG_LEVEL",
+    "SENTRY_DSN",
+    "SENTRY_ENVIRONMENT"
+  ],
   "globalPassThroughEnv": [
     "NODE_ENV",
     "CI",
     "VERCEL",
     "VERCEL_ENV",
     "VERCEL_URL",
+    "PLAYWRIGHT_BASE_URL",
     "npm_lifecycle_event"
   ]
 }
