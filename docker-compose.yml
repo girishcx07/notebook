@@ -63,6 +63,17 @@ services:
     networks:
       - t3-network
 
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    depends_on:
+      nginx:
+        condition: service_started
+    networks:
+      - t3-network
+
 networks:
   t3-network:
     driver: bridge
