@@ -15,9 +15,11 @@ import { Route as SiteLayoutIndexRouteImport } from './routes/_siteLayout/index'
 import { Route as SiteLayoutRegisterRouteImport } from './routes/_siteLayout/register'
 import { Route as SiteLayoutLoginRouteImport } from './routes/_siteLayout/login'
 import { Route as SiteLayoutForgotPasswordRouteImport } from './routes/_siteLayout/forgot-password'
+import { Route as ProtectedNotesRouteImport } from './routes/_protected/notes'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api/trpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
+import { Route as ProtectedNotesNoteIdRouteImport } from './routes/_protected/notes.$noteId'
 
 const SiteLayoutRoute = SiteLayoutRouteImport.update({
   id: '/_siteLayout',
@@ -48,6 +50,11 @@ const SiteLayoutForgotPasswordRoute =
     path: '/forgot-password',
     getParentRoute: () => SiteLayoutRoute,
   } as any)
+const ProtectedNotesRoute = ProtectedNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -63,22 +70,31 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedNotesNoteIdRoute = ProtectedNotesNoteIdRouteImport.update({
+  id: '/$noteId',
+  path: '/$noteId',
+  getParentRoute: () => ProtectedNotesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteLayoutIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/notes': typeof ProtectedNotesRouteWithChildren
   '/forgot-password': typeof SiteLayoutForgotPasswordRoute
   '/login': typeof SiteLayoutLoginRoute
   '/register': typeof SiteLayoutRegisterRoute
+  '/notes/$noteId': typeof ProtectedNotesNoteIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof SiteLayoutIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/notes': typeof ProtectedNotesRouteWithChildren
   '/forgot-password': typeof SiteLayoutForgotPasswordRoute
   '/login': typeof SiteLayoutLoginRoute
   '/register': typeof SiteLayoutRegisterRoute
+  '/notes/$noteId': typeof ProtectedNotesNoteIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
 }
@@ -87,10 +103,12 @@ export interface FileRoutesById {
   '/_protected': typeof ProtectedRouteWithChildren
   '/_siteLayout': typeof SiteLayoutRouteWithChildren
   '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_protected/notes': typeof ProtectedNotesRouteWithChildren
   '/_siteLayout/forgot-password': typeof SiteLayoutForgotPasswordRoute
   '/_siteLayout/login': typeof SiteLayoutLoginRoute
   '/_siteLayout/register': typeof SiteLayoutRegisterRoute
   '/_siteLayout/': typeof SiteLayoutIndexRoute
+  '/_protected/notes/$noteId': typeof ProtectedNotesNoteIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
 }
@@ -99,18 +117,22 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/notes'
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/notes/$noteId'
     | '/api/auth/$'
     | '/api/trpc/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
+    | '/notes'
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/notes/$noteId'
     | '/api/auth/$'
     | '/api/trpc/$'
   id:
@@ -118,10 +140,12 @@ export interface FileRouteTypes {
     | '/_protected'
     | '/_siteLayout'
     | '/_protected/dashboard'
+    | '/_protected/notes'
     | '/_siteLayout/forgot-password'
     | '/_siteLayout/login'
     | '/_siteLayout/register'
     | '/_siteLayout/'
+    | '/_protected/notes/$noteId'
     | '/api/auth/$'
     | '/api/trpc/$'
   fileRoutesById: FileRoutesById
@@ -177,6 +201,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteLayoutForgotPasswordRouteImport
       parentRoute: typeof SiteLayoutRoute
     }
+    '/_protected/notes': {
+      id: '/_protected/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof ProtectedNotesRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/dashboard': {
       id: '/_protected/dashboard'
       path: '/dashboard'
@@ -198,15 +229,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/notes/$noteId': {
+      id: '/_protected/notes/$noteId'
+      path: '/$noteId'
+      fullPath: '/notes/$noteId'
+      preLoaderRoute: typeof ProtectedNotesNoteIdRouteImport
+      parentRoute: typeof ProtectedNotesRoute
+    }
   }
 }
 
+interface ProtectedNotesRouteChildren {
+  ProtectedNotesNoteIdRoute: typeof ProtectedNotesNoteIdRoute
+}
+
+const ProtectedNotesRouteChildren: ProtectedNotesRouteChildren = {
+  ProtectedNotesNoteIdRoute: ProtectedNotesNoteIdRoute,
+}
+
+const ProtectedNotesRouteWithChildren = ProtectedNotesRoute._addFileChildren(
+  ProtectedNotesRouteChildren,
+)
+
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
+  ProtectedNotesRoute: typeof ProtectedNotesRouteWithChildren
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
+  ProtectedNotesRoute: ProtectedNotesRouteWithChildren,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(

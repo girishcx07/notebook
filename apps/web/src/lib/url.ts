@@ -2,15 +2,23 @@ import { detectRuntimeKind, resolveApiBaseUrl } from "@acme/sdk";
 
 import { env } from "@/env";
 
-export function getBaseUrl() {
+interface GetBaseUrlOptions {
+  apiUrl?: string | null;
+  runtime?: "browser" | "iframe" | "server";
+  vercelEnv?: string | null;
+  vercelProductionUrl?: string | null;
+  vercelUrl?: string | null;
+}
+
+export function getBaseUrl(options: GetBaseUrlOptions = {}) {
   return resolveApiBaseUrl({
-    runtime: detectRuntimeKind(),
-    apiUrl: env.API_URL,
+    runtime: options.runtime ?? detectRuntimeKind(),
+    apiUrl: options.apiUrl ?? env.VITE_API_URL,
     browserOrigin:
       typeof window !== "undefined" ? window.location.origin : undefined,
-    vercelEnv: env.VERCEL_ENV,
-    vercelUrl: env.VERCEL_URL,
-    vercelProductionUrl: env.VERCEL_PROJECT_PRODUCTION_URL,
+    vercelEnv: options.vercelEnv,
+    vercelUrl: options.vercelUrl,
+    vercelProductionUrl: options.vercelProductionUrl,
     port: 3000,
   });
 }

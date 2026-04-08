@@ -6,12 +6,20 @@ import type * as Api from "@acme/api";
 import { createApiClient } from "@acme/sdk";
 
 import { env } from "@/env";
+import { env as serverEnv } from "@/env.server";
 import { getBaseUrl } from "@/lib/url";
 
 export const makeTRPCClient = createIsomorphicFn()
   .server(() => {
     return createApiClient({
-      url: getBaseUrl() + "/api/trpc",
+      url:
+        getBaseUrl({
+          apiUrl: serverEnv.API_URL,
+          runtime: "server",
+          vercelEnv: serverEnv.VERCEL_ENV,
+          vercelUrl: serverEnv.VERCEL_URL,
+          vercelProductionUrl: serverEnv.VERCEL_PROJECT_PRODUCTION_URL,
+        }) + "/api/trpc",
       source: "tanstack-start-server",
       headers: () => getRequestHeaders() as HeadersInit,
     });
