@@ -2,6 +2,6 @@ contact_links:
   - name: Ask a question
     url: https://github.com/girishcx07/notebook/discussions
     about: Ask questions and discuss with other community members
-  - name: Feature request
+  - name: Open idea discussion
     url: https://github.com/girishcx07/notebook/discussions/new?category=ideas
-    about: Feature requests should be opened as discussions
+    about: Use Discussions for early ideation before opening a structured issue or RFC

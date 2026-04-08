@@ -1,0 +1,118 @@
+name: Feature RFC
+description: Capture a structured product or platform requirement before implementation.
+title: "rfc: "
+labels:
+  - enhancement
+  - rfc
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for substantial product, architecture, or platform work.
+        The goal is to make the requirement implementation-ready before a PR starts.
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What user or platform problem are we solving?
+      placeholder: Teams need a notes system with scoped visibility...
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What is included and what is explicitly out of scope?
+      placeholder: |
+        Included:
+        - ...
+
+        Not included:
+        - ...
+    validations:
+      required: true
+  - type: textarea
+    id: resource-model
+    attributes:
+      label: Resource model and access scope
+      description: Describe the owner, scope, and visibility model for this feature.
+      placeholder: |
+        ownerId:
+        orgId / schoolId / classId:
+        visibility values:
+        inheritance rules:
+    validations:
+      required: true
+  - type: textarea
+    id: schema
+    attributes:
+      label: Entities and schema changes
+      description: List the tables, fields, relations, indexes, and migrations that are expected.
+      placeholder: |
+        Tables:
+        Fields:
+        Relations:
+        Migration notes:
+    validations:
+      required: true
+  - type: textarea
+    id: access
+    attributes:
+      label: Access control
+      description: Who can read, create, update, and delete? Where will the backend enforce this?
+      placeholder: |
+        Read:
+        Create:
+        Update:
+        Delete:
+        Backend enforcement:
+    validations:
+      required: true
+  - type: textarea
+    id: api
+    attributes:
+      label: API design
+      description: Describe the planned procedures or endpoints, validators, and output shape.
+      placeholder: |
+        Procedures or endpoints:
+        Validators:
+        Pagination or filtering:
+        Errors:
+    validations:
+      required: true
+  - type: textarea
+    id: frontend
+    attributes:
+      label: Frontend impact
+      description: Which routes, views, components, or packages will change?
+      placeholder: |
+        Routes:
+        Components:
+        Data flow:
+        Empty/loading/error states:
+    validations:
+      required: true
+  - type: textarea
+    id: testing
+    attributes:
+      label: Testing and QA
+      description: Which unit, integration, permission, and manual QA scenarios are required?
+      placeholder: |
+        Unit:
+        Integration:
+        Permission-sensitive:
+        Manual QA:
+    validations:
+      required: true
+  - type: textarea
+    id: performance
+    attributes:
+      label: Performance, rollout, and risks
+      description: Note query shape, pagination, caching, rollout constraints, or known risks.
+      placeholder: |
+        Performance:
+        Rollout:
+        Risks:
+        Follow-up:
+    validations:
+      required: true

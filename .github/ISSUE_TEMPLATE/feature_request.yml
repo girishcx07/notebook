@@ -1,9 +1,14 @@
 name: Feature request
-description: Propose a new feature or platform improvement.
+description: Propose a smaller feature or platform improvement.
 title: "[Feature]: "
 labels:
   - enhancement
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for lightweight enhancements.
+        For larger product, architecture, or system work, prefer the `Feature RFC` template.
   - type: textarea
     id: problem
     attributes:
