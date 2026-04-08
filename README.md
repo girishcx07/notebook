@@ -73,6 +73,14 @@ The main application shell and dashboard live in `apps/web`, and the API server 
 - `pnpm format:fix`: Apply formatting fixes
 - `pnpm check`: Run the full local quality gate
 
+## Future Scaling Notes
+
+For the planned scale phase around Redis, RabbitMQ, workers, and stronger
+platform reliability, see
+[`docs/architecture/future-scaling-roadmap.md`](./docs/architecture/future-scaling-roadmap.md).
+That document captures what is already strong in the current base and what is
+intentionally deferred for the next infrastructure phase.
+
 ## Embeddable SDK
 
 `packages/sdk` exposes:
