@@ -53,7 +53,7 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://postgres:password@db:5432/acme
       - PUBLIC_WEB_URL=http://localhost:3000
-      - PUBLIC_SERVER_URL=http://localhost:3000
+      - PUBLIC_SERVER_URL=http://localhost:3001
       - AUTH_SECRET=supersecret
       - PORT=3001
       - HOST=0.0.0.0
