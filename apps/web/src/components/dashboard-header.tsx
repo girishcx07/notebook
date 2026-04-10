@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { motion } from "framer-motion";
 
 import {
   DashboardPill,
@@ -14,11 +13,7 @@ export function DashboardHeader(props?: {
   title?: string;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-    >
+    <div>
       <DashboardSurface accent="primary" className="p-6 sm:p-8">
         <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-3xl space-y-4">
@@ -48,6 +43,6 @@ export function DashboardHeader(props?: {
           </div>
         ) : null}
       </DashboardSurface>
-    </motion.div>
+    </div>
   );
 }

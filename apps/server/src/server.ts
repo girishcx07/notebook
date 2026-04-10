@@ -4,7 +4,7 @@ import {
   captureException,
   getLogger,
   initSentryPlaceholder,
-} from "@acme/observability";
+} from "@repo/observability";
 
 import { env } from "./env";
 import app from "./index";

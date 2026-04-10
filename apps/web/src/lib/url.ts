@@ -1,4 +1,4 @@
-import { detectRuntimeKind, resolveApiBaseUrl } from "@acme/sdk";
+import { detectRuntimeKind, resolveApiBaseUrl } from "@repo/sdk";
 
 import { env } from "@/env";
 

@@ -11,10 +11,13 @@
     "prefix": ""
   },
   "aliases": {
-    "utils": "@acme/ui/lib/utils",
-    "ui": "@acme/ui/components",
+    "utils": "@repo/ui/lib/utils",
+    "ui": "@repo/ui/components",
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib"
+  },
+  "registries": {
+    "@efferd": "https://efferd.com/r/{style}/{name}.json"
   }
 }

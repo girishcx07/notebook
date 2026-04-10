@@ -5,8 +5,8 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 
-import type { RouterOutputs } from "@acme/api";
-import { Button } from "@acme/ui/components/button";
+import type { RouterOutputs } from "@repo/api";
+import { Button } from "@repo/ui/components/button";
 
 import {
   DashboardPill,

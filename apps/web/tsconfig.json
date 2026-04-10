@@ -1,10 +1,28 @@
 {
-  "extends": "@acme/tsconfig/base.json",
+  "extends": "../../configs/typescript/base.json",
   "compilerOptions": {
     "lib": ["ES2022", "dom", "dom.iterable"],
     "jsx": "preserve",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/components": ["./src/components"],
+      "@/components/*": ["./src/components/*"],
+      "@/hooks": ["./src/hooks"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib": ["./src/lib"],
+      "@/lib/*": ["./src/lib/*"],
+      "@repo/api": ["../../packages/api/src/index.ts"],
+      "@repo/auth": ["../../packages/auth/src/index.ts"],
+      "@repo/auth/*": ["../../packages/auth/*"],
+      "@repo/db": ["../../packages/db/src/index.ts"],
+      "@repo/db/*": ["../../packages/db/src/*"],
+      "@repo/mailer": ["../../packages/mailer/src/index.ts"],
+      "@repo/mailer/*": ["../../packages/mailer/*"],
+      "@repo/sdk": ["../../packages/sdk/src/index.ts"],
+      "@repo/ui": ["../../packages/ui/src/lib/utils.ts"],
+      "@repo/ui/*": ["../../packages/ui/src/*"],
+      "@repo/validators": ["../../packages/validators/src/index.ts"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],

@@ -1,14 +1,14 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
 
-import { and, desc, eq, isNotNull, isNull } from "@acme/db";
-import { Note } from "@acme/db/schema";
+import { and, desc, eq, isNotNull, isNull } from "@repo/db";
+import { Note } from "@repo/db/schema";
 import {
   CreateNoteSchema,
   NoteByIdSchema,
   NoteListSchema,
   UpdateNoteSchema,
-} from "@acme/validators";
+} from "@repo/validators";
 
 import {
   assertCanManageScopedResource,

@@ -9,9 +9,9 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { Button, buttonVariants } from "@acme/ui/components/button";
-import { ThemeToggle } from "@acme/ui/components/theme";
-import { cn } from "@acme/ui/lib/utils";
+import { Button, buttonVariants } from "@repo/ui/components/button";
+import { ThemeToggle } from "@repo/ui/components/theme";
+import { cn } from "@repo/ui/lib/utils";
 
 import { authClient } from "@/auth/client";
 import {

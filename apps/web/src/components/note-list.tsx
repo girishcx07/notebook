@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 
-import type { RouterOutputs } from "@acme/api";
-import type { NoteListStatus } from "@acme/validators";
-import { Button } from "@acme/ui/components/button";
+import type { RouterOutputs } from "@repo/api";
+import type { NoteListStatus } from "@repo/validators";
+import { Button } from "@repo/ui/components/button";
 
 import {
   DashboardPill,

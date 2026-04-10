@@ -4,16 +4,16 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { z } from "zod";
 
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@repo/ui/components/button";
 import {
   Field,
   FieldContent,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@acme/ui/components/field";
-import { Input } from "@acme/ui/components/input";
-import { toast } from "@acme/ui/components/toast";
+} from "@repo/ui/components/field";
+import { Input } from "@repo/ui/components/input";
+import { toast } from "@repo/ui/components/toast";
 
 import { authClient } from "@/auth/client";
 import { AuthShell } from "@/components/auth-shell";

@@ -2,8 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { BookOpenText, Eye, ShieldCheck } from "lucide-react";
 import { z } from "zod/v4";
 
-import type { NoteListStatus } from "@acme/validators";
-import { NoteListStatusSchema } from "@acme/validators";
+import type { NoteListStatus } from "@repo/validators";
+import { NoteListStatusSchema } from "@repo/validators";
 
 import { CreateNoteForm } from "@/components/create-note-form";
 import { DashboardHeader } from "@/components/dashboard-header";

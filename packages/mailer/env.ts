@@ -1,8 +1,8 @@
 /**
- * @acme/mailer – environment variables
+ * @repo/mailer – environment variables
  *
  * Extend this in any app that sends email:
- *   import { mailerEnv } from "@acme/mailer/env";
+ *   import { mailerEnv } from "@repo/mailer/env";
  *   export const env = createEnv({ extends: [mailerEnv(), ...], ... });
  */
 

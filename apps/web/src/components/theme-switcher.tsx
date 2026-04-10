@@ -2,8 +2,8 @@ import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 
-import { useTheme } from "@acme/ui/components/theme";
-import { cn } from "@acme/ui/lib/utils";
+import { useTheme } from "@repo/ui/components/theme";
+import { cn } from "@repo/ui/lib/utils";
 
 type ThemeMode = "light" | "dark" | "auto";
 

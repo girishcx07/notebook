@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@repo/ui/components/button";
 import {
   Field,
   FieldContent,
@@ -12,10 +12,10 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@acme/ui/components/field";
-import { Input } from "@acme/ui/components/input";
-import { toast } from "@acme/ui/components/toast";
-import { cn } from "@acme/ui/lib/utils";
+} from "@repo/ui/components/field";
+import { Input } from "@repo/ui/components/input";
+import { toast } from "@repo/ui/components/toast";
+import { cn } from "@repo/ui/lib/utils";
 
 import { GitHubIcon, GoogleIcon } from "@/assets/icons";
 import { authClient } from "@/auth/client";

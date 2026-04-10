@@ -10,9 +10,9 @@
     "build": "turbo run build",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo run clean",
-    "auth:generate": "pnpm -F @acme/auth generate",
-    "db:push": "turbo -F @acme/db push",
-    "db:studio": "turbo -F @acme/db studio",
+    "auth:generate": "pnpm -F @repo/auth generate",
+    "db:push": "turbo -F @repo/db push",
+    "db:studio": "turbo -F @repo/db studio",
     "dev": "turbo watch dev --continue",
     "format": "turbo run format --continue -- --cache --cache-location .cache/.prettiercache",
     "format:fix": "turbo run format --continue -- --write --cache --cache-location .cache/.prettiercache",
@@ -27,16 +27,16 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm format && pnpm lint:ws",
     "validate": "pnpm check",
     "ui-add": "turbo run ui-add",
-    "build:prod": "pnpm -F @acme/db container:build && pnpm -F @acme/server container:build && pnpm -F @acme/web container:build",
+    "build:prod": "pnpm -F @repo/db container:build && pnpm -F @repo/server container:build && pnpm -F @repo/web container:build",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down"
   },
   "devDependencies": {
-    "@acme/prettier-config": "workspace:*",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@playwright/test": "catalog:",
+    "@repo/prettier-config": "workspace:*",
     "@turbo/gen": "^2.8.17",
     "dotenv-cli": "^11.0.0",
     "eslint": "catalog:",
@@ -47,5 +47,5 @@
     "turbo": "^2.8.17",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@repo/prettier-config"
 }

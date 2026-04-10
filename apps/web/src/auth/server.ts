@@ -1,6 +1,6 @@
 import { reactStartCookies } from "better-auth/react-start";
 
-import { initAuth } from "@acme/auth";
+import { initAuth } from "@repo/auth";
 
 import { env } from "@/env.server";
 import { getBaseUrl } from "@/lib/url";

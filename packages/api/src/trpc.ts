@@ -10,9 +10,9 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { z, ZodError } from "zod/v4";
 
-import type { Auth } from "@acme/auth";
-import { db } from "@acme/db/client";
-import { getLogger } from "@acme/observability";
+import type { Auth } from "@repo/auth";
+import { db } from "@repo/db/client";
+import { getLogger } from "@repo/observability";
 
 const logger = getLogger({ service: "trpc" });
 
