@@ -56,8 +56,8 @@ export function LoginForm({
         if (res.error) {
           toast.error(res.error.message ?? "Failed to register");
         } else {
-          toast.success("Successfully registered");
-          await navigate({ to: "/" });
+          toast.success("Successfully logged in");
+          await navigate({ to: "/dashboard" });
         }
       } catch {
         toast.error("An unexpected error occurred");
@@ -83,7 +83,7 @@ export function LoginForm({
             Login to your account
           </h1>
           <p className="text-muted-foreground text-sm">
-            Enter your email below to continue
+            Enter your email below to continue into your dashboard
           </p>
         </div>
         {/* Email */}

@@ -19,6 +19,10 @@ import { Textarea } from "@acme/ui/components/textarea";
 import { toast } from "@acme/ui/components/toast";
 import { NoteUiVisibilitySchema } from "@acme/validators";
 
+import {
+  DashboardPill,
+  DashboardSurface,
+} from "@/components/dashboard-surface";
 import { useTRPC } from "@/lib/trpc";
 
 const UpdateNoteFormSchema = z.object({
@@ -146,178 +150,201 @@ export function NoteEditor(props: {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-semibold">Note details</h2>
-          <p className="text-muted-foreground text-sm">
-            Update content, archive it for later, or soft delete it safely.
-          </p>
-        </div>
+      <DashboardSurface accent="slate" className="p-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-3">
+            <DashboardPill>Note editor</DashboardPill>
+            <div className="space-y-1">
+              <h2 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
+                Note details
+              </h2>
+              <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">
+                Update content, archive it for later, or soft delete it safely.
+              </p>
+            </div>
+          </div>
 
-        <Link
-          to="/notes"
-          search={{ page: 1, status: "active" }}
-          className="text-sm underline underline-offset-4"
-        >
-          Back to notes
-        </Link>
-      </div>
+          <Link
+            to="/notes"
+            search={{ page: 1, status: "active" }}
+            className="text-primary text-sm font-medium underline underline-offset-4"
+          >
+            Back to notes
+          </Link>
+        </div>
+      </DashboardSurface>
 
       {!props.isOwner && (
-        <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <div className="rounded-[24px] border border-amber-300/70 bg-amber-50/90 px-4 py-3 text-sm text-amber-900 shadow-sm dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100">
           You can read this note because of its visibility, but only the owner
           can edit or manage it.
         </div>
       )}
 
-      <form
-        className="bg-card flex flex-col gap-6 rounded-2xl border p-6 shadow-sm"
-        onSubmit={(event) => {
-          event.preventDefault();
-          void form.handleSubmit();
-        }}
-      >
-        <FieldGroup>
-          <form.Field
-            name="title"
-            children={(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
+      <DashboardSurface accent="blue" className="p-6">
+        <form
+          className="flex flex-col gap-6"
+          onSubmit={(event) => {
+            event.preventDefault();
+            void form.handleSubmit();
+          }}
+        >
+          <FieldGroup>
+            <form.Field
+              name="title"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
 
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldContent>
-                    <FieldLabel htmlFor={field.name}>Title</FieldLabel>
-                  </FieldContent>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(event) => field.handleChange(event.target.value)}
-                    aria-invalid={isInvalid}
-                    disabled={!props.isOwner || deleteNote.isPending}
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          />
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldContent>
+                      <FieldLabel htmlFor={field.name}>Title</FieldLabel>
+                    </FieldContent>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(event) =>
+                        field.handleChange(event.target.value)
+                      }
+                      aria-invalid={isInvalid}
+                      disabled={!props.isOwner || deleteNote.isPending}
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                );
+              }}
+            />
 
-          <form.Field
-            name="content"
-            children={(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
+            <form.Field
+              name="content"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
 
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldContent>
-                    <FieldLabel htmlFor={field.name}>Content</FieldLabel>
-                  </FieldContent>
-                  <Textarea
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(event) => field.handleChange(event.target.value)}
-                    aria-invalid={isInvalid}
-                    disabled={!props.isOwner || deleteNote.isPending}
-                    className="min-h-56"
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          />
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldContent>
+                      <FieldLabel htmlFor={field.name}>Content</FieldLabel>
+                    </FieldContent>
+                    <Textarea
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(event) =>
+                        field.handleChange(event.target.value)
+                      }
+                      aria-invalid={isInvalid}
+                      disabled={!props.isOwner || deleteNote.isPending}
+                      className="min-h-56"
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                );
+              }}
+            />
 
-          <form.Field
-            name="visibility"
-            validators={{
-              onChange: NoteUiVisibilitySchema,
-            }}
-            children={(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
+            <form.Field
+              name="visibility"
+              validators={{
+                onChange: NoteUiVisibilitySchema,
+              }}
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
 
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldContent>
-                    <FieldLabel htmlFor={field.name}>Visibility</FieldLabel>
-                    <FieldDescription>
-                      Org, school, and class visibility are reserved until the
-                      surrounding membership model lands.
-                    </FieldDescription>
-                  </FieldContent>
-                  <select
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(event) =>
-                      field.handleChange(event.target.value as NoteUiVisibility)
-                    }
-                    aria-invalid={isInvalid}
-                    disabled={!props.isOwner || deleteNote.isPending}
-                    className="border-input bg-background focus-visible:border-ring focus-visible:ring-ring/50 h-10 rounded-md border px-3 text-sm shadow-xs outline-none focus-visible:ring-3"
-                  >
-                    {visibilityOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label} - {option.description}
-                      </option>
-                    ))}
-                  </select>
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          />
-        </FieldGroup>
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldContent>
+                      <FieldLabel htmlFor={field.name}>Visibility</FieldLabel>
+                      <FieldDescription>
+                        Org, school, and class visibility are reserved until the
+                        surrounding membership model lands.
+                      </FieldDescription>
+                    </FieldContent>
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(event) =>
+                        field.handleChange(
+                          event.target.value as NoteUiVisibility,
+                        )
+                      }
+                      aria-invalid={isInvalid}
+                      disabled={!props.isOwner || deleteNote.isPending}
+                      className="border-input bg-background focus-visible:border-ring focus-visible:ring-ring/50 h-10 rounded-md border px-3 text-sm shadow-xs outline-none focus-visible:ring-3"
+                    >
+                      {visibilityOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label} - {option.description}
+                        </option>
+                      ))}
+                    </select>
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                );
+              }}
+            />
+          </FieldGroup>
 
-        <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
-          <span>Visibility: {formatVisibility(props.note.visibility)}</span>
-          <span>Updated {new Date(props.note.updatedAt).toLocaleString()}</span>
-          {props.note.isArchived && <span>Archived</span>}
-          {props.note.deletedAt && <span>Soft deleted</span>}
-        </div>
-
-        {props.isOwner ? (
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Button type="submit" disabled={updateNote.isPending}>
-              {updateNote.isPending ? "Saving..." : "Save changes"}
-            </Button>
-
-            {props.note.isArchived || props.note.deletedAt ? (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={restoreNote.isPending}
-                onClick={() => restoreNote.mutate({ id: props.note.id })}
-              >
-                {restoreNote.isPending ? "Restoring..." : "Restore note"}
-              </Button>
-            ) : (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={archiveNote.isPending}
-                onClick={() => archiveNote.mutate({ id: props.note.id })}
-              >
-                {archiveNote.isPending ? "Archiving..." : "Archive note"}
-              </Button>
-            )}
-
-            <Button
-              type="button"
-              variant="destructive"
-              disabled={deleteNote.isPending || !!props.note.deletedAt}
-              onClick={() => deleteNote.mutate({ id: props.note.id })}
-            >
-              {deleteNote.isPending ? "Deleting..." : "Delete note"}
-            </Button>
+          <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
+            <span>Visibility: {formatVisibility(props.note.visibility)}</span>
+            <span>
+              Updated {new Date(props.note.updatedAt).toLocaleString()}
+            </span>
+            {props.note.isArchived && <span>Archived</span>}
+            {props.note.deletedAt && <span>Soft deleted</span>}
           </div>
-        ) : null}
-      </form>
+
+          {props.isOwner ? (
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Button type="submit" disabled={updateNote.isPending}>
+                {updateNote.isPending ? "Saving..." : "Save changes"}
+              </Button>
+
+              {props.note.isArchived || props.note.deletedAt ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={restoreNote.isPending}
+                  onClick={() => restoreNote.mutate({ id: props.note.id })}
+                >
+                  {restoreNote.isPending ? "Restoring..." : "Restore note"}
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={archiveNote.isPending}
+                  onClick={() => archiveNote.mutate({ id: props.note.id })}
+                >
+                  {archiveNote.isPending ? "Archiving..." : "Archive note"}
+                </Button>
+              )}
+
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={deleteNote.isPending || !!props.note.deletedAt}
+                onClick={() => deleteNote.mutate({ id: props.note.id })}
+              >
+                {deleteNote.isPending ? "Deleting..." : "Delete note"}
+              </Button>
+            </div>
+          ) : null}
+        </form>
+      </DashboardSurface>
     </div>
   );
 }

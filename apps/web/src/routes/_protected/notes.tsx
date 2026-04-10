@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { BookOpenText, Eye, ShieldCheck } from "lucide-react";
 import { z } from "zod/v4";
 
 import type { NoteListStatus } from "@acme/validators";
@@ -6,6 +7,7 @@ import { NoteListStatusSchema } from "@acme/validators";
 
 import { CreateNoteForm } from "@/components/create-note-form";
 import { DashboardHeader } from "@/components/dashboard-header";
+import { DashboardMetricCard } from "@/components/dashboard-surface";
 import { NoteList } from "@/components/note-list";
 
 const notesSearchSchema = z.object({
@@ -33,26 +35,45 @@ function NotesPage() {
   };
 
   return (
-    <main className="bg-muted/40 min-h-screen px-6 py-10">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-        <DashboardHeader
-          title="Notes"
-          description="This is the first production-style scoped resource in the app. It already supports visibility, archive, and soft delete behavior."
+    <div className="flex flex-col gap-6">
+      <DashboardHeader
+        eyebrow="Notebook"
+        title="Create structure without making the workspace feel heavy."
+        description="This notes area keeps the workflow simple: write quickly, control visibility, and move between active, archived, and deleted states inside a clearer widget-based layout."
+      >
+        <DashboardMetricCard
+          accent="blue"
+          description="Every note starts in a calm, focused authoring flow."
+          icon={BookOpenText}
+          label="Writing flow"
+          value="Fast capture"
         />
+        <DashboardMetricCard
+          accent="emerald"
+          description="Use private, authenticated, or public visibility depending on how widely a note should be shared."
+          icon={Eye}
+          label="Visibility"
+          value="Three levels"
+        />
+        <DashboardMetricCard
+          accent="primary"
+          description="Archive and soft delete behaviors stay obvious so learners never lose work by accident."
+          icon={ShieldCheck}
+          label="Safety"
+          value="Protected states"
+        />
+      </DashboardHeader>
 
-        <div className="grid gap-8 xl:grid-cols-[360px_minmax(0,1fr)]">
-          <CreateNoteForm />
+      <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
+        <CreateNoteForm />
 
-          <div className="bg-card rounded-2xl border p-6 shadow-sm">
-            <NoteList
-              page={search.page}
-              status={search.status}
-              onStatusChange={(status) => updateSearch({ page: 1, status })}
-              onPageChange={(page) => updateSearch({ page })}
-            />
-          </div>
-        </div>
+        <NoteList
+          page={search.page}
+          status={search.status}
+          onStatusChange={(status) => updateSearch({ page: 1, status })}
+          onPageChange={(page) => updateSearch({ page })}
+        />
       </div>
-    </main>
+    </div>
   );
 }

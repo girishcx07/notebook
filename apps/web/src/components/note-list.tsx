@@ -6,6 +6,10 @@ import type { RouterOutputs } from "@acme/api";
 import type { NoteListStatus } from "@acme/validators";
 import { Button } from "@acme/ui/components/button";
 
+import {
+  DashboardPill,
+  DashboardSurface,
+} from "@/components/dashboard-surface";
 import { useTRPC } from "@/lib/trpc";
 
 const statusLabels: Record<NoteListStatus, string> = {
@@ -21,46 +25,55 @@ export function NoteList(props: {
   status: NoteListStatus;
 }) {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-lg font-semibold">My Notes</h2>
-          <p className="text-muted-foreground text-sm">
-            Review active work, archived notes, or soft-deleted entries.
-          </p>
+    <DashboardSurface accent="blue" className="p-6">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-3">
+            <DashboardPill>Notebook library</DashboardPill>
+            <div>
+              <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
+                My notes
+              </h2>
+              <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">
+                Review active work, archived notes, or soft-deleted entries in
+                one calmer dashboard list.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {(["active", "archived", "deleted"] as const).map((status) => (
+              <Button
+                key={status}
+                type="button"
+                variant={props.status === status ? "default" : "outline"}
+                size="sm"
+                className="rounded-full"
+                onClick={() => props.onStatusChange(status)}
+              >
+                {statusLabels[status]}
+              </Button>
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {(["active", "archived", "deleted"] as const).map((status) => (
-            <Button
-              key={status}
-              type="button"
-              variant={props.status === status ? "default" : "outline"}
-              size="sm"
-              onClick={() => props.onStatusChange(status)}
-            >
-              {statusLabels[status]}
-            </Button>
-          ))}
-        </div>
+        <Suspense
+          fallback={
+            <>
+              <NoteCardSkeleton />
+              <NoteCardSkeleton />
+              <NoteCardSkeleton />
+            </>
+          }
+        >
+          <NoteListContent
+            page={props.page}
+            status={props.status}
+            onPageChange={props.onPageChange}
+          />
+        </Suspense>
       </div>
-
-      <Suspense
-        fallback={
-          <>
-            <NoteCardSkeleton />
-            <NoteCardSkeleton />
-            <NoteCardSkeleton />
-          </>
-        }
-      >
-        <NoteListContent
-          page={props.page}
-          status={props.status}
-          onPageChange={props.onPageChange}
-        />
-      </Suspense>
-    </div>
+    </DashboardSurface>
   );
 }
 
@@ -80,7 +93,7 @@ function NoteListContent(props: {
 
   if (data.items.length === 0) {
     return (
-      <div className="bg-card rounded-2xl border p-10 text-center shadow-sm">
+      <div className="rounded-[24px] border border-dashed border-white/70 bg-white/70 p-10 text-center shadow-sm dark:border-white/10 dark:bg-white/5">
         <p className="text-lg font-medium">
           No {statusLabels[props.status].toLowerCase()} notes
         </p>
@@ -139,7 +152,7 @@ function NoteCard(props: {
         page: 1,
         status: "active",
       }}
-      className="bg-card hover:bg-muted/40 group flex flex-col gap-3 rounded-2xl border p-5 text-left shadow-sm transition"
+      className="group flex flex-col gap-3 rounded-[24px] border border-white/70 bg-white/75 p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
     >
       <div className="flex items-center justify-between gap-3">
         <h3 className="line-clamp-1 text-left text-base font-semibold">
@@ -172,7 +185,7 @@ function NoteCard(props: {
 
 function NoteCardSkeleton() {
   return (
-    <div className="bg-card flex flex-col gap-3 rounded-2xl border p-5">
+    <div className="flex flex-col gap-3 rounded-[24px] border border-white/70 bg-white/75 p-5 dark:border-white/10 dark:bg-white/5">
       <div className="bg-muted h-5 w-1/3 animate-pulse rounded" />
       <div className="bg-muted h-4 w-full animate-pulse rounded" />
       <div className="bg-muted h-4 w-4/5 animate-pulse rounded" />

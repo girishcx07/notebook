@@ -17,6 +17,10 @@ import { Textarea } from "@acme/ui/components/textarea";
 import { toast } from "@acme/ui/components/toast";
 import { NoteUiVisibilitySchema } from "@acme/validators";
 
+import {
+  DashboardPill,
+  DashboardSurface,
+} from "@/components/dashboard-surface";
 import { useTRPC } from "@/lib/trpc";
 
 const CreateNoteFormSchema = z.object({
@@ -99,115 +103,127 @@ export function CreateNoteForm() {
   );
 
   return (
-    <form
-      className="bg-card flex flex-col gap-6 rounded-2xl border p-6 shadow-sm"
-      onSubmit={(event) => {
-        event.preventDefault();
-        void form.handleSubmit();
-      }}
-    >
-      <div className="space-y-1">
-        <h2 className="text-lg font-semibold">Create Note</h2>
-        <p className="text-muted-foreground text-sm">
-          Start with a personal note and promote visibility later if needed.
-        </p>
-      </div>
+    <DashboardSurface accent="emerald" className="p-6">
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={(event) => {
+          event.preventDefault();
+          void form.handleSubmit();
+        }}
+      >
+        <div className="space-y-3">
+          <DashboardPill>Create structure</DashboardPill>
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
+              Create note
+            </h2>
+            <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">
+              Start with a personal draft, then expand visibility when the note
+              is ready for classmates or wider sharing.
+            </p>
+          </div>
+        </div>
 
-      <FieldGroup>
-        <form.Field
-          name="title"
-          children={(field) => {
-            const isInvalid =
-              field.state.meta.isTouched && !field.state.meta.isValid;
+        <FieldGroup>
+          <form.Field
+            name="title"
+            children={(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid;
 
-            return (
-              <Field data-invalid={isInvalid}>
-                <FieldContent>
-                  <FieldLabel htmlFor={field.name}>Title</FieldLabel>
-                </FieldContent>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(event) => field.handleChange(event.target.value)}
-                  placeholder="Biology exam study guide"
-                  aria-invalid={isInvalid}
-                />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
-              </Field>
-            );
-          }}
-        />
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldContent>
+                    <FieldLabel htmlFor={field.name}>Title</FieldLabel>
+                  </FieldContent>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                    placeholder="Biology exam study guide"
+                    aria-invalid={isInvalid}
+                  />
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              );
+            }}
+          />
 
-        <form.Field
-          name="content"
-          children={(field) => {
-            const isInvalid =
-              field.state.meta.isTouched && !field.state.meta.isValid;
+          <form.Field
+            name="content"
+            children={(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid;
 
-            return (
-              <Field data-invalid={isInvalid}>
-                <FieldContent>
-                  <FieldLabel htmlFor={field.name}>Content</FieldLabel>
-                </FieldContent>
-                <Textarea
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(event) => field.handleChange(event.target.value)}
-                  placeholder="Capture your key ideas, tasks, or study notes here..."
-                  aria-invalid={isInvalid}
-                  className="min-h-40"
-                />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
-              </Field>
-            );
-          }}
-        />
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldContent>
+                    <FieldLabel htmlFor={field.name}>Content</FieldLabel>
+                  </FieldContent>
+                  <Textarea
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                    placeholder="Capture your key ideas, tasks, or study notes here..."
+                    aria-invalid={isInvalid}
+                    className="min-h-40"
+                  />
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              );
+            }}
+          />
 
-        <form.Field
-          name="visibility"
-          validators={{
-            onChange: NoteUiVisibilitySchema,
-          }}
-          children={(field) => {
-            const isInvalid =
-              field.state.meta.isTouched && !field.state.meta.isValid;
+          <form.Field
+            name="visibility"
+            validators={{
+              onChange: NoteUiVisibilitySchema,
+            }}
+            children={(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid;
 
-            return (
-              <Field data-invalid={isInvalid}>
-                <FieldContent>
-                  <FieldLabel htmlFor={field.name}>Visibility</FieldLabel>
-                </FieldContent>
-                <select
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(event) =>
-                    field.handleChange(event.target.value as NoteUiVisibility)
-                  }
-                  aria-invalid={isInvalid}
-                  className="border-input bg-background focus-visible:border-ring focus-visible:ring-ring/50 h-10 rounded-md border px-3 text-sm shadow-xs outline-none focus-visible:ring-3"
-                >
-                  {uiVisibilityOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label} - {option.description}
-                    </option>
-                  ))}
-                </select>
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
-              </Field>
-            );
-          }}
-        />
-      </FieldGroup>
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldContent>
+                    <FieldLabel htmlFor={field.name}>Visibility</FieldLabel>
+                  </FieldContent>
+                  <select
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(event) =>
+                      field.handleChange(event.target.value as NoteUiVisibility)
+                    }
+                    aria-invalid={isInvalid}
+                    className="border-input bg-background focus-visible:border-ring focus-visible:ring-ring/50 h-10 rounded-md border px-3 text-sm shadow-xs outline-none focus-visible:ring-3"
+                  >
+                    {uiVisibilityOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label} - {option.description}
+                      </option>
+                    ))}
+                  </select>
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              );
+            }}
+          />
+        </FieldGroup>
 
-      <Button type="submit" disabled={createNote.isPending} className="w-full">
-        {createNote.isPending ? "Creating note..." : "Create note"}
-      </Button>
-    </form>
+        <Button
+          type="submit"
+          disabled={createNote.isPending}
+          className="w-full"
+        >
+          {createNote.isPending ? "Creating note..." : "Create note"}
+        </Button>
+      </form>
+    </DashboardSurface>
   );
 }

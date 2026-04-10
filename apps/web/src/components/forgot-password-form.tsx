@@ -67,6 +67,15 @@ export function ForgotPasswordForm({
       {...props}
     >
       <FieldGroup className="gap-0">
+        <div className="mb-7 flex flex-col items-center gap-1.5 text-center">
+          <h1 className="text-2xl font-bold tracking-tight">
+            Reset your password
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            Enter your email and we&apos;ll send you a reset link
+          </p>
+        </div>
+
         <form.Field
           name="email"
           children={(field) => (
