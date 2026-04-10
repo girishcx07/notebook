@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 
+import { AuthShell } from "@/components/auth-shell";
 import { LoginForm } from "@/components/login-form";
 
 export const Route = createFileRoute("/_siteLayout/login")({
@@ -9,15 +10,18 @@ export const Route = createFileRoute("/_siteLayout/login")({
 
 function RouteComponent() {
   return (
-    <div className="bg-background flex flex-1 flex-col items-center justify-center px-4 py-16">
+    <AuthShell
+      title="Sign in to a calmer learning workspace."
+      description="Move from homepage to dashboard without the UI tone changing on you. The same airy, accessible system now carries through sign-in as well."
+    >
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-        className="w-full max-w-[400px]"
+        className="w-full rounded-[32px] border border-white/70 bg-white/90 p-6 shadow-[0_18px_48px_-36px_rgba(15,23,42,0.35)] backdrop-blur-sm sm:p-8 dark:border-white/10 dark:bg-slate-950/82"
       >
         <LoginForm />
       </motion.div>
-    </div>
+    </AuthShell>
   );
 }

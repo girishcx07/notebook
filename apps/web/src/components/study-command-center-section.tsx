@@ -5,8 +5,8 @@ export function StudyCommandCenterSection() {
   return (
     <section className="grainy-light relative overflow-hidden bg-linear-to-b from-blue-50 to-blue-100 px-6 py-32 lg:px-10 dark:from-[#050510] dark:to-[#0a0a12]">
       {/* GLOWS */}
-      <div className="bg-primary/20 absolute top-0 right-0 h-80 w-80 blur-[150px]" />
-      <div className="absolute bottom-0 left-0 h-72 w-72 bg-blue-500/20 blur-[170px]" />
+      <div className="bg-primary/16 absolute top-0 right-0 h-64 w-64 blur-[96px]" />
+      <div className="absolute bottom-0 left-0 h-60 w-60 bg-blue-500/16 blur-[110px]" />
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-start gap-20 px-6 lg:grid-cols-2 lg:px-8">
         {/* LEFT — BOOKS & SUBJECT BENTO */}
@@ -27,7 +27,7 @@ export function StudyCommandCenterSection() {
                 initial={{ opacity: 0, y: 20, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.4, delay: i * 0.12 }}
-                className={`rounded-2xl border bg-linear-to-br p-5 shadow-lg backdrop-blur-xl ${b.accent} relative overflow-hidden transition hover:shadow-xl`}
+                className={`relative overflow-hidden rounded-2xl border bg-linear-to-br p-5 shadow-lg transition hover:shadow-xl ${b.accent}`}
               >
                 <div className="flex items-start justify-between">
                   <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
@@ -48,7 +48,7 @@ export function StudyCommandCenterSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="relative overflow-hidden rounded-3xl border bg-white/70 p-8 shadow-xl backdrop-blur-2xl dark:bg-slate-900/80"
+          className="relative overflow-hidden rounded-3xl border bg-white/82 p-8 shadow-xl dark:bg-slate-900/82"
         >
           {/* PANEL HEADER */}
           <div className="flex items-center gap-2">

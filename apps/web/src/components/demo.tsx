@@ -109,7 +109,7 @@ const NotebookPage = ({
   return (
     <div
       className={cn(
-        "bg-card/95 relative rounded-2xl border px-4 py-3 pb-4 shadow-[0_22px_40px_-24px_rgba(0,0,0,0.45)] backdrop-blur-xl dark:bg-slate-900/95",
+        "bg-card/95 relative rounded-2xl border px-4 py-3 pb-4 shadow-[0_18px_32px_-24px_rgba(0,0,0,0.35)] backdrop-blur-sm dark:bg-slate-900/95",
         muted && "border-border/60 bg-muted/60 border-dashed",
         className,
       )}

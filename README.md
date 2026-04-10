@@ -81,6 +81,22 @@ platform reliability, see
 That document captures what is already strong in the current base and what is
 intentionally deferred for the next infrastructure phase.
 
+## Product System Docs
+
+For future product work, architecture decisions, and implementation-ready
+feature specs, use these repo-native references:
+
+- [`docs/architecture/resource-access-model.md`](./docs/architecture/resource-access-model.md):
+  shared resource scope and visibility contract for all future modules
+- [`docs/architecture/feature-delivery-workflow.md`](./docs/architecture/feature-delivery-workflow.md):
+  the standard path from idea to RFC to implementation PR
+- [`docs/templates/feature-spec-template.md`](./docs/templates/feature-spec-template.md):
+  reusable feature planning and PR authoring template
+- [`docs/templates/master-feature-prompt.md`](./docs/templates/master-feature-prompt.md):
+  stack-specific AI prompt for TanStack Start, Hono, tRPC, Drizzle, and Better Auth
+- [`docs/specs/notes-page-crud.md`](./docs/specs/notes-page-crud.md):
+  canonical worked example for a Notes/Page CRUD feature
+
 ## Embeddable SDK
 
 `packages/sdk` exposes:
@@ -96,8 +112,11 @@ For third-party embeds, set `ALLOWED_EMBED_ORIGINS` in `.env` to the approved ho
 - GitHub Actions are split into `lint.yml`, `build.yml`, and `test.yml`
 - Husky runs lint-staged before commits and commitlint on commit messages
 - PR and issue templates are provided in `.github`
+- structured product work should use the `Feature RFC` issue template
 
-# API server
+## Docker Build Example
+
+```bash
 docker build -f apps/server/Dockerfile -t acme-api .
 ```
 

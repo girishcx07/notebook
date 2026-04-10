@@ -58,6 +58,7 @@
     "PUBLIC_WEB_URL",
     "PUBLIC_SERVER_URL",
     "API_URL",
+    "VITE_API_URL",
     "ALLOWED_EMBED_ORIGINS",
     "RESEND_API_KEY",
     "EMAIL_FROM",
@@ -71,6 +72,7 @@
     "VERCEL",
     "VERCEL_ENV",
     "VERCEL_URL",
+    "VERCEL_PROJECT_PRODUCTION_URL",
     "PLAYWRIGHT_BASE_URL",
     "npm_lifecycle_event"
   ]

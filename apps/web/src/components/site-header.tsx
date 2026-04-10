@@ -34,7 +34,7 @@ export function SiteHeader() {
   const isAuthPage = pathname === "/login" || pathname === "/register";
 
   return (
-    <nav className="sticky inset-x-0 top-0 z-40 border-b bg-white/80 backdrop-blur-xl dark:bg-slate-900/70">
+    <nav className="sticky inset-x-0 top-0 z-40 border-b bg-white/88 backdrop-blur-md dark:bg-slate-900/78">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Brand */}

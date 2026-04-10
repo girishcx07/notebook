@@ -86,8 +86,8 @@ export function SubjectBentoSection() {
   return (
     <section className="grainy-light relative overflow-hidden bg-linear-to-b from-blue-50 to-blue-100 px-6 py-28 lg:px-10 dark:from-[#0a0a0f] dark:to-[#09090d]">
       {/* SOFT BACKGROUND GLOWS */}
-      <div className="bg-primary/20 absolute top-0 right-0 h-72 w-72 blur-[140px]" />
-      <div className="absolute bottom-0 left-0 h-80 w-80 bg-blue-500/20 blur-[150px]" />
+      <div className="bg-primary/16 absolute top-0 right-0 h-60 w-60 blur-[96px]" />
+      <div className="absolute bottom-0 left-0 h-64 w-64 bg-blue-500/16 blur-[110px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <h2 className="text-center text-5xl font-bold tracking-tight text-slate-900 md:text-6xl dark:text-white">
@@ -127,7 +127,7 @@ function BentoCard({
       initial={{ opacity: 0, y: 20, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.45, delay: index * 0.12 }}
-      className={`group relative rounded-2xl border bg-linear-to-br p-6 shadow-lg backdrop-blur-xl ${subject.accent} cursor-pointer overflow-hidden transition hover:shadow-2xl`}
+      className={`group relative cursor-pointer overflow-hidden rounded-2xl border bg-linear-to-br p-6 shadow-lg transition hover:shadow-2xl ${subject.accent}`}
     >
       {/* HEADER */}
       <div className="flex items-start justify-between">

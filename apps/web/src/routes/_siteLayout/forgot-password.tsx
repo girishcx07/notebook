@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 
+import { AuthShell } from "@/components/auth-shell";
 import { ForgotPasswordForm } from "@/components/forgot-password-form";
 
 export const Route = createFileRoute("/_siteLayout/forgot-password")({
@@ -9,15 +10,18 @@ export const Route = createFileRoute("/_siteLayout/forgot-password")({
 
 function RouteComponent() {
   return (
-    <div className="bg-background flex flex-1 flex-col items-center justify-center px-4 py-16">
+    <AuthShell
+      title="Recover access without losing the calm visual flow."
+      description="Password recovery now lives inside the same polished gradient system as sign-in, registration, and the protected workspace."
+    >
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-        className="w-full max-w-[400px]"
+        className="w-full rounded-[32px] border border-white/70 bg-white/90 p-6 shadow-[0_18px_48px_-36px_rgba(15,23,42,0.35)] backdrop-blur-sm sm:p-8 dark:border-white/10 dark:bg-slate-950/82"
       >
         <ForgotPasswordForm />
       </motion.div>
-    </div>
+    </AuthShell>
   );
 }

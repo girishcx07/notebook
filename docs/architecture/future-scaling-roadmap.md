@@ -5,6 +5,11 @@ required for the current delivery target, but is expected in the next scaling
 phase. It exists so we can keep the current base project lean while still
 documenting future requirements clearly.
 
+Use this roadmap together with:
+
+- `docs/architecture/resource-access-model.md` for shared resource and access rules
+- `docs/architecture/feature-delivery-workflow.md` for the standard issue-to-PR flow
+
 ## Why This Exists
 
 The repository has already been modernized around a scalable monorepo shape:

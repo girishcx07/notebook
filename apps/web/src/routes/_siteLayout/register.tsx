@@ -16,6 +16,7 @@ import { Input } from "@acme/ui/components/input";
 import { toast } from "@acme/ui/components/toast";
 
 import { authClient } from "@/auth/client";
+import { AuthShell } from "@/components/auth-shell";
 
 export const Route = createFileRoute("/_siteLayout/register")({
   component: RegisterPage,
@@ -53,7 +54,7 @@ function RegisterPage() {
           toast.error(res.error.message ?? "Failed to register");
         } else {
           toast.success("Successfully registered");
-          await navigate({ to: "/" });
+          await navigate({ to: "/dashboard" });
         }
       } catch {
         toast.error("An unexpected error occurred");
@@ -64,12 +65,15 @@ function RegisterPage() {
   });
 
   return (
-    <div className="bg-background flex flex-1 flex-col items-center justify-center px-4 py-16">
+    <AuthShell
+      title="Register once, then build your own structure."
+      description="The register flow now sits inside the same visual system as the homepage and dashboard, so the move into the product feels intentional and easy to follow."
+    >
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-        className="w-full max-w-[400px]"
+        className="w-full rounded-[32px] border border-white/70 bg-white/90 p-6 shadow-[0_18px_48px_-36px_rgba(15,23,42,0.35)] backdrop-blur-sm sm:p-8 dark:border-white/10 dark:bg-slate-950/82"
       >
         {/* Form heading */}
         <div className="mb-7 flex flex-col items-center gap-1.5 text-center">
@@ -77,7 +81,7 @@ function RegisterPage() {
             Create an account
           </h1>
           <p className="text-muted-foreground text-sm">
-            Start managing your visa workflows today
+            Create your notebook structure and enter a cleaner dashboard.
           </p>
         </div>
 
@@ -212,6 +216,6 @@ function RegisterPage() {
           .
         </p>
       </motion.div>
-    </div>
+    </AuthShell>
   );
 }
