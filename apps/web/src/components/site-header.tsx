@@ -9,7 +9,7 @@ import {
   XIcon,
 } from "lucide-react";
 
-import { Button, buttonVariants } from "@acme/ui/components/button";
+import { Button, buttonVariants } from "@repo/ui/components/button";
 import {
   Drawer,
   DrawerClose,
@@ -17,9 +17,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@acme/ui/components/drawer";
-import { Separator } from "@acme/ui/components/separator";
-import { ThemeToggle } from "@acme/ui/components/theme";
+} from "@repo/ui/components/drawer";
+import { Separator } from "@repo/ui/components/separator";
+import { ThemeToggle } from "@repo/ui/components/theme";
 
 import { authClient } from "@/auth/client";
 import { ThemeSwitcher } from "./theme-switcher";

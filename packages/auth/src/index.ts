@@ -4,8 +4,8 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { oAuthProxy } from "better-auth/plugins";
 
-import { db } from "@acme/db/client";
-import { sendPasswordResetEmail, sendVerificationEmail } from "@acme/mailer";
+import { db } from "@repo/db/client";
+import { sendPasswordResetEmail, sendVerificationEmail } from "@repo/mailer";
 
 export function initAuth<
   TExtraPlugins extends BetterAuthPlugin[] = [],

@@ -9,7 +9,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { cn } from "@acme/ui";
+import { cn } from "@repo/ui";
 
 const Demo = () => {
   return (

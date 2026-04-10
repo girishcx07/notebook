@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
-import { cn } from "@acme/ui/lib/utils";
+import { cn } from "@repo/ui/lib/utils";
 
 const accentClasses = {
   amber:

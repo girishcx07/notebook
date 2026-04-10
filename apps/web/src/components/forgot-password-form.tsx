@@ -2,16 +2,16 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 
-import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/components/button";
+import { cn } from "@repo/ui";
+import { Button } from "@repo/ui/components/button";
 import {
   Field,
   FieldContent,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@acme/ui/components/field";
-import { Input } from "@acme/ui/components/input";
+} from "@repo/ui/components/field";
+import { Input } from "@repo/ui/components/input";
 
 import { authClient } from "@/auth/client";
 

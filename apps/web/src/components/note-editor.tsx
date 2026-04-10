@@ -3,9 +3,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod/v4";
 
-import type { RouterOutputs } from "@acme/api";
-import type { NoteUiVisibility } from "@acme/validators";
-import { Button } from "@acme/ui/components/button";
+import type { RouterOutputs } from "@repo/api";
+import type { NoteUiVisibility } from "@repo/validators";
+import { Button } from "@repo/ui/components/button";
 import {
   Field,
   FieldContent,
@@ -13,11 +13,11 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@acme/ui/components/field";
-import { Input } from "@acme/ui/components/input";
-import { Textarea } from "@acme/ui/components/textarea";
-import { toast } from "@acme/ui/components/toast";
-import { NoteUiVisibilitySchema } from "@acme/validators";
+} from "@repo/ui/components/field";
+import { Input } from "@repo/ui/components/input";
+import { Textarea } from "@repo/ui/components/textarea";
+import { toast } from "@repo/ui/components/toast";
+import { NoteUiVisibilitySchema } from "@repo/validators";
 
 import {
   DashboardPill,

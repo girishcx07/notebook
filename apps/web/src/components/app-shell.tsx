@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
 import type { User } from "better-auth";
+import type { ReactNode } from "react";
 
 import { ProtectedShell } from "@/components/protected-shell";
 

@@ -1,18 +1,18 @@
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { CreatePostSchema } from "@acme/db/schema";
-import { Button } from "@acme/ui/components/button";
+import { CreatePostSchema } from "@repo/db/schema";
+import { Button } from "@repo/ui/components/button";
 import {
   Field,
   FieldContent,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@acme/ui/components/field";
-import { Input } from "@acme/ui/components/input";
-import { Textarea } from "@acme/ui/components/textarea";
-import { toast } from "@acme/ui/components/toast";
+} from "@repo/ui/components/field";
+import { Input } from "@repo/ui/components/input";
+import { Textarea } from "@repo/ui/components/textarea";
+import { toast } from "@repo/ui/components/toast";
 
 import {
   DashboardPill,

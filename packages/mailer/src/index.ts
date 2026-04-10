@@ -1,11 +1,11 @@
 /**
- * @acme/mailer
+ * @repo/mailer
  *
  * Transactional email sending for the Acme monorepo.
  * Powered by Resend – https://resend.com
  *
  * Usage in any package/app:
- *   import { sendPasswordResetEmail } from "@acme/mailer";
+ *   import { sendPasswordResetEmail } from "@repo/mailer";
  *
  * Environment variables (validated via mailerEnv()):
  *   RESEND_API_KEY – your Resend API key
@@ -76,7 +76,7 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
 
 /**
  * Send a password-reset email with a tokenised reset URL.
- * Called by @acme/auth inside the `sendResetPassword` callback.
+ * Called by @repo/auth inside the `sendResetPassword` callback.
  */
 export async function sendPasswordResetEmail(
   to: string,
@@ -92,7 +92,7 @@ export async function sendPasswordResetEmail(
 
 /**
  * Send an email-verification email with a tokenised verify URL.
- * Called by @acme/auth inside the `sendVerificationEmail` callback.
+ * Called by @repo/auth inside the `sendVerificationEmail` callback.
  */
 export async function sendVerificationEmail(
   to: string,

@@ -5,7 +5,7 @@ import {
 } from "@trpc/client";
 import SuperJSON from "superjson";
 
-import type { AppRouter } from "@acme/api";
+import type { AppRouter } from "@repo/api";
 
 type DynamicHeaders = HeadersInit | (() => HeadersInit);
 

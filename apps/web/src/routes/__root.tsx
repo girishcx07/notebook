@@ -10,9 +10,10 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-import type { AppRouter } from "@acme/api";
-import { ThemeProvider } from "@acme/ui/components/theme";
-import { Toaster } from "@acme/ui/components/toast";
+import type { AppRouter } from "@repo/api";
+import { ThemeProvider } from "@repo/ui/components/theme";
+import { Toaster } from "@repo/ui/components/toast";
+import { TooltipProvider } from "@repo/ui/components/tooltip";
 
 import appCss from "@/styles.css?url";
 
@@ -49,10 +50,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-background text-foreground min-h-screen font-sans antialiased">
         <ThemeProvider>
-          {children}
-          <Toaster />
-          <TanStackRouterDevtools position="bottom-right" />
-          <Scripts />
+          <TooltipProvider>
+            {children}
+            <Toaster />
+            <TanStackRouterDevtools position="bottom-right" />
+            <Scripts />
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

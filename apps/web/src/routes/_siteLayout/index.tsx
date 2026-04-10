@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Brain, Check, Clock, Star, TrendingDown } from "lucide-react";
 
-import { cn } from "@acme/ui";
-import { buttonVariants } from "@acme/ui/components/button";
+import { cn } from "@repo/ui";
+import { buttonVariants } from "@repo/ui/components/button";
 
 import Demo from "@/components/demo";
 import { Icons } from "@/components/icons";

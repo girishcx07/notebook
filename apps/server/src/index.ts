@@ -3,9 +3,9 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger as requestLogger } from "hono/logger";
 
-import { appRouter, createTRPCContext } from "@acme/api";
-import { initAuth } from "@acme/auth";
-import { getLogger } from "@acme/observability";
+import { appRouter, createTRPCContext } from "@repo/api";
+import { initAuth } from "@repo/auth";
+import { getLogger } from "@repo/observability";
 
 import { env } from "./env";
 

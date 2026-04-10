@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 
-import type { NoteVisibility } from "@acme/validators";
+import type { NoteVisibility } from "@repo/validators";
 
 interface ScopedActor {
   classIds: string[];
