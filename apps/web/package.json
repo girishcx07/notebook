@@ -14,6 +14,8 @@
     "with-env": "dotenv -e ../../.env -v PORT=3000 --"
   },
   "dependencies": {
+    "@fontsource-variable/geist": "^5.2.8",
+    "@fontsource-variable/geist-mono": "^5.2.7",
     "@repo/api": "workspace:*",
     "@repo/auth": "workspace:*",
     "@repo/db": "workspace:*",
@@ -21,8 +23,6 @@
     "@repo/sdk": "workspace:*",
     "@repo/ui": "workspace:*",
     "@repo/validators": "workspace:*",
-    "@fontsource-variable/geist": "^5.2.8",
-    "@fontsource-variable/geist-mono": "^5.2.7",
     "@t3-oss/env-core": "^0.13.10",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",

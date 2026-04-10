@@ -17,18 +17,18 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@better-auth/expo": "catalog:",
     "@repo/db": "workspace:*",
     "@repo/mailer": "workspace:*",
-    "@better-auth/expo": "catalog:",
     "@t3-oss/env-core": "^0.13.10",
     "better-auth": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@better-auth/cli": "catalog:",
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "@repo/tsconfig": "workspace:*",
-    "@better-auth/cli": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

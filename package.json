@@ -33,10 +33,10 @@
     "docker:down": "docker compose down"
   },
   "devDependencies": {
-    "@repo/prettier-config": "workspace:*",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@playwright/test": "catalog:",
+    "@repo/prettier-config": "workspace:*",
     "@turbo/gen": "^2.8.17",
     "dotenv-cli": "^11.0.0",
     "eslint": "catalog:",
