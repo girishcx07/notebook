@@ -48,8 +48,8 @@ export function ProtectedShell({
 
   return (
     <div className="grainy-light relative min-h-screen overflow-hidden bg-gradient-to-b from-blue-50 via-white to-blue-100/80 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
-      <div className="bg-primary/20 pointer-events-none absolute -top-32 left-0 h-80 w-80 blur-[140px]" />
-      <div className="pointer-events-none absolute top-24 right-[-80px] h-96 w-96 bg-blue-500/20 blur-[150px]" />
+      <div className="bg-primary/16 pointer-events-none absolute -top-24 left-0 h-64 w-64 blur-[96px]" />
+      <div className="pointer-events-none absolute top-24 right-[-48px] h-72 w-72 bg-blue-500/16 blur-[110px]" />
       <div className="pointer-events-none absolute bottom-0 left-1/4 h-72 w-72 rounded-full border border-blue-200/50 dark:border-blue-900/40" />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-4 sm:px-6 lg:px-8">

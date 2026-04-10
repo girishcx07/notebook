@@ -23,8 +23,8 @@ export function AuthShell({
 }) {
   return (
     <div className="grainy-light relative flex flex-1 items-center overflow-hidden bg-gradient-to-b from-blue-50 via-white to-blue-100/80 px-4 py-10 sm:px-6 lg:px-8 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
-      <div className="bg-primary/20 pointer-events-none absolute -top-24 left-0 h-80 w-80 blur-[140px]" />
-      <div className="pointer-events-none absolute right-[-60px] bottom-0 h-80 w-80 bg-blue-500/20 blur-[150px]" />
+      <div className="bg-primary/16 pointer-events-none absolute -top-20 left-0 h-64 w-64 blur-[96px]" />
+      <div className="pointer-events-none absolute right-[-48px] bottom-0 h-72 w-72 bg-blue-500/16 blur-[110px]" />
 
       <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
         <DashboardSurface accent="blue" className="hidden p-8 lg:block">

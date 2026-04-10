@@ -29,7 +29,7 @@ export function DashboardSurface({
   return (
     <section
       className={cn(
-        "relative overflow-hidden rounded-[28px] border border-white/70 bg-white/80 p-6 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.45)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/75",
+        "relative overflow-hidden rounded-[28px] border border-white/70 bg-white/88 p-6 shadow-[0_18px_48px_-36px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-slate-950/82",
         className,
       )}
       {...props}
@@ -40,8 +40,8 @@ export function DashboardSurface({
           accentClasses[accent],
         )}
       />
-      <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-full bg-white/70 blur-3xl dark:bg-white/10" />
-      <div className="bg-primary/10 pointer-events-none absolute bottom-0 left-0 h-24 w-24 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute top-0 right-0 h-28 w-28 rounded-full bg-white/50 opacity-80 dark:bg-white/5" />
+      <div className="bg-primary/10 pointer-events-none absolute -bottom-10 left-0 h-20 w-20 rounded-full opacity-70" />
       <div className="relative z-10">{children}</div>
     </section>
   );

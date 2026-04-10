@@ -26,8 +26,8 @@ function RouteComponent() {
         {/* ===================== HERO SECTION (A/B wrapper) ===================== */}
         <section className="relative overflow-hidden py-20 lg:py-28">
           {/* Glows / hero illustrations */}
-          <div className="bg-primary/25 pointer-events-none absolute -top-40 left-0 h-80 w-80 blur-[130px]" />
-          <div className="pointer-events-none absolute top-10 right-[-60px] h-72 w-72 bg-blue-500/25 blur-[130px]" />
+          <div className="bg-primary/20 pointer-events-none absolute -top-32 left-0 h-64 w-64 blur-[84px]" />
+          <div className="pointer-events-none absolute top-10 right-[-40px] h-60 w-60 bg-blue-500/20 blur-[84px]" />
           <div className="pointer-events-none absolute bottom-[-40px] left-1/3 h-40 w-40 rounded-full border border-blue-200/50 dark:border-blue-900/40" />
 
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
